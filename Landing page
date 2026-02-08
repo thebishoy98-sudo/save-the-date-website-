@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bishoy & Arantxa - Save the Date</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Raleway:wght@300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --lavender: #9B8AB8;
+            --light-lavender: #C8B8DB;
+            --blush-pink: #F5D5D8;
+            --soft-blue: #B8D4E8;
+            --cream: #F9F5F0;
+            --dark-purple: #5D4E6D;
+            --paper: #F8F4ED;
+            --paper-dark: #E8DFD3;
+            --white: #FFFFFF;
+            --text-dark: #3A3A3A;
+        }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            color: var(--text-dark);
+            background: var(--cream);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Paper Texture Overlay */
+        .paper-texture {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(0,0,0,0.03) 0px,
+                    transparent 1px,
+                    transparent 2px,
+                    rgba(0,0,0,0.03) 3px
+                ),
+                repeating-linear-gradient(
+                    90deg,
+                    rgba(0,0,0,0.03) 0px,
+                    transparent 1px,
+                    transparent 2px,
+                    rgba(0,0,0,0.03) 3px
+                );
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.4;
+        }
+
+        /* Language Selection Screen */
+        .language-selection {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--lavender) 0%, var(--soft-blue) 50%, var(--blush-pink) 100%);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 10000;
+            transition: opacity 0.8s, visibility 0.8s;
+        }
+
+        .language-selection.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .language-content {
+            text-align: center;
+            color: white;
+            animation: fadeInUp 1.2s ease;
+            z-index: 10;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .language-names {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            font-weight: 400;
+            letter-spacing: 3px;
+        }
+
+        .language-ampersand {
+            font-size: 4rem;
+            display: block;
+            margin: 1rem 0;
+            font-style: italic;
+        }
+
+        .language-prompt {
+            font-size: 1.3rem;
+            margin: 3rem 0 2rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        .language-buttons {
+            display: flex;
+            gap: 2.5rem;
+            margin-top: 2rem;
+        }
+
+        .language-btn {
+            padding: 1.8rem 4rem;
+            background: rgba(255,255,255,0.95);
+            color: var(--dark-purple);
+            border: 3px solid white;
+            border-radius: 60px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            font-family: 'Raleway', sans-serif;
+        }
+
+        .language-btn:hover {
+            background: var(--dark-purple);
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+        }
+
+        /* Main Content */
+        .main-content {
+            opacity: 0;
+            transition: opacity 0.8s;
+        }
+
+        .main-content.visible {
+            opacity: 1;
+        }
+
+        /* Envelope Animation Section */
+        .envelope-section {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--light-lavender) 0%, var(--blush-pink) 50%, var(--soft-blue) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .envelope-container {
+            position: relative;
+            cursor: pointer;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .envelope {
+            width: 350px;
+            height: 250px;
+            position: relative;
+            transition: all 0.8s ease;
+        }
+
+        .envelope-body {
+            width: 100%;
+            height: 100%;
+            background: var(--paper);
+            border: 3px solid var(--paper-dark);
+            position: relative;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.2);
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 175px solid transparent;
+            border-right: 175px solid transparent;
+            border-top: 125px solid var(--lavender);
+            transform-origin: top center;
+            transition: all 0.8s ease;
+            z-index: 10;
+        }
+
+        .envelope.open .envelope-flap {
+            transform: rotateX(180deg);
+            border-top-color: var(--light-lavender);
+        }
+
+        .invitation-card {
+            position: absolute;
+            width: 90%;
+            height: 200px;
+            background: var(--paper);
+            border: 2px solid var(--paper-dark);
+            top: 80%;
+            left: 5%;
+            transition: all 1s ease;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            z-index: 5;
+        }
+
+        .envelope.open .invitation-card {
+            top: -220px;
+        }
+
+        .invitation-card h2 {
+            font-size: 2.5rem;
+            color: var(--dark-purple);
+            margin-bottom: 0.5rem;
+        }
+
+        .invitation-card .ampersand-small {
+            font-size: 2rem;
+            color: var(--lavender);
+            font-style: italic;
+        }
+
+        .click-prompt {
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .scroll-hint.visible {
+            opacity: 1;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translate(-50%, 0); }
+            50% { transform: translate(-50%, 10px); }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(249, 245, 240, 0.98);
+            backdrop-filter: blur(15px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(93, 78, 109, 0.1);
+            border-bottom: 1px solid var(--paper-dark);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark-purple);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--lavender);
+        }
+
+        .language-toggle {
+            padding: 0.5rem 1.2rem;
+            background: var(--lavender);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+
+        .language-toggle:hover {
+            background: var(--dark-purple);
+        }
+
+        /* Monogram Section */
+        .monogram-section {
+            padding: 6rem 2rem 4rem;
+            background: var(--paper);
+            border-bottom: 3px solid var(--paper-dark);
+            text-align: center;
+        }
+
+        .monogram {
+            font-family: 'Great Vibes', cursive;
+            font-size: 8rem;
+            color: var(--lavender);
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: fadeIn 2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .names-title {
+            font-size: 4rem;
+            color: var(--dark-purple);
+            margin-bottom: 1rem;
+        }
+
+        .wedding-date {
+            font-size: 2rem;
+            color: var(--lavender);
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+        }
+
+        /* Countdown */
+        .countdown-section {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(155, 138, 184, 0.1), rgba(184, 212, 232, 0.1));
+        }
+
+        .countdown {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            background: var(--paper);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 2px solid var(--paper-dark);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .countdown-number {
+            font-size: 3.5rem;
+            font-weight: 600;
+            color: var(--lavender);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .countdown-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--dark-purple);
+            margin-top: 0.5rem;
+        }
+
+        /* Story Section */
+        .story-section {
+            padding: 6rem 2rem;
+            background: var(--paper);
+            border-top: 3px solid var(--paper-dark);
+            border-bottom: 3px solid var(--paper-dark);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3.5rem;
+            margin-bottom: 3rem;
+            color: var(--dark-purple);
+            position: relative;
+            padding-bottom: 1.5rem;
+        }
+
+        .section-title::after {
+            content: '❦';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            color: var(--lavender);
+        }
+
+        .story-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 1.1rem;
+            line-height: 2;
+            color: #555;
+        }
+
+        /* Itinerary Section */
+        .itinerary-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, rgba(155, 138, 184, 0.05), rgba(245, 213, 216, 0.05));
+        }
+
+        .dress-code {
+            max-width: 800px;
+            margin: 0 auto 4rem;
+            background: var(--paper);
+            padding: 2.5rem;
+            border-radius: 15px;
+            border: 2px solid var(--paper-dark);
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+
+        .dress-code h3 {
+            font-size: 2rem;
+            color: var(--dark-purple);
+            margin-bottom: 1.5rem;
+        }
+
+        .dress-code p {
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .event-card {
+            background: var(--paper);
+            padding: 3rem 2rem;
+            border-radius: 15px;
+            border: 2px solid var(--paper-dark);
+            box-shadow: 0 10px 35px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--lavender), var(--blush-pink), var(--soft-blue));
+        }
+
+        .event-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 45px rgba(0,0,0,0.15);
+        }
+
+        .event-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .event-card h3 {
+            font-size: 2.5rem;
+            color: var(--dark-purple);
+            margin-bottom: 1rem;
+        }
+
+        .event-time {
+            font-size: 1.4rem;
+            color: var(--lavender);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .event-location {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .event-location strong {
+            color: var(--dark-purple);
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--lavender);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            margin-top: 1rem;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 2px solid var(--lavender);
+        }
+
+        .btn:hover {
+            background: white;
+            color: var(--lavender);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        /* Accommodations Section */
+        .accommodations-section {
+            padding: 6rem 2rem;
+            background: var(--paper);
+            border-top: 3px solid var(--paper-dark);
+        }
+
+        .hotel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            max-width: 1000px;
+            margin: 3rem auto 0;
+        }
+
+        .hotel-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            border: 2px solid var(--paper-dark);
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+
+        .hotel-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        }
+
+        .hotel-card h3 {
+            font-size: 1.8rem;
+            color: var(--dark-purple);
+            margin-bottom: 1rem;
+        }
+
+        .hotel-card p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Gift Registry Section */
+        .registry-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, rgba(155, 138, 184, 0.08), rgba(184, 212, 232, 0.08));
+        }
+
+        .registry-content {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .registry-icon {
+            font-size: 5rem;
+            margin-bottom: 2rem;
+        }
+
+        .registry-text {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: #555;
+            margin-bottom: 2.5rem;
+        }
+
+        /* RSVP Section */
+        .rsvp-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--lavender) 0%, var(--soft-blue) 50%, var(--blush-pink) 100%);
+            position: relative;
+        }
+
+        .rsvp-section .section-title {
+            color: white;
+        }
+
+        .rsvp-section .section-title::after {
+            color: white;
+        }
+
+        .rsvp-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--paper);
+            padding: 3.5rem 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            border: 3px solid var(--paper-dark);
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            color: var(--dark-purple);
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--paper-dark);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: 'Raleway', sans-serif;
+            background: white;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--lavender);
+            box-shadow: 0 0 0 3px rgba(155, 138, 184, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-weight: 500;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1.3rem;
+            background: var(--lavender);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            margin-top: 1rem;
+            border: 2px solid var(--lavender);
+        }
+
+        .submit-btn:hover {
+            background: var(--dark-purple);
+            border-color: var(--dark-purple);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-purple);
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        footer p {
+            margin: 0.5rem 0;
+            letter-spacing: 1px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .language-names {
+                font-size: 3rem;
+            }
+
+            .language-buttons {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .language-btn {
+                padding: 1.5rem 3rem;
+                font-size: 1.1rem;
+            }
+
+            .envelope {
+                width: 280px;
+                height: 200px;
+            }
+
+            .envelope-flap {
+                border-left: 140px solid transparent;
+                border-right: 140px solid transparent;
+                border-top: 100px solid var(--lavender);
+            }
+
+            .invitation-card {
+                height: 160px;
+            }
+
+            .invitation-card h2 {
+                font-size: 2rem;
+            }
+
+            .monogram {
+                font-size: 5rem;
+            }
+
+            .names-title {
+                font-size: 2.5rem;
+            }
+
+            .wedding-date {
+                font-size: 1.5rem;
+            }
+
+            .countdown {
+                gap: 1rem;
+            }
+
+            .countdown-item {
+                padding: 1.5rem;
+                min-width: 100px;
+            }
+
+            .countdown-number {
+                font-size: 2.5rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+                font-size: 0.75rem;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .rsvp-form {
+                padding: 2.5rem 2rem;
+            }
+        }
+
+        /* Hidden class */
+        .lang-hidden {
+            display: none !important;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s, transform 1s;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="paper-texture"></div>
+
+    <!-- Language Selection Screen -->
+    <div class="language-selection" id="languageSelection">
+        <div class="language-content">
+            <h1 class="language-names">
+                Bishoy
+                <span class="language-ampersand">&</span>
+                Arantxa
+            </h1>
+            <p class="language-prompt">Choose Your Language / Elige Tu Idioma</p>
+            <div class="language-buttons">
+                <button class="language-btn" onclick="selectLanguage('en')">English</button>
+                <button class="language-btn" onclick="selectLanguage('es')">Español</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <!-- Envelope Animation Section -->
+        <section class="envelope-section" id="envelopeSection">
+            <div class="envelope-container" id="envelopeContainer">
+                <div class="envelope" id="envelope">
+                    <div class="envelope-flap"></div>
+                    <div class="envelope-body"></div>
+                    <div class="invitation-card">
+                        <h2>Bishoy <span class="ampersand-small">&</span> Arantxa</h2>
+                        <p style="color: var(--lavender); font-size: 1.2rem; margin-top: 1rem;">
+                            <span class="lang-en">You're Invited</span>
+                            <span class="lang-es">Estás Invitado</span>
+                        </p>
+                    </div>
+                </div>
+                <p class="click-prompt" id="clickPrompt">
+                    <span class="lang-en">Click to Open</span>
+                    <span class="lang-es">Haz Click para Abrir</span>
+                </p>
+            </div>
+            <p class="scroll-hint" id="scrollHint">
+                <span class="lang-en">↓ Scroll Down ↓</span>
+                <span class="lang-es">↓ Desplázate ↓</span>
+            </p>
+        </section>
+
+        <!-- Navigation -->
+        <nav id="navbar" style="display: none;">
+            <ul>
+                <li><a href="#monogram">
+                    <span class="lang-en">HOME</span>
+                    <span class="lang-es">INICIO</span>
+                </a></li>
+                <li><a href="#itinerary">
+                    <span class="lang-en">ITINERARY</span>
+                    <span class="lang-es">ITINERARIO</span>
+                </a></li>
+                <li><a href="#accommodations">
+                    <span class="lang-en">HOTELS</span>
+                    <span class="lang-es">HOTELES</span>
+                </a></li>
+                <li><a href="#registry">
+                    <span class="lang-en">REGISTRY</span>
+                    <span class="lang-es">REGALOS</span>
+                </a></li>
+                <li><a href="#rsvp">RSVP</a></li>
+                <li>
+                    <button class="language-toggle" onclick="toggleLanguage()">
+                        <span class="lang-en">ES</span>
+                        <span class="lang-es">EN</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Monogram Section -->
+        <section class="monogram-section" id="monogram" style="display: none;">
+            <div class="monogram">B & A</div>
+            <h1 class="names-title">Bishoy & Arantxa</h1>
+            <p class="wedding-date">
+                <span class="lang-en">July 18, 2026</span>
+                <span class="lang-es">18 de Julio, 2026</span>
+            </p>
+        </section>
+
+        <!-- Countdown Section -->
+        <section class="countdown-section" style="display: none;">
+            <div class="countdown">
+                <div class="countdown-item">
+                    <div class="countdown-number" id="days">00</div>
+                    <div class="countdown-label">
+                        <span class="lang-en">Days</span>
+                        <span class="lang-es">Días</span>
+                    </div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="hours">00</div>
+                    <div class="countdown-label">
+                        <span class="lang-en">Hours</span>
+                        <span class="lang-es">Horas</span>
+                    </div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="minutes">00</div>
+                    <div class="countdown-label">
+                        <span class="lang-en">Minutes</span>
+                        <span class="lang-es">Minutos</span>
+                    </div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="seconds">00</div>
+                    <div class="countdown-label">
+                        <span class="lang-en">Seconds</span>
+                        <span class="lang-es">Segundos</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story Section -->
+        <section class="story-section" style="display: none;">
+            <h2 class="section-title">
+                <span class="lang-en">Our Story</span>
+                <span class="lang-es">Nuestra Historia</span>
+            </h2>
+            <div class="story-content">
+                <p class="lang-en">
+                    Our journey together has been filled with love, laughter, and unforgettable moments. 
+                    From our first meeting to this beautiful milestone, every step has brought us closer together. 
+                    We are thrilled to celebrate our love with our family and friends in the magical setting of Tepoztlán.
+                </p>
+                <p class="lang-es">
+                    Nuestro viaje juntos ha estado lleno de amor, risas y momentos inolvidables. 
+                    Desde nuestro primer encuentro hasta este hermoso hito, cada paso nos ha acercado más. 
+                    Estamos emocionados de celebrar nuestro amor con nuestra familia y amigos en el mágico entorno de Tepoztlán.
+                </p>
+            </div>
+        </section>
+
+        <!-- Itinerary Section -->
+        <section class="itinerary-section" id="itinerary" style="display: none;">
+            <h2 class="section-title">
+                <span class="lang-en">Wedding Day</span>
+                <span class="lang-es">Día de la Boda</span>
+            </h2>
+            
+            <div class="dress-code">
+                <h3>
+                    <span class="lang-en">Dress Code: Formal</span>
+                    <span class="lang-es">Código de Vestimenta: Formal</span>
+                </h3>
+                <p class="lang-en">
+                    <strong>Women:</strong> Long dress or knee-length dress<br>
+                    <strong>Men:</strong> Complete suit in dark color, white shirt and dress shoes
+                </p>
+                <p class="lang-es">
+                    <strong>Mujeres:</strong> Vestido largo o abajo de las rodillas<br>
+                    <strong>Hombres:</strong> Traje completo color oscuro, camisa blanca y zapatos
+                </p>
+            </div>
+
+            <div class="events-grid">
+                <!-- Ceremony -->
+                <div class="event-card">
+                    <div class="event-icon">⛪</div>
+                    <h3>
+                        <span class="lang-en">Ceremony</span>
+                        <span class="lang-es">Ceremonia</span>
+                    </h3>
+                    <p class="event-time">1:00 PM</p>
+                    <div class="event-location">
+                        <strong>
+                            <span class="lang-en">Orthodox Coptic Church</span>
+                            <span class="lang-es">Iglesia Copta Ortodoxa</span>
+                        </strong>
+                        <span class="lang-en">Our Lady of Guadalupe and Saint Mark</span>
+                        <span class="lang-es">Santa María y San Marcos</span><br>
+                        Barrio de Texcalpan, Tlayacapan
+                    </div>
+                    <a href="https://maps.google.com/?q=Carr+Yautepec-Tlayacapan+25,+Barrio+de+Texcalpan,+62540+Tlayacapan,+Mor." class="btn" target="_blank">
+                        <span class="lang-en">View Map</span>
+                        <span class="lang-es">Ver Mapa</span>
+                    </a>
+                </div>
+
+                <!-- Reception & Cocktail Combined -->
+                <div class="event-card">
+                    <div class="event-icon">🎉</div>
+                    <h3>
+                        <span class="lang-en">Reception</span>
+                        <span class="lang-es">Recepción</span>
+                    </h3>
+                    <p class="event-time">4:00 PM</p>
+                    <div class="event-location">
+                        <strong>El Suspiro Tepoztlán</strong>
+                        Carretera Cuernavaca-Tepoztlán 16.5<br>
+                        Barrio Col del Tesoro, Tepoztlán
+                    </div>
+                    <a href="https://maps.google.com/?q=Carretera+Cuernavaca-Tepoztlán+16.5,+Barrio+Col+del+Tesoro,+62520+Tepoztlán,+Mor." class="btn" target="_blank">
+                        <span class="lang-en">View Map</span>
+                        <span class="lang-es">Ver Mapa</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Accommodations Section -->
+        <section class="accommodations-section" id="accommodations" style="display: none;">
+            <h2 class="section-title">
+                <span class="lang-en">Where to Stay</span>
+                <span class="lang-es">Dónde Hospedarse</span>
+            </h2>
+            
+            <div class="hotel-grid">
+                <div class="hotel-card">
+                    <h3>Hotel Boutique Tepoztlán</h3>
+                    <p class="lang-en">Charming boutique hotel in the heart of magical Tepoztlán. Walking distance to local attractions.</p>
+                    <p class="lang-es">Encantador hotel boutique en el corazón del mágico Tepoztlán. A poca distancia de atracciones locales.</p>
+                    <a href="#" class="btn">
+                        <span class="lang-en">Book Now</span>
+                        <span class="lang-es">Reservar</span>
+                    </a>
+                </div>
+
+                <div class="hotel-card">
+                    <h3>Posada del Tepozteco</h3>
+                    <p class="lang-en">Traditional Mexican posada with stunning mountain views and authentic local experience.</p>
+                    <p class="lang-es">Posada tradicional mexicana con impresionantes vistas a las montañas y experiencia local auténtica.</p>
+                    <a href="#" class="btn">
+                        <span class="lang-en">Book Now</span>
+                        <span class="lang-es">Reservar</span>
+                    </a>
+                </div>
+
+                <div class="hotel-card">
+                    <h3>
+                        <span class="lang-en">More Options</span>
+                        <span class="lang-es">Más Opciones</span>
+                    </h3>
+                    <p class="lang-en">Contact us for additional hotel recommendations and special group rates in the Tepoztlán area.</p>
+                    <p class="lang-es">Contáctanos para recomendaciones adicionales de hoteles y tarifas especiales de grupo en el área de Tepoztlán.</p>
+                    <a href="mailto:wedding@bishoyarantxa.com" class="btn">
+                        <span class="lang-en">Contact Us</span>
+                        <span class="lang-es">Contáctanos</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gift Registry Section -->
+        <section class="registry-section" id="registry" style="display: none;">
+            <h2 class="section-title">
+                <span class="lang-en">Gift Registry</span>
+                <span class="lang-es">Mesa de Regalos</span>
+            </h2>
+            
+            <div class="registry-content">
+                <div class="registry-icon">🎁</div>
+                <p class="registry-text lang-en">
+                    Your presence at our wedding is the greatest gift of all! However, if you wish to honor us with a gift, 
+                    we have created a registry for your convenience.
+                </p>
+                <p class="registry-text lang-es">
+                    ¡Tu presencia en nuestra boda es el mejor regalo! Sin embargo, si deseas honrarnos con un regalo, 
+                    hemos creado una mesa de regalos para tu comodidad.
+                </p>
+                <a href="#" class="btn">
+                    <span class="lang-en">View Registry</span>
+                    <span class="lang-es">Ver Mesa de Regalos</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- RSVP Section -->
+        <section class="rsvp-section" id="rsvp" style="display: none;">
+            <h2 class="section-title">
+                <span class="lang-en">Join Our Celebration</span>
+                <span class="lang-es">Únete a Nuestra Celebración</span>
+            </h2>
+            
+            <div class="rsvp-form">
+                <form id="rsvpForm">
+                    <div class="form-group">
+                        <label for="name">
+                            <span class="lang-en">Full Name</span>
+                            <span class="lang-es">Nombre Completo</span>
+                        </label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">
+                            <span class="lang-en">Email</span>
+                            <span class="lang-es">Correo Electrónico</span>
+                        </label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="guests">
+                            <span class="lang-en">Number of Guests</span>
+                            <span class="lang-es">Número de Invitados</span>
+                        </label>
+                        <select id="guests" name="guests" required>
+                            <option value="" class="lang-en">Select...</option>
+                            <option value="" class="lang-es">Selecciona...</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5+</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <span class="lang-en">I will attend:</span>
+                            <span class="lang-es">Asistiré a:</span>
+                        </label>
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" name="ceremony" value="ceremony">
+                                <span class="lang-en">Ceremony</span>
+                                <span class="lang-es">Ceremonia</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="reception" value="reception">
+                                <span class="lang-en">Reception</span>
+                                <span class="lang-es">Recepción</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">
+                            <span class="lang-en">Message (Optional)</span>
+                            <span class="lang-es">Mensaje (Opcional)</span>
+                        </label>
+                        <textarea id="message" name="message" rows="4"></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <span class="lang-en">Confirm</span>
+                        <span class="lang-es">Confirmar</span>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer style="display: none;">
+            <p>&copy; 2026 Bishoy & Arantxa</p>
+            <p style="margin-top: 0.8rem;">
+                <span class="lang-en">With love and gratitude</span>
+                <span class="lang-es">Con amor y gratitud</span>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        let currentLanguage = 'en';
+        let envelopeOpened = false;
+
+        // Language Selection
+        function selectLanguage(lang) {
+            currentLanguage = lang;
+            document.getElementById('languageSelection').classList.add('hidden');
+            setTimeout(() => {
+                document.getElementById('mainContent').classList.add('visible');
+            }, 300);
+            updateLanguage();
+        }
+
+        // Toggle Language
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'en' ? 'es' : 'en';
+            updateLanguage();
+        }
+
+        // Update Language
+        function updateLanguage() {
+            document.querySelectorAll('.lang-en, .lang-es').forEach(el => {
+                el.classList.add('lang-hidden');
+            });
+            document.querySelectorAll('.lang-' + currentLanguage).forEach(el => {
+                el.classList.remove('lang-hidden');
+            });
+        }
+
+        // Envelope Animation
+        document.getElementById('envelopeContainer').addEventListener('click', function() {
+            if (!envelopeOpened) {
+                document.getElementById('envelope').classList.add('open');
+                document.getElementById('clickPrompt').style.opacity = '0';
+                envelopeOpened = true;
+                
+                setTimeout(() => {
+                    document.getElementById('scrollHint').classList.add('visible');
+                }, 1500);
+            }
+        });
+
+        // Show content after scrolling
+        let contentRevealed = false;
+        window.addEventListener('scroll', function() {
+            if (!contentRevealed && window.scrollY > 100) {
+                contentRevealed = true;
+                document.getElementById('navbar').style.display = 'block';
+                document.getElementById('monogram').style.display = 'block';
+                document.querySelectorAll('.countdown-section, .story-section, .itinerary-section, .accommodations-section, .registry-section, .rsvp-section, footer').forEach(section => {
+                    section.style.display = 'block';
+                });
+            }
+        });
+
+        // Countdown Timer
+        const weddingDate = new Date('July 18, 2026 13:00:00').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Scroll Animations
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // RSVP Form
+        document.getElementById('rsvpForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const message = currentLanguage === 'en' 
+                ? '✨ Thank you for confirming! We can\'t wait to celebrate with you! 💕'
+                : '✨ ¡Gracias por confirmar! ¡No podemos esperar para celebrar contigo! 💕';
+            alert(message);
+            this.reset();
+        });
+
+        // Initialize
+        updateLanguage();
+    </script>
+</body>
+</html>
