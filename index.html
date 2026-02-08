@@ -376,6 +376,198 @@
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
         }
+
+        /* Premium polish */
+        :root {
+            --ink: #2f2738;
+            --ink-soft: #6f607f;
+            --gold: #c7a96f;
+            --gold-soft: #f1e5c7;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 15% 20%, rgba(255,255,255,0.5), transparent 35%),
+                        radial-gradient(circle at 85% 0%, rgba(255,255,255,0.35), transparent 40%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .main-content,
+        .language-selection,
+        nav {
+            position: relative;
+            z-index: 2;
+        }
+
+        .language-selection {
+            background: linear-gradient(135deg, #8972ab 0%, #9e88bc 38%, #b8cfe0 70%, #f2d2d7 100%);
+        }
+
+        .language-content {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.35);
+            border-radius: 24px;
+            padding: 2.5rem 3rem;
+            box-shadow: 0 25px 80px rgba(52, 35, 73, 0.28);
+        }
+
+        .language-btn {
+            box-shadow: 0 12px 32px rgba(39, 26, 57, 0.25);
+        }
+
+        .envelope-section {
+            background: linear-gradient(165deg, #d4c7e6 0%, #e6d8e8 45%, #d5e3ef 100%);
+        }
+
+        .envelope-body,
+        .invitation-card,
+        .countdown-item,
+        .event-card,
+        .hotel-card,
+        .dress-code,
+        .rsvp-form {
+            border-color: #e2d7c9;
+            border-width: 1px;
+            box-shadow: 0 15px 40px rgba(41, 30, 55, 0.08);
+        }
+
+        nav {
+            background: rgba(253, 251, 247, 0.82);
+            border-bottom: 1px solid rgba(130, 108, 156, 0.18);
+        }
+
+        nav a {
+            position: relative;
+            font-weight: 600;
+            letter-spacing: 2.5px;
+            color: var(--ink-soft);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -6px;
+            height: 2px;
+            transform: scaleX(0);
+            transform-origin: center;
+            background: linear-gradient(90deg, transparent, var(--lavender), transparent);
+            transition: transform 0.3s ease;
+        }
+
+        nav a:hover::after {
+            transform: scaleX(1);
+        }
+        .btn:hover, .submit-btn:hover { background: var(--lavender); color: #f8f3ec; }
+
+        .monogram-section,
+        .story-section,
+        .accommodations-section,
+        .registry-section,
+        .itinerary-section,
+        .rsvp-section,
+        .countdown-section {
+            position: relative;
+        }
+
+        .monogram {
+            color: #8a6bae;
+            text-shadow: 0 10px 24px rgba(98, 70, 133, 0.2);
+        }
+
+        .names-title,
+        .section-title,
+        .event-card h3,
+        .hotel-card h3,
+        .dress-code h3 {
+            color: var(--ink);
+        }
+
+        .section-title::after {
+            color: var(--gold);
+        }
+
+        .countdown {
+            max-width: 980px;
+            margin: 0 auto;
+        }
+
+        .countdown-number {
+            color: #8567a5;
+            line-height: 1;
+        }
+
+        .btn,
+        .submit-btn,
+        .language-toggle {
+            background: linear-gradient(135deg, #9278b4, #7d6798);
+            border-color: #7d6798;
+            box-shadow: 0 10px 22px rgba(80, 53, 110, 0.22);
+        }
+
+        .btn:hover,
+        .submit-btn:hover,
+        .language-toggle:hover {
+            background: linear-gradient(135deg, #7d6798, #69547f);
+            border-color: #69547f;
+            color: #fff;
+            box-shadow: 0 14px 30px rgba(55, 37, 78, 0.3);
+        }
+
+        .event-card,
+        .hotel-card,
+        .dress-code,
+        .registry-content,
+        .rsvp-form,
+        .story-content {
+            max-width: 960px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .event-location,
+        .hotel-card p,
+        .registry-text,
+        .story-content,
+        .dress-code p {
+            color: #544a60;
+        }
+
+        .rsvp-section {
+            background: linear-gradient(145deg, #8a73ad 0%, #a58dc3 52%, #ceb3cc 100%);
+        }
+        .checkbox-group { display: flex; flex-wrap: wrap; gap: .9rem 1.2rem; }
+        .checkbox-group label { display: flex; align-items: center; gap: .45rem; font-family: 'Inter', sans-serif; font-size: .74rem; color: var(--text-soft); }
+        .submit-btn { width: 100%; cursor: pointer; }
+
+        footer {
+            background: #3e3151;
+        }
+
+        .fade-in {
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        @media (min-width: 1080px) {
+            section {
+                padding-left: 4rem;
+                padding-right: 4rem;
+            }
+
+            .events-grid {
+                gap: 2rem;
+            }
+        }
+
     </style>
 </head>
 <body>
