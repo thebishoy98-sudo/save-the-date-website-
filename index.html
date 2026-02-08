@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bishoy & Arantxa - Save the Date</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Raleway:wght@300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <title>Bishoy & Arantxa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,71 +13,65 @@
         }
 
         :root {
-            --lavender: #9B8AB8;
-            --light-lavender: #C8B8DB;
-            --blush-pink: #F5D5D8;
-            --soft-blue: #B8D4E8;
-            --cream: #F9F5F0;
-            --dark-purple: #5D4E6D;
-            --paper: #F8F4ED;
-            --paper-dark: #E8DFD3;
-            --white: #FFFFFF;
-            --text-dark: #3A3A3A;
+            --burgundy: #7A3744;
+            --dark-burgundy: #5C2831;
+            --cream: #F5F1E8;
+            --gold: #D4AF37;
+            --paper: #E8DED0;
         }
 
         body {
-            font-family: 'Raleway', sans-serif;
-            color: var(--text-dark);
+            font-family: 'Montserrat', sans-serif;
+            color: #2A2A2A;
             background: var(--cream);
             overflow-x: hidden;
         }
 
-        h1, h2, h3, h4 {
-            font-family: 'Playfair Display', serif;
-        }
-
         /* Paper Texture Overlay */
-        .paper-texture {
+        body::before {
+            content: '';
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
-                repeating-linear-gradient(
-                    0deg,
-                    rgba(0,0,0,0.03) 0px,
-                    transparent 1px,
-                    transparent 2px,
-                    rgba(0,0,0,0.03) 3px
-                ),
-                repeating-linear-gradient(
-                    90deg,
-                    rgba(0,0,0,0.03) 0px,
-                    transparent 1px,
-                    transparent 2px,
-                    rgba(0,0,0,0.03) 3px
-                );
+            background-image:
+                repeating-linear-gradient(0deg, rgba(0,0,0,0.03) 0px, transparent 1px, transparent 2px, rgba(0,0,0,0.03) 3px),
+                repeating-linear-gradient(90deg, rgba(0,0,0,0.03) 0px, transparent 1px, transparent 2px, rgba(0,0,0,0.03) 3px);
             pointer-events: none;
             z-index: 9999;
             opacity: 0.4;
         }
 
-        /* Language Selection Screen */
+        h1, h2, h3 {
+            font-family: 'Cinzel', serif;
+        }
+
+        /* Language Selection */
         .language-selection {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, var(--lavender) 0%, var(--soft-blue) 50%, var(--blush-pink) 100%);
             position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--burgundy), var(--dark-burgundy));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.8s, visibility 0.8s;
+        }
+
+        .language-selection::before {
+            content: '';
+            position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            z-index: 10000;
-            transition: opacity 0.8s, visibility 0.8s;
+            background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M100 20 Q120 40 100 60 Q80 40 100 20 M100 80 L120 100 M100 80 L80 100' stroke='%235C2831' stroke-width='0.5' fill='none' opacity='0.15'/%3E%3C/svg%3E");
+            background-size: 300px;
+            opacity: 0.3;
         }
 
         .language-selection.hidden {
@@ -88,71 +82,66 @@
 
         .language-content {
             text-align: center;
-            color: white;
-            animation: fadeInUp 1.2s ease;
+            color: var(--cream);
             z-index: 10;
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         .language-names {
-            font-size: 5rem;
-            margin-bottom: 1rem;
+            font-size: 4.5rem;
+            margin-bottom: 2rem;
             font-weight: 400;
-            letter-spacing: 3px;
-        }
-
-        .language-ampersand {
-            font-size: 4rem;
-            display: block;
-            margin: 1rem 0;
-            font-style: italic;
+            letter-spacing: 8px;
         }
 
         .language-prompt {
-            font-size: 1.3rem;
-            margin: 3rem 0 2rem;
-            letter-spacing: 3px;
+            font-size: 1.1rem;
+            margin: 2rem 0;
             text-transform: uppercase;
+            letter-spacing: 4px;
             font-weight: 300;
         }
 
         .language-buttons {
             display: flex;
-            gap: 2.5rem;
-            margin-top: 2rem;
+            gap: 2rem;
+            justify-content: center;
         }
 
         .language-btn {
-            padding: 1.8rem 4rem;
-            background: rgba(255,255,255,0.95);
-            color: var(--dark-purple);
-            border: 3px solid white;
-            border-radius: 60px;
-            font-size: 1.3rem;
-            font-weight: 600;
+            padding: 1.2rem 3.5rem;
+            background: transparent;
+            color: var(--cream);
+            border: 2px solid var(--cream);
+            font-size: 1rem;
             cursor: pointer;
             transition: all 0.4s;
             text-transform: uppercase;
             letter-spacing: 3px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            font-family: 'Raleway', sans-serif;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .language-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--cream);
+            transition: left 0.4s;
+            z-index: -1;
+        }
+
+        .language-btn:hover::before {
+            left: 0;
         }
 
         .language-btn:hover {
-            background: var(--dark-purple);
-            color: white;
-            transform: translateY(-5px);
-            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+            color: var(--burgundy);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
         /* Main Content */
@@ -165,231 +154,210 @@
             opacity: 1;
         }
 
-        /* Envelope Animation Section */
-        .envelope-section {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, var(--light-lavender) 0%, var(--blush-pink) 50%, var(--soft-blue) 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .envelope-container {
-            position: relative;
-            cursor: pointer;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .envelope {
-            width: 350px;
-            height: 250px;
-            position: relative;
-            transition: all 0.8s ease;
-        }
-
-        .envelope-body {
-            width: 100%;
-            height: 100%;
-            background: var(--paper);
-            border: 3px solid var(--paper-dark);
-            position: relative;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.2);
-        }
-
-        .envelope-flap {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 0;
-            border-left: 175px solid transparent;
-            border-right: 175px solid transparent;
-            border-top: 125px solid var(--lavender);
-            transform-origin: top center;
-            transition: all 0.8s ease;
-            z-index: 10;
-        }
-
-        .envelope.open .envelope-flap {
-            transform: rotateX(180deg);
-            border-top-color: var(--light-lavender);
-        }
-
-        .invitation-card {
-            position: absolute;
-            width: 90%;
-            height: 200px;
-            background: var(--paper);
-            border: 2px solid var(--paper-dark);
-            top: 80%;
-            left: 5%;
-            transition: all 1s ease;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-            z-index: 5;
-        }
-
-        .envelope.open .invitation-card {
-            top: -220px;
-        }
-
-        .invitation-card h2 {
-            font-size: 2.5rem;
-            color: var(--dark-purple);
-            margin-bottom: 0.5rem;
-        }
-
-        .invitation-card .ampersand-small {
-            font-size: 2rem;
-            color: var(--lavender);
-            font-style: italic;
-        }
-
-        .click-prompt {
-            position: absolute;
-            bottom: -60px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: white;
-            font-size: 1.1rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
-        }
-
-        .scroll-hint {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: white;
-            font-size: 1rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            opacity: 0;
-            transition: opacity 0.5s;
-        }
-
-        .scroll-hint.visible {
-            opacity: 1;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translate(-50%, 0); }
-            50% { transform: translate(-50%, 10px); }
-        }
-
         /* Navigation */
         nav {
             position: fixed;
             top: 0;
-            left: 0;
-            right: 0;
-            background: rgba(249, 245, 240, 0.98);
+            width: 100%;
+            background: rgba(245, 241, 232, 0.98);
             backdrop-filter: blur(15px);
-            padding: 1rem 2rem;
+            padding: 1.2rem 2rem;
             z-index: 1000;
-            box-shadow: 0 2px 20px rgba(93, 78, 109, 0.1);
-            border-bottom: 1px solid var(--paper-dark);
+            box-shadow: 0 2px 20px rgba(122, 55, 68, 0.1);
+            border-bottom: 1px solid rgba(122, 55, 68, 0.1);
         }
 
-        nav ul {
-            list-style: none;
+        .nav-desktop {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 2rem;
-            flex-wrap: wrap;
+            gap: 2.5rem;
+            list-style: none;
         }
 
         nav a {
             text-decoration: none;
-            color: var(--dark-purple);
-            font-size: 0.9rem;
+            color: var(--burgundy);
             text-transform: uppercase;
+            font-size: 0.85rem;
             letter-spacing: 2px;
             font-weight: 500;
             transition: color 0.3s;
         }
 
         nav a:hover {
-            color: var(--lavender);
+            color: var(--gold);
         }
 
         .language-toggle {
             padding: 0.5rem 1.2rem;
-            background: var(--lavender);
-            color: white;
+            background: var(--burgundy);
+            color: var(--cream);
             border: none;
-            border-radius: 25px;
-            font-size: 0.85rem;
+            border-radius: 20px;
             cursor: pointer;
-            transition: all 0.3s;
             text-transform: uppercase;
             letter-spacing: 1.5px;
+            font-size: 0.75rem;
             font-weight: 600;
+            transition: all 0.3s;
         }
 
         .language-toggle:hover {
-            background: var(--dark-purple);
+            background: var(--dark-burgundy);
         }
 
-        /* Monogram Section */
-        .monogram-section {
-            padding: 6rem 2rem 4rem;
-            background: var(--paper);
-            border-bottom: 3px solid var(--paper-dark);
+        /* Hero Section with Burgundy Card */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--cream);
+            padding: 8rem 2rem 4rem;
+        }
+
+        .burgundy-card {
+            width: 600px;
+            max-width: 90vw;
+            height: 800px;
+            max-height: 85vh;
+            background: var(--burgundy);
+            border-radius: 4px;
+            box-shadow:
+                0 30px 90px rgba(122, 55, 68, 0.5),
+                inset 0 0 0 2px rgba(0,0,0,0.1);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+            transform-origin: left center;
+        }
+
+        .burgundy-card:hover {
+            transform: scale(1.02) translateY(-10px);
+            box-shadow: 0 40px 120px rgba(122, 55, 68, 0.6);
+        }
+
+        .burgundy-card.clicked {
+            transform: perspective(1400px) rotateY(-165deg);
+            box-shadow: 18px 24px 60px rgba(0,0,0,0.28);
+        }
+
+        /* Embossed Border */
+        .card-border {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            right: 40px;
+            bottom: 40px;
+            border: 1px solid rgba(0,0,0,0.15);
+            pointer-events: none;
+        }
+
+        /* Embossed Floral Pattern */
+        .floral-emboss {
+            position: absolute;
+            top: 50px;
+            right: 50px;
+            width: 200px;
+            height: 250px;
+            background-image: url("data:image/svg+xml,%3Csvg width='200' height='250' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M100 30 Q115 45 100 60 Q85 45 100 30 M100 70 L115 90 M100 70 L85 90 M130 40 Q145 55 130 70 M70 40 Q55 55 70 70 M100 100 Q120 125 100 150 Q80 125 100 100 M50 110 Q35 125 50 140 M150 110 Q165 125 150 140 M100 160 L120 185 M100 160 L80 185 M130 180 Q145 195 130 210 M70 180 Q55 195 70 210' stroke='%235C2831' stroke-width='2.5' fill='none'/%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.25;
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));
+        }
+
+        .burgundy-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, rgba(255,255,255,0.15), rgba(0,0,0,0.08));
+            transform: rotateY(180deg);
+            backface-visibility: hidden;
+            border-radius: 4px;
+        }
+
+        .burgundy-card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 8px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.2), rgba(0,0,0,0.2));
+            opacity: 0.45;
+        }
+
+        .card-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem;
             text-align: center;
         }
 
-        .monogram {
-            font-family: 'Great Vibes', cursive;
-            font-size: 8rem;
-            color: var(--lavender);
-            margin-bottom: 2rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            animation: fadeIn 2s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .names-title {
+        .card-title {
             font-size: 4rem;
-            color: var(--dark-purple);
-            margin-bottom: 1rem;
+            color: var(--cream);
+            letter-spacing: 16px;
+            text-transform: uppercase;
+            font-weight: 400;
+            margin-bottom: 6rem;
+            text-shadow: 0 2px 15px rgba(0,0,0,0.3);
         }
 
-        .wedding-date {
-            font-size: 2rem;
-            color: var(--lavender);
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
+        .ver-mas-container {
+            margin-top: auto;
+        }
+
+        .ver-mas {
+            font-size: 1.3rem;
+            color: var(--cream);
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            font-weight: 300;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(245, 241, 232, 0.4);
+            opacity: 0.95;
+            animation: pulseGlow 2.5s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        /* Sections */
+        section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            color: var(--burgundy);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-weight: 400;
         }
 
         /* Countdown */
         .countdown-section {
+            background: white;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            border-radius: 10px;
             padding: 4rem 2rem;
-            background: linear-gradient(135deg, rgba(155, 138, 184, 0.1), rgba(184, 212, 232, 0.1));
         }
 
         .countdown {
@@ -400,357 +368,306 @@
         }
 
         .countdown-item {
+            text-align: center;
             background: var(--paper);
             padding: 2rem;
-            border-radius: 15px;
-            border: 2px solid var(--paper-dark);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-radius: 8px;
             min-width: 120px;
-            text-align: center;
+            border: 1px solid rgba(122, 55, 68, 0.1);
+            transition: all 0.3s;
+        }
+
+        .countdown-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         .countdown-number {
             font-size: 3.5rem;
+            color: var(--burgundy);
             font-weight: 600;
-            color: var(--lavender);
-            font-family: 'Playfair Display', serif;
+            font-family: 'Cinzel', serif;
         }
 
         .countdown-label {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: var(--dark-purple);
+            color: var(--burgundy);
             margin-top: 0.5rem;
         }
 
         /* Story Section */
         .story-section {
-            padding: 6rem 2rem;
             background: var(--paper);
-            border-top: 3px solid var(--paper-dark);
-            border-bottom: 3px solid var(--paper-dark);
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 3.5rem;
-            margin-bottom: 3rem;
-            color: var(--dark-purple);
-            position: relative;
-            padding-bottom: 1.5rem;
-        }
-
-        .section-title::after {
-            content: '❦';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 2rem;
-            color: var(--lavender);
+            border-radius: 10px;
+            padding: 5rem 3rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
         }
 
         .story-content {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
-            text-align: center;
             font-size: 1.1rem;
             line-height: 2;
             color: #555;
         }
 
-        /* Itinerary Section */
-        .itinerary-section {
-            padding: 6rem 2rem;
-            background: linear-gradient(135deg, rgba(155, 138, 184, 0.05), rgba(245, 213, 216, 0.05));
-        }
-
-        .dress-code {
-            max-width: 800px;
-            margin: 0 auto 4rem;
-            background: var(--paper);
-            padding: 2.5rem;
-            border-radius: 15px;
-            border: 2px solid var(--paper-dark);
-            text-align: center;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-        }
-
-        .dress-code h3 {
-            font-size: 2rem;
-            color: var(--dark-purple);
+        .story-content p {
             margin-bottom: 1.5rem;
         }
 
-        .dress-code p {
-            line-height: 1.8;
-            color: #555;
+        /* Itinerary Section */
+        .itinerary-section {
+            background: white;
+            border-radius: 10px;
+            padding: 5rem 3rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+
+        .dress-code {
+            background: var(--paper);
+            padding: 2.5rem;
+            border-radius: 8px;
+            margin-bottom: 3rem;
+            text-align: center;
+            border: 1px solid rgba(122, 55, 68, 0.1);
+        }
+
+        .dress-code h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--burgundy);
         }
 
         .events-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2.5rem;
-            max-width: 1200px;
-            margin: 0 auto;
+            gap: 2rem;
         }
 
         .event-card {
             background: var(--paper);
             padding: 3rem 2rem;
-            border-radius: 15px;
-            border: 2px solid var(--paper-dark);
-            box-shadow: 0 10px 35px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(122, 55, 68, 0.1);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
             text-align: center;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .event-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, var(--lavender), var(--blush-pink), var(--soft-blue));
+            transition: all 0.4s;
         }
 
         .event-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 45px rgba(0,0,0,0.15);
-        }
-
-        .event-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.12);
         }
 
         .event-card h3 {
-            font-size: 2.5rem;
-            color: var(--dark-purple);
-            margin-bottom: 1rem;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--burgundy);
+            text-transform: uppercase;
+            letter-spacing: 3px;
         }
 
         .event-time {
             font-size: 1.4rem;
-            color: var(--lavender);
+            color: var(--gold);
             margin-bottom: 1.5rem;
             font-weight: 600;
         }
 
         .event-location {
             color: #666;
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-        }
-
-        .event-location strong {
-            color: var(--dark-purple);
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 1.2rem;
+            line-height: 1.9;
+            margin-bottom: 2rem;
         }
 
         .btn {
             display: inline-block;
             padding: 1rem 2.5rem;
-            background: var(--lavender);
-            color: white;
+            background: var(--burgundy);
+            color: var(--cream);
             text-decoration: none;
-            border-radius: 50px;
-            margin-top: 1rem;
-            transition: all 0.3s;
+            border-radius: 25px;
+            transition: all 0.4s;
             text-transform: uppercase;
             letter-spacing: 2px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
-            border: 2px solid var(--lavender);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-burgundy);
+            transition: left 0.4s;
+            z-index: -1;
+        }
+
+        .btn:hover::before {
+            left: 0;
         }
 
         .btn:hover {
-            background: white;
-            color: var(--lavender);
             transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 25px rgba(122, 55, 68, 0.3);
         }
 
-        /* Accommodations Section */
-        .accommodations-section {
-            padding: 6rem 2rem;
+        /* Hotels Section */
+        .hotels-section {
             background: var(--paper);
-            border-top: 3px solid var(--paper-dark);
+            border-radius: 10px;
+            padding: 5rem 3rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
         }
 
-        .hotel-grid {
+        .hotels-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2.5rem;
-            max-width: 1000px;
-            margin: 3rem auto 0;
+            gap: 2rem;
         }
 
         .hotel-card {
             background: white;
             padding: 2.5rem;
-            border-radius: 15px;
-            border: 2px solid var(--paper-dark);
+            border-radius: 8px;
             text-align: center;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            border: 1px solid rgba(122, 55, 68, 0.1);
             transition: all 0.3s;
         }
 
         .hotel-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.1);
         }
 
         .hotel-card h3 {
-            font-size: 1.8rem;
-            color: var(--dark-purple);
+            font-size: 1.6rem;
             margin-bottom: 1rem;
+            color: var(--burgundy);
         }
 
-        .hotel-card p {
-            color: #666;
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-        }
-
-        /* Gift Registry Section */
+        /* Registry Section */
         .registry-section {
-            padding: 6rem 2rem;
-            background: linear-gradient(135deg, rgba(155, 138, 184, 0.08), rgba(184, 212, 232, 0.08));
-        }
-
-        .registry-content {
-            max-width: 700px;
-            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 5rem 3rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
             text-align: center;
         }
 
         .registry-icon {
-            font-size: 5rem;
+            font-size: 4rem;
             margin-bottom: 2rem;
         }
 
         .registry-text {
-            font-size: 1.15rem;
-            line-height: 1.9;
+            font-size: 1.1rem;
+            line-height: 2;
             color: #555;
             margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         /* RSVP Section */
         .rsvp-section {
-            padding: 6rem 2rem;
-            background: linear-gradient(135deg, var(--lavender) 0%, var(--soft-blue) 50%, var(--blush-pink) 100%);
-            position: relative;
-        }
-
-        .rsvp-section .section-title {
-            color: white;
-        }
-
-        .rsvp-section .section-title::after {
-            color: white;
+            background: var(--paper);
+            border-radius: 10px;
+            padding: 5rem 3rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
         }
 
         .rsvp-form {
             max-width: 600px;
             margin: 0 auto;
-            background: var(--paper);
-            padding: 3.5rem 3rem;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-            border: 3px solid var(--paper-dark);
+            background: white;
+            padding: 3rem;
+            border-radius: 8px;
+            border: 1px solid rgba(122, 55, 68, 0.1);
         }
 
         .form-group {
-            margin-bottom: 2rem;
-            text-align: left;
+            margin-bottom: 1.8rem;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 0.8rem;
-            color: var(--dark-purple);
+            margin-bottom: 0.6rem;
+            color: var(--burgundy);
             font-weight: 600;
-            font-size: 1.05rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .form-group input,
-        .form-group select,
-        .form-group textarea {
+        .form-group select {
             width: 100%;
             padding: 1rem;
-            border: 2px solid var(--paper-dark);
-            border-radius: 10px;
+            border: 2px solid rgba(122, 55, 68, 0.2);
+            border-radius: 5px;
             font-size: 1rem;
-            font-family: 'Raleway', sans-serif;
-            background: white;
+            background: var(--paper);
             transition: all 0.3s;
         }
 
         .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
+        .form-group select:focus {
             outline: none;
-            border-color: var(--lavender);
-            box-shadow: 0 0 0 3px rgba(155, 138, 184, 0.1);
+            border-color: var(--burgundy);
+            background: white;
         }
 
         .checkbox-group {
             display: flex;
             gap: 1.5rem;
             margin-top: 1rem;
-            flex-wrap: wrap;
         }
 
         .checkbox-group label {
             display: flex;
             align-items: center;
-            gap: 0.7rem;
-            font-weight: 500;
+            gap: 0.5rem;
+            text-transform: none;
+            letter-spacing: 0;
         }
 
         .submit-btn {
             width: 100%;
-            padding: 1.3rem;
-            background: var(--lavender);
-            color: white;
+            padding: 1.2rem;
+            background: var(--burgundy);
+            color: var(--cream);
             border: none;
-            border-radius: 50px;
-            font-size: 1.1rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 3px;
-            cursor: pointer;
-            transition: all 0.3s;
             font-weight: 600;
+            transition: all 0.4s;
             margin-top: 1rem;
-            border: 2px solid var(--lavender);
         }
 
         .submit-btn:hover {
-            background: var(--dark-purple);
-            border-color: var(--dark-purple);
+            background: var(--dark-burgundy);
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 25px rgba(122, 55, 68, 0.3);
         }
 
         /* Footer */
         footer {
-            background: var(--dark-purple);
-            color: white;
+            background: var(--dark-burgundy);
+            color: var(--cream);
             text-align: center;
             padding: 3rem 2rem;
-        }
-
-        footer p {
-            margin: 0.5rem 0;
-            letter-spacing: 1px;
         }
 
         /* Responsive */
@@ -764,40 +681,26 @@
                 gap: 1.5rem;
             }
 
-            .language-btn {
-                padding: 1.5rem 3rem;
-                font-size: 1.1rem;
+            .burgundy-card {
+                height: 700px;
             }
 
-            .envelope {
-                width: 280px;
-                height: 200px;
-            }
-
-            .envelope-flap {
-                border-left: 140px solid transparent;
-                border-right: 140px solid transparent;
-                border-top: 100px solid var(--lavender);
-            }
-
-            .invitation-card {
-                height: 160px;
-            }
-
-            .invitation-card h2 {
-                font-size: 2rem;
-            }
-
-            .monogram {
-                font-size: 5rem;
-            }
-
-            .names-title {
+            .card-title {
                 font-size: 2.5rem;
+                letter-spacing: 10px;
+                margin-bottom: 4rem;
             }
 
-            .wedding-date {
-                font-size: 1.5rem;
+            .floral-emboss {
+                width: 150px;
+                height: 180px;
+                right: 30px;
+                top: 30px;
+            }
+
+            .ver-mas {
+                font-size: 1rem;
+                letter-spacing: 5px;
             }
 
             .countdown {
@@ -805,60 +708,34 @@
             }
 
             .countdown-item {
+                min-width: 90px;
                 padding: 1.5rem;
-                min-width: 100px;
             }
 
             .countdown-number {
                 font-size: 2.5rem;
             }
 
-            nav ul {
-                gap: 1rem;
-                font-size: 0.75rem;
-            }
-
             .section-title {
-                font-size: 2.5rem;
+                font-size: 2rem;
             }
 
-            .events-grid {
+            .events-grid,
+            .hotels-grid {
                 grid-template-columns: 1fr;
             }
-
-            .rsvp-form {
-                padding: 2.5rem 2rem;
-            }
         }
 
-        /* Hidden class */
         .lang-hidden {
             display: none !important;
-        }
-
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 1s, transform 1s;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <div class="paper-texture"></div>
-
-    <!-- Language Selection Screen -->
+    <!-- Language Selection -->
     <div class="language-selection" id="languageSelection">
         <div class="language-content">
-            <h1 class="language-names">
-                Bishoy
-                <span class="language-ampersand">&</span>
-                Arantxa
-            </h1>
+            <h1 class="language-names">BISHOY & ARANTXA</h1>
             <p class="language-prompt">Choose Your Language / Elige Tu Idioma</p>
             <div class="language-buttons">
                 <button class="language-btn" onclick="selectLanguage('en')">English</button>
@@ -869,291 +746,150 @@
 
     <!-- Main Content -->
     <div class="main-content" id="mainContent">
-        <!-- Envelope Animation Section -->
-        <section class="envelope-section" id="envelopeSection">
-            <div class="envelope-container" id="envelopeContainer">
-                <div class="envelope" id="envelope">
-                    <div class="envelope-flap"></div>
-                    <div class="envelope-body"></div>
-                    <div class="invitation-card">
-                        <h2>Bishoy <span class="ampersand-small">&</span> Arantxa</h2>
-                        <p style="color: var(--lavender); font-size: 1.2rem; margin-top: 1rem;">
-                            <span class="lang-en">You're Invited</span>
-                            <span class="lang-es">Estás Invitado</span>
-                        </p>
-                    </div>
-                </div>
-                <p class="click-prompt" id="clickPrompt">
-                    <span class="lang-en">Click to Open</span>
-                    <span class="lang-es">Haz Click para Abrir</span>
-                </p>
-            </div>
-            <p class="scroll-hint" id="scrollHint">
-                <span class="lang-en">↓ Scroll Down ↓</span>
-                <span class="lang-es">↓ Desplázate ↓</span>
-            </p>
-        </section>
-
         <!-- Navigation -->
-        <nav id="navbar" style="display: none;">
-            <ul>
-                <li><a href="#monogram">
-                    <span class="lang-en">HOME</span>
-                    <span class="lang-es">INICIO</span>
-                </a></li>
-                <li><a href="#itinerary">
-                    <span class="lang-en">ITINERARY</span>
-                    <span class="lang-es">ITINERARIO</span>
-                </a></li>
-                <li><a href="#accommodations">
-                    <span class="lang-en">HOTELS</span>
-                    <span class="lang-es">HOTELES</span>
-                </a></li>
-                <li><a href="#registry">
-                    <span class="lang-en">REGISTRY</span>
-                    <span class="lang-es">REGALOS</span>
-                </a></li>
+        <nav>
+            <ul class="nav-desktop">
+                <li><a href="#inicio"><span class="lang-en">HOME</span><span class="lang-es">INICIO</span></a></li>
+                <li><a href="#itinerario"><span class="lang-en">ITINERARY</span><span class="lang-es">ITINERARIO</span></a></li>
+                <li><a href="#hospedaje"><span class="lang-en">ACCOMMODATIONS</span><span class="lang-es">HOSPEDAJE</span></a></li>
+                <li><a href="#regalos"><span class="lang-en">REGISTRY</span><span class="lang-es">MESA DE REGALOS</span></a></li>
                 <li><a href="#rsvp">RSVP</a></li>
-                <li>
-                    <button class="language-toggle" onclick="toggleLanguage()">
-                        <span class="lang-en">ES</span>
-                        <span class="lang-es">EN</span>
-                    </button>
-                </li>
+                <li><button class="language-toggle" onclick="toggleLanguage()"><span class="lang-en">ES</span><span class="lang-es">EN</span></button></li>
             </ul>
         </nav>
 
-        <!-- Monogram Section -->
-        <section class="monogram-section" id="monogram" style="display: none;">
-            <div class="monogram">B & A</div>
-            <h1 class="names-title">Bishoy & Arantxa</h1>
-            <p class="wedding-date">
-                <span class="lang-en">July 18, 2026</span>
-                <span class="lang-es">18 de Julio, 2026</span>
-            </p>
+        <!-- Hero Section with Burgundy Card -->
+        <section id="inicio" class="hero">
+            <div class="burgundy-card" onclick="flipCard()">
+                <div class="card-border"></div>
+                <div class="floral-emboss"></div>
+                <div class="card-content">
+                    <h1 class="card-title">
+                        <span class="lang-en">INVITATION</span>
+                        <span class="lang-es">INVITACIÓN</span>
+                    </h1>
+                    <div class="ver-mas-container">
+                        <p class="ver-mas">
+                            <span class="lang-en">SEE MORE</span>
+                            <span class="lang-es">VER MÁS</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- Countdown Section -->
-        <section class="countdown-section" style="display: none;">
+        <section class="countdown-section">
             <div class="countdown">
                 <div class="countdown-item">
                     <div class="countdown-number" id="days">00</div>
-                    <div class="countdown-label">
-                        <span class="lang-en">Days</span>
-                        <span class="lang-es">Días</span>
-                    </div>
+                    <div class="countdown-label"><span class="lang-en">Days</span><span class="lang-es">Días</span></div>
                 </div>
                 <div class="countdown-item">
                     <div class="countdown-number" id="hours">00</div>
-                    <div class="countdown-label">
-                        <span class="lang-en">Hours</span>
-                        <span class="lang-es">Horas</span>
-                    </div>
+                    <div class="countdown-label"><span class="lang-en">Hrs</span><span class="lang-es">Hrs</span></div>
                 </div>
                 <div class="countdown-item">
                     <div class="countdown-number" id="minutes">00</div>
-                    <div class="countdown-label">
-                        <span class="lang-en">Minutes</span>
-                        <span class="lang-es">Minutos</span>
-                    </div>
+                    <div class="countdown-label"><span class="lang-en">Min</span><span class="lang-es">Min</span></div>
                 </div>
                 <div class="countdown-item">
                     <div class="countdown-number" id="seconds">00</div>
-                    <div class="countdown-label">
-                        <span class="lang-en">Seconds</span>
-                        <span class="lang-es">Segundos</span>
-                    </div>
+                    <div class="countdown-label"><span class="lang-en">Sec</span><span class="lang-es">Seg</span></div>
                 </div>
             </div>
         </section>
 
         <!-- Story Section -->
-        <section class="story-section" style="display: none;">
-            <h2 class="section-title">
-                <span class="lang-en">Our Story</span>
-                <span class="lang-es">Nuestra Historia</span>
-            </h2>
+        <section class="story-section">
+            <h2 class="section-title"><span class="lang-en">THE STORY OF US</span><span class="lang-es">NUESTRA HISTORIA</span></h2>
             <div class="story-content">
-                <p class="lang-en">
-                    Our journey together has been filled with love, laughter, and unforgettable moments. 
-                    From our first meeting to this beautiful milestone, every step has brought us closer together. 
-                    We are thrilled to celebrate our love with our family and friends in the magical setting of Tepoztlán.
-                </p>
-                <p class="lang-es">
-                    Nuestro viaje juntos ha estado lleno de amor, risas y momentos inolvidables. 
-                    Desde nuestro primer encuentro hasta este hermoso hito, cada paso nos ha acercado más. 
-                    Estamos emocionados de celebrar nuestro amor con nuestra familia y amigos en el mágico entorno de Tepoztlán.
-                </p>
+                <p class="lang-en">Our journey together has been filled with love, laughter, and unforgettable moments. From our first meeting to this beautiful milestone, every step has brought us closer together. We are thrilled to celebrate our love with our family and friends in the magical setting of Tepoztlán.</p>
+                <p class="lang-es">Nuestro viaje juntos ha estado lleno de amor, risas y momentos inolvidables. Desde nuestro primer encuentro hasta este hermoso hito, cada paso nos ha acercado más. Estamos emocionados de celebrar nuestro amor con nuestra familia y amigos en el mágico entorno de Tepoztlán.</p>
             </div>
         </section>
 
         <!-- Itinerary Section -->
-        <section class="itinerary-section" id="itinerary" style="display: none;">
-            <h2 class="section-title">
-                <span class="lang-en">Wedding Day</span>
-                <span class="lang-es">Día de la Boda</span>
-            </h2>
-            
+        <section id="itinerario" class="itinerary-section">
+            <h2 class="section-title"><span class="lang-en">ITINERARY</span><span class="lang-es">ITINERARIO</span></h2>
             <div class="dress-code">
-                <h3>
-                    <span class="lang-en">Dress Code: Formal</span>
-                    <span class="lang-es">Código de Vestimenta: Formal</span>
-                </h3>
-                <p class="lang-en">
-                    <strong>Women:</strong> Long dress or knee-length dress<br>
-                    <strong>Men:</strong> Complete suit in dark color, white shirt and dress shoes
-                </p>
-                <p class="lang-es">
-                    <strong>Mujeres:</strong> Vestido largo o abajo de las rodillas<br>
-                    <strong>Hombres:</strong> Traje completo color oscuro, camisa blanca y zapatos
-                </p>
+                <h3>Dress code: Formal</h3>
+                <p class="lang-en">Women: Long dress or knee-length dress.<br>Men: Complete dark suit, white shirt and shoes.</p>
+                <p class="lang-es">Mujeres: Vestido largo o abajo de las rodillas.<br>Hombres: Traje completo color obscuro, camisa blanca y zapatos.</p>
             </div>
-
             <div class="events-grid">
-                <!-- Ceremony -->
                 <div class="event-card">
-                    <div class="event-icon">⛪</div>
-                    <h3>
-                        <span class="lang-en">Ceremony</span>
-                        <span class="lang-es">Ceremonia</span>
-                    </h3>
-                    <p class="event-time">1:00 PM</p>
+                    <h3><span class="lang-en">CEREMONY</span><span class="lang-es">CEREMONIA</span></h3>
+                    <p class="event-time"><span class="lang-en">1:00 PM</span><span class="lang-es">13:00 Horas</span></p>
                     <div class="event-location">
-                        <strong>
-                            <span class="lang-en">Orthodox Coptic Church</span>
-                            <span class="lang-es">Iglesia Copta Ortodoxa</span>
-                        </strong>
-                        <span class="lang-en">Our Lady of Guadalupe and Saint Mark</span>
-                        <span class="lang-es">Santa María y San Marcos</span><br>
-                        Barrio de Texcalpan, Tlayacapan
+                        <strong><span class="lang-en">Orthodox Coptic Church</span><span class="lang-es">Iglesia Copta Ortodoxa</span></strong><br>
+                        Tlayacapan, Morelos
                     </div>
-                    <a href="https://maps.google.com/?q=Carr+Yautepec-Tlayacapan+25,+Barrio+de+Texcalpan,+62540+Tlayacapan,+Mor." class="btn" target="_blank">
-                        <span class="lang-en">View Map</span>
-                        <span class="lang-es">Ver Mapa</span>
-                    </a>
+                    <a href="https://maps.google.com/?q=Carr+Yautepec-Tlayacapan+25,+Barrio+de+Texcalpan,+62540+Tlayacapan,+Mor." class="btn" target="_blank"><span class="lang-en">Go to location</span><span class="lang-es">Ir a ubicación</span></a>
                 </div>
-
-                <!-- Reception & Cocktail Combined -->
                 <div class="event-card">
-                    <div class="event-icon">🎉</div>
-                    <h3>
-                        <span class="lang-en">Reception</span>
-                        <span class="lang-es">Recepción</span>
-                    </h3>
-                    <p class="event-time">4:00 PM</p>
+                    <h3><span class="lang-en">RECEPTION</span><span class="lang-es">RECEPCIÓN</span></h3>
+                    <p class="event-time"><span class="lang-en">4:00 PM</span><span class="lang-es">16:00 Horas</span></p>
                     <div class="event-location">
-                        <strong>El Suspiro Tepoztlán</strong>
-                        Carretera Cuernavaca-Tepoztlán 16.5<br>
-                        Barrio Col del Tesoro, Tepoztlán
+                        <strong>El Suspiro Tepoztlán</strong><br>
+                        Tepoztlán, Morelos
                     </div>
-                    <a href="https://maps.google.com/?q=Carretera+Cuernavaca-Tepoztlán+16.5,+Barrio+Col+del+Tesoro,+62520+Tepoztlán,+Mor." class="btn" target="_blank">
-                        <span class="lang-en">View Map</span>
-                        <span class="lang-es">Ver Mapa</span>
-                    </a>
+                    <a href="https://maps.google.com/?q=Carretera+Cuernavaca-Tepoztlán+16.5,+Barrio+Col+del+Tesoro,+62520+Tepoztlán,+Mor." class="btn" target="_blank"><span class="lang-en">Go to location</span><span class="lang-es">Ir a ubicación</span></a>
                 </div>
             </div>
         </section>
 
-        <!-- Accommodations Section -->
-        <section class="accommodations-section" id="accommodations" style="display: none;">
-            <h2 class="section-title">
-                <span class="lang-en">Where to Stay</span>
-                <span class="lang-es">Dónde Hospedarse</span>
-            </h2>
-            
-            <div class="hotel-grid">
+        <!-- Hotels Section -->
+        <section id="hospedaje" class="hotels-section">
+            <h2 class="section-title"><span class="lang-en">ACCOMMODATIONS</span><span class="lang-es">HOSPEDAJE</span></h2>
+            <div class="hotels-grid">
                 <div class="hotel-card">
                     <h3>Hotel Boutique Tepoztlán</h3>
-                    <p class="lang-en">Charming boutique hotel in the heart of magical Tepoztlán. Walking distance to local attractions.</p>
-                    <p class="lang-es">Encantador hotel boutique en el corazón del mágico Tepoztlán. A poca distancia de atracciones locales.</p>
-                    <a href="#" class="btn">
-                        <span class="lang-en">Book Now</span>
-                        <span class="lang-es">Reservar</span>
-                    </a>
+                    <p class="lang-en">Charming boutique hotel.</p>
+                    <p class="lang-es">Encantador hotel boutique.</p>
+                    <a href="#" class="btn"><span class="lang-en">VISIT WEBSITE</span><span class="lang-es">IR A SITIO WEB</span></a>
                 </div>
-
                 <div class="hotel-card">
                     <h3>Posada del Tepozteco</h3>
-                    <p class="lang-en">Traditional Mexican posada with stunning mountain views and authentic local experience.</p>
-                    <p class="lang-es">Posada tradicional mexicana con impresionantes vistas a las montañas y experiencia local auténtica.</p>
-                    <a href="#" class="btn">
-                        <span class="lang-en">Book Now</span>
-                        <span class="lang-es">Reservar</span>
-                    </a>
+                    <p class="lang-en">Traditional Mexican posada.</p>
+                    <p class="lang-es">Posada tradicional mexicana.</p>
+                    <a href="#" class="btn"><span class="lang-en">VISIT WEBSITE</span><span class="lang-es">IR A SITIO WEB</span></a>
                 </div>
-
                 <div class="hotel-card">
-                    <h3>
-                        <span class="lang-en">More Options</span>
-                        <span class="lang-es">Más Opciones</span>
-                    </h3>
-                    <p class="lang-en">Contact us for additional hotel recommendations and special group rates in the Tepoztlán area.</p>
-                    <p class="lang-es">Contáctanos para recomendaciones adicionales de hoteles y tarifas especiales de grupo en el área de Tepoztlán.</p>
-                    <a href="mailto:wedding@bishoyarantxa.com" class="btn">
-                        <span class="lang-en">Contact Us</span>
-                        <span class="lang-es">Contáctanos</span>
-                    </a>
+                    <h3><span class="lang-en">More Options</span><span class="lang-es">Más Opciones</span></h3>
+                    <p class="lang-en">Contact us for more hotels.</p>
+                    <p class="lang-es">Contáctanos para más hoteles.</p>
+                    <a href="mailto:wedding@bishoyarantxa.com" class="btn"><span class="lang-en">CONTACT</span><span class="lang-es">CONTACTAR</span></a>
                 </div>
             </div>
         </section>
 
-        <!-- Gift Registry Section -->
-        <section class="registry-section" id="registry" style="display: none;">
-            <h2 class="section-title">
-                <span class="lang-en">Gift Registry</span>
-                <span class="lang-es">Mesa de Regalos</span>
-            </h2>
-            
-            <div class="registry-content">
-                <div class="registry-icon">🎁</div>
-                <p class="registry-text lang-en">
-                    Your presence at our wedding is the greatest gift of all! However, if you wish to honor us with a gift, 
-                    we have created a registry for your convenience.
-                </p>
-                <p class="registry-text lang-es">
-                    ¡Tu presencia en nuestra boda es el mejor regalo! Sin embargo, si deseas honrarnos con un regalo, 
-                    hemos creado una mesa de regalos para tu comodidad.
-                </p>
-                <a href="#" class="btn">
-                    <span class="lang-en">View Registry</span>
-                    <span class="lang-es">Ver Mesa de Regalos</span>
-                </a>
-            </div>
+        <!-- Registry Section -->
+        <section id="regalos" class="registry-section">
+            <h2 class="section-title"><span class="lang-en">GIFT REGISTRY</span><span class="lang-es">MESA DE REGALOS</span></h2>
+            <div class="registry-icon">🎁</div>
+            <p class="registry-text lang-en">Your presence at our wedding is the greatest gift. However, if you wish to honor us with a gift, we have created a registry for your convenience.</p>
+            <p class="registry-text lang-es">Tu presencia en nuestra boda es el mejor regalo. Sin embargo, si deseas honrarnos con un regalo, hemos creado una mesa de regalos para tu comodidad.</p>
+            <a href="#" class="btn"><span class="lang-en">VIEW REGISTRY</span><span class="lang-es">VER MESA DE REGALOS</span></a>
         </section>
 
         <!-- RSVP Section -->
-        <section class="rsvp-section" id="rsvp" style="display: none;">
-            <h2 class="section-title">
-                <span class="lang-en">Join Our Celebration</span>
-                <span class="lang-es">Únete a Nuestra Celebración</span>
-            </h2>
-            
+        <section id="rsvp" class="rsvp-section">
+            <h2 class="section-title">RSVP</h2>
             <div class="rsvp-form">
                 <form id="rsvpForm">
                     <div class="form-group">
-                        <label for="name">
-                            <span class="lang-en">Full Name</span>
-                            <span class="lang-es">Nombre Completo</span>
-                        </label>
-                        <input type="text" id="name" name="name" required>
+                        <label for="name"><span class="lang-en">Full Name</span><span class="lang-es">Nombre Completo</span></label>
+                        <input type="text" id="name" required>
                     </div>
-
                     <div class="form-group">
-                        <label for="email">
-                            <span class="lang-en">Email</span>
-                            <span class="lang-es">Correo Electrónico</span>
-                        </label>
-                        <input type="email" id="email" name="email" required>
+                        <label for="email"><span class="lang-en">Email</span><span class="lang-es">Correo</span></label>
+                        <input type="email" id="email" required>
                     </div>
-
                     <div class="form-group">
-                        <label for="guests">
-                            <span class="lang-en">Number of Guests</span>
-                            <span class="lang-es">Número de Invitados</span>
-                        </label>
-                        <select id="guests" name="guests" required>
-                            <option value="" class="lang-en">Select...</option>
-                            <option value="" class="lang-es">Selecciona...</option>
+                        <label for="guests"><span class="lang-en">Guests</span><span class="lang-es">Invitados</span></label>
+                        <select id="guests" required>
+                            <option value="">Select...</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -1161,162 +897,83 @@
                             <option value="5">5+</option>
                         </select>
                     </div>
-
                     <div class="form-group">
-                        <label>
-                            <span class="lang-en">I will attend:</span>
-                            <span class="lang-es">Asistiré a:</span>
-                        </label>
+                        <label><span class="lang-en">Attending:</span><span class="lang-es">Asistiré:</span></label>
                         <div class="checkbox-group">
-                            <label>
-                                <input type="checkbox" name="ceremony" value="ceremony">
-                                <span class="lang-en">Ceremony</span>
-                                <span class="lang-es">Ceremonia</span>
-                            </label>
-                            <label>
-                                <input type="checkbox" name="reception" value="reception">
-                                <span class="lang-en">Reception</span>
-                                <span class="lang-es">Recepción</span>
-                            </label>
+                            <label><input type="checkbox" name="ceremony"><span class="lang-en">Ceremony</span><span class="lang-es">Ceremonia</span></label>
+                            <label><input type="checkbox" name="reception"><span class="lang-en">Reception</span><span class="lang-es">Recepción</span></label>
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="message">
-                            <span class="lang-en">Message (Optional)</span>
-                            <span class="lang-es">Mensaje (Opcional)</span>
-                        </label>
-                        <textarea id="message" name="message" rows="4"></textarea>
-                    </div>
-
-                    <button type="submit" class="submit-btn">
-                        <span class="lang-en">Confirm</span>
-                        <span class="lang-es">Confirmar</span>
-                    </button>
+                    <button type="submit" class="submit-btn"><span class="lang-en">Submit</span><span class="lang-es">Enviar</span></button>
                 </form>
+                <p id="thankYou" style="display:none; margin-top:2rem; text-align:center; color:var(--burgundy); font-weight:600;"><span class="lang-en">Thank you!</span><span class="lang-es">¡Gracias!</span></p>
             </div>
         </section>
 
         <!-- Footer -->
-        <footer style="display: none;">
+        <footer>
             <p>&copy; 2026 Bishoy & Arantxa</p>
-            <p style="margin-top: 0.8rem;">
-                <span class="lang-en">With love and gratitude</span>
-                <span class="lang-es">Con amor y gratitud</span>
-            </p>
         </footer>
     </div>
 
     <script>
         let currentLanguage = 'en';
-        let envelopeOpened = false;
 
-        // Language Selection
         function selectLanguage(lang) {
             currentLanguage = lang;
             document.getElementById('languageSelection').classList.add('hidden');
-            setTimeout(() => {
-                document.getElementById('mainContent').classList.add('visible');
-            }, 300);
+            document.getElementById('mainContent').classList.add('visible');
             updateLanguage();
         }
 
-        // Toggle Language
         function toggleLanguage() {
             currentLanguage = currentLanguage === 'en' ? 'es' : 'en';
             updateLanguage();
         }
 
-        // Update Language
         function updateLanguage() {
-            document.querySelectorAll('.lang-en, .lang-es').forEach(el => {
-                el.classList.add('lang-hidden');
-            });
-            document.querySelectorAll('.lang-' + currentLanguage).forEach(el => {
-                el.classList.remove('lang-hidden');
-            });
+            document.querySelectorAll('.lang-en, .lang-es').forEach(el => el.classList.add('lang-hidden'));
+            document.querySelectorAll('.lang-' + currentLanguage).forEach(el => el.classList.remove('lang-hidden'));
         }
 
-        // Envelope Animation
-        document.getElementById('envelopeContainer').addEventListener('click', function() {
-            if (!envelopeOpened) {
-                document.getElementById('envelope').classList.add('open');
-                document.getElementById('clickPrompt').style.opacity = '0';
-                envelopeOpened = true;
-                
-                setTimeout(() => {
-                    document.getElementById('scrollHint').classList.add('visible');
-                }, 1500);
-            }
-        });
+        function flipCard() {
+            const card = document.querySelector('.burgundy-card');
+            card.classList.add('clicked');
+            setTimeout(() => {
+                window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+            }, 850);
+            setTimeout(() => {
+                card.classList.remove('clicked');
+            }, 1600);
+        }
 
-        // Show content after scrolling
-        let contentRevealed = false;
-        window.addEventListener('scroll', function() {
-            if (!contentRevealed && window.scrollY > 100) {
-                contentRevealed = true;
-                document.getElementById('navbar').style.display = 'block';
-                document.getElementById('monogram').style.display = 'block';
-                document.querySelectorAll('.countdown-section, .story-section, .itinerary-section, .accommodations-section, .registry-section, .rsvp-section, footer').forEach(section => {
-                    section.style.display = 'block';
-                });
-            }
-        });
-
-        // Countdown Timer
         const weddingDate = new Date('July 18, 2026 13:00:00').getTime();
-
         function updateCountdown() {
             const now = new Date().getTime();
             const distance = weddingDate - now;
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById('days').textContent = days.toString().padStart(2, '0');
-            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            document.getElementById('days').textContent = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+            document.getElementById('hours').textContent = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
         }
-
         updateCountdown();
         setInterval(updateCountdown, 1000);
 
-        // Smooth Scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
             });
         });
 
-        // Scroll Animations
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-        // RSVP Form
         document.getElementById('rsvpForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const message = currentLanguage === 'en' 
-                ? '✨ Thank you for confirming! We can\'t wait to celebrate with you! 💕'
-                : '✨ ¡Gracias por confirmar! ¡No podemos esperar para celebrar contigo! 💕';
-            alert(message);
+            document.getElementById('thankYou').style.display = 'block';
             this.reset();
+            setTimeout(() => { document.getElementById('thankYou').style.display = 'none'; }, 5000);
         });
 
-        // Initialize
         updateLanguage();
     </script>
 </body>
