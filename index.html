@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bishoy & Arantxa — July 18, 2026</title>
+
+  <!-- Fonts (you can swap later) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Raleway:wght@300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+  <!-- Paper grain overlays -->
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <!-- Language Gate -->
+  <div id="langGate" class="gate" role="dialog" aria-modal="true" aria-label="Choose language">
+    <div class="gate-card">
+      <div class="gate-monogram" aria-hidden="true">
+        <span>BK</span><span class="dot">•</span><span>AE</span>
+      </div>
+      <h1 class="gate-title">Bishoy &amp; Arantxa</h1>
+      <p class="gate-sub">Select your language / Selecciona tu idioma</p>
+      <div class="gate-actions">
+        <button class="btn primary" data-lang="en">English</button>
+        <button class="btn" data-lang="es">Español</button>
+      </div>
+      <p class="gate-foot">July 18, 2026 • Morelos, México</p>
+    </div>
+  </div>
+
+  <!-- Sticky Nav -->
+  <header class="topbar" id="topbar">
+    <div class="topbar-inner">
+      <a href="#home" class="brand">
+        <span class="brand-monogram" aria-hidden="true">BK • AE</span>
+        <span class="brand-names" data-i18n="nav.brand">Bishoy & Arantxa</span>
+      </a>
+
+      <nav class="nav">
+        <a href="#home" data-i18n="nav.home">Home</a>
+        <a href="#schedule" data-i18n="nav.schedule">Schedule</a>
+        <a href="#travel" data-i18n="nav.travel">Travel & Stay</a>
+        <a href="#registry" data-i18n="nav.registry">Registry</a>
+        <a href="#rsvp" data-i18n="nav.rsvp">RSVP</a>
+        <a href="#gallery" data-i18n="nav.gallery">Gallery</a>
+        <a href="#faqs" data-i18n="nav.faqs">FAQs</a>
+      </nav>
+
+      <div class="topbar-actions">
+        <button id="langToggle" class="chip" aria-label="Toggle language">
+          <span id="langLabel">EN</span>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="drawer" id="drawer" aria-hidden="true">
+      <a href="#home" data-i18n="nav.home">Home</a>
+      <a href="#schedule" data-i18n="nav.schedule">Schedule</a>
+      <a href="#travel" data-i18n="nav.travel">Travel & Stay</a>
+      <a href="#registry" data-i18n="nav.registry">Registry</a>
+      <a href="#rsvp" data-i18n="nav.rsvp">RSVP</a>
+      <a href="#gallery" data-i18n="nav.gallery">Gallery</a>
+      <a href="#faqs" data-i18n="nav.faqs">FAQs</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- HERO: Envelope Unfold -->
+    <section id="home" class="section hero">
+      <div class="hero-grid">
+        <div class="hero-left">
+          <div class="paper-title">
+            <h2 class="kicker" data-i18n="hero.kicker">Save the Date</h2>
+            <h1 class="names">
+              <span data-i18n="hero.names">Bishoy Kamel &amp; Arantxa Espinosa Fragoso</span>
+            </h1>
+            <p class="meta">
+              <span data-i18n="hero.date">July 18, 2026</span>
+              <span class="sep">•</span>
+              <span data-i18n="hero.place">Morelos, México</span>
+            </p>
+            <p class="tagline" data-i18n="hero.tagline">We can’t wait to celebrate with you.</p>
+
+            <div class="cta-row">
+              <a class="btn primary" href="#rsvp" data-i18n="hero.ctaRsvp">RSVP</a>
+              <a class="btn" href="#schedule" data-i18n="hero.ctaSchedule">View Schedule</a>
+            </div>
+
+            <div class="hint" data-i18n="hero.hint">Tap the envelope to open your invitation.</div>
+          </div>
+        </div>
+
+        <div class="hero-right">
+          <div class="envelope-stage" id="envelopeStage">
+            <button class="envelope" id="envelopeBtn" aria-label="Open invitation">
+              <div class="env-shadow" aria-hidden="true"></div>
+              <div class="env-back" aria-hidden="true"></div>
+              <div class="env-front" aria-hidden="true"></div>
+              <div class="env-flap" aria-hidden="true"></div>
+
+              <div class="invite" aria-hidden="true">
+                <div class="invite-card">
+                  <div class="invite-monogram">
+                    <span class="stamp">BK • AE</span>
+                    <span class="emboss" aria-hidden="true"></span>
+                  </div>
+                  <div class="invite-body">
+                    <div class="script">Bishoy &amp; Arantxa</div>
+                    <div class="line"></div>
+                    <div class="invite-date" data-i18n="invite.date">July 18, 2026</div>
+                    <div class="invite-times" data-i18n="invite.times">Church 1:00 PM • Venue 4:00 PM</div>
+                    <div class="line soft"></div>
+                    <div class="invite-note" data-i18n="invite.note">Ceremony & Celebration in Morelos, México</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="env-seal" aria-hidden="true">
+                <span class="seal-text">BK • AE</span>
+              </div>
+            </button>
+          </div>
+
+          <p class="hero-foot" data-i18n="hero.foot">
+            Ceremony at 1:00 PM • Reception at 4:00 PM
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCHEDULE -->
+    <section id="schedule" class="section">
+      <div class="paper-card reveal">
+        <div class="card-head">
+          <h2 data-i18n="schedule.title">Schedule</h2>
+          <p class="sub" data-i18n="schedule.sub">July 18, 2026</p>
+        </div>
+
+        <div class="event-grid">
+          <article class="event">
+            <div class="event-top">
+              <div class="event-time">1:00 PM</div>
+              <div>
+                <h3 data-i18n="schedule.ceremonyTitle">Ceremony</h3>
+                <p class="event-name" data-i18n="schedule.churchName">
+                  Orthodox Coptic Church of Our Lady of Guadalupe and Saint Mark
+                </p>
+                <p class="event-addr" data-i18n="schedule.churchAddr">
+                  Carr Yautepec-Tlayacapan 25, Barrio de Texcalpan, 62540 Tlayacapan, Mor., Mexico
+                </p>
+              </div>
+            </div>
+            <div class="event-actions">
+              <a class="link" target="_blank" rel="noreferrer"
+                 href="https://www.google.com/maps/search/?api=1&query=Orthodox%20Coptic%20Church%20of%20Our%20Lady%20of%20Guadalupe%20and%20Saint%20Mark%20Carr%20Yautepec-Tlayacapan%2025%20Tlayacapan%20Morelos"
+                 data-i18n="common.openMaps">Open in Maps</a>
+            </div>
+          </article>
+
+          <article class="event">
+            <div class="event-top">
+              <div class="event-time">4:00 PM</div>
+              <div>
+                <h3 data-i18n="schedule.receptionTitle">Reception</h3>
+                <p class="event-name" data-i18n="schedule.venueName">El Suspiro Tepoztlán</p>
+                <p class="event-addr" data-i18n="schedule.venueAddr">
+                  Carretera Cuernavaca-Tepoztlán 16.5 Barrio, Col del Tesoro, 62520 Tepoztlán, Mor., Mexico
+                </p>
+                <p class="note" data-i18n="schedule.cocktailNote">Cocktail & reception at the same venue.</p>
+              </div>
+            </div>
+            <div class="event-actions">
+              <a class="link" target="_blank" rel="noreferrer"
+                 href="https://www.google.com/maps/search/?api=1&query=El%20Suspiro%20Tepoztl%C3%A1n%20Carretera%20Cuernavaca-Tepoztl%C3%A1n%2016.5%20Tepoztl%C3%A1n%20Morelos"
+                 data-i18n="common.openMaps">Open in Maps</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRAVEL -->
+    <section id="travel" class="section">
+      <div class="paper-card reveal">
+        <div class="card-head">
+          <h2 data-i18n="travel.title">Travel & Stay</h2>
+          <p class="sub" data-i18n="travel.sub">We’ll add official hotel blocks soon.</p>
+        </div>
+
+        <div class="two-col">
+          <div>
+            <h3 data-i18n="travel.accomTitle">Accommodations</h3>
+            <div class="hotel-grid">
+              <div class="hotel">
+                <div class="hotel-img" style="background-image:url('./assets/venue.jpg')"></div>
+                <div class="hotel-body">
+                  <div class="hotel-name" data-i18n="travel.hotel1">Hotel Placeholder One</div>
+                  <div class="hotel-meta" data-i18n="travel.hotelMeta">~15 min from venue</div>
+                </div>
+              </div>
+              <div class="hotel">
+                <div class="hotel-img" style="background-image:url('./assets/church.jpg')"></div>
+                <div class="hotel-body">
+                  <div class="hotel-name" data-i18n="travel.hotel2">Hotel Placeholder Two</div>
+                  <div class="hotel-meta" data-i18n="travel.hotelMeta2">In Tepoztlán town</div>
+                </div>
+              </div>
+              <div class="hotel">
+                <div class="hotel-img" style="background-image:url('./assets/hero-couple.jpg')"></div>
+                <div class="hotel-body">
+                  <div class="hotel-name" data-i18n="travel.hotel3">Hotel Placeholder Three</div>
+                  <div class="hotel-meta" data-i18n="travel.hotelMeta3">Budget-friendly option</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 data-i18n="travel.gettingTitle">Getting Around</h3>
+            <p class="body" data-i18n="travel.gettingBody">
+              Tepoztlán is best explored by taxi/ride-share. We recommend arriving early and leaving extra time for traffic.
+            </p>
+
+            <div class="mini-card">
+              <h4 data-i18n="travel.tipTitle">Tip</h4>
+              <p class="body" data-i18n="travel.tipBody">
+                Bring a light jacket for the evening — the weather can cool down after sunset.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REGISTRY -->
+    <section id="registry" class="section">
+      <div class="paper-card reveal">
+        <div class="card-head">
+          <h2 data-i18n="registry.title">Registry</h2>
+          <p class="sub" data-i18n="registry.sub">We’ll be linking our gift list here.</p>
+        </div>
+
+        <div class="registry-box">
+          <p class="body" data-i18n="registry.body">
+            We’re using an external platform for our registry. Click below to view and choose a gift.
+          </p>
+          <a class="btn primary" href="https://example.com/registry" target="_blank" rel="noreferrer"
+             data-i18n="registry.cta">Go to Registry</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- RSVP -->
+    <section id="rsvp" class="section">
+      <div class="paper-card reveal">
+        <div class="card-head">
+          <h2 data-i18n="rsvp.title">RSVP</h2>
+          <p class="sub" data-i18n="rsvp.sub">Kindly respond at your earliest convenience.</p>
+        </div>
+
+        <form id="rsvpForm" class="form" novalidate>
+          <div class="field-row">
+            <div class="field">
+              <label for="fullName" data-i18n="rsvp.name">Full Name</label>
+              <input id="fullName" name="fullName" type="text" autocomplete="name" required />
+              <small class="err" data-err="fullName"></small>
+            </div>
+            <div class="field">
+              <label for="email" data-i18n="rsvp.email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" required />
+              <small class="err" data-err="email"></small>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label data-i18n="rsvp.attendance">Attendance</label>
+              <div class="radio-row">
+                <label class="radio">
+                  <input type="radio" name="attendance" value="accepts" required />
+                  <span data-i18n="rsvp.accepts">Accepts</span>
+                </label>
+                <label class="radio">
+                  <input type="radio" name="attendance" value="declines" required />
+                  <span data-i18n="rsvp.declines">Declines</span>
+                </label>
+              </div>
+              <small class="err" data-err="attendance"></small>
+            </div>
+
+            <div class="field">
+              <label for="guests" data-i18n="rsvp.guests">Number of Guests</label>
+              <select id="guests" name="guests" required>
+                <option value="" data-i18n="rsvp.select">Select</option>
+                <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+              </select>
+              <small class="err" data-err="guests"></small>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="diet" data-i18n="rsvp.diet">Dietary Restrictions</label>
+            <input id="diet" name="diet" type="text" placeholder="" />
+          </div>
+
+          <div class="field">
+            <label for="message" data-i18n="rsvp.message">Message to the Couple</label>
+            <textarea id="message" name="message" rows="4"></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn primary" type="submit" data-i18n="rsvp.submit">Send RSVP</button>
+            <a id="mailtoFallback" class="btn" href="#" target="_blank" rel="noreferrer"
+               data-i18n="rsvp.mailto">Email RSVP Instead</a>
+          </div>
+
+          <div id="rsvpSuccess" class="success" hidden>
+            <div class="stamp-big">BK • AE</div>
+            <h3 data-i18n="rsvp.thanksTitle">Thank you!</h3>
+            <p class="body" data-i18n="rsvp.thanksBody">Your RSVP has been saved.</p>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery" class="section">
+      <div class="paper-card reveal">
+        <div class="card-head">
+          <h2 data-i18n="gallery.title">Gallery</h2>
+          <p class="sub" data-i18n="gallery.sub">Photos coming soon.</p>
+        </div>
+
+        <div class="gallery-grid">
+          <div class="ph" style="background-image:url('./assets/gallery-1.jpg')"></div>
+          <div class="ph" style="background-image:url('./assets/gallery-2.jpg')"></div>
+          <div class="ph" style="background-image:url('./assets/gallery-3.jpg')"></div>
+          <div class="ph" style="background-image:url('./assets/gallery-4.jpg')"></div>
+          <div class="ph" style="background-image:url('./assets/gallery-5.jpg')"></div>
+          <div class="ph" style="background-image:url('./assets/gallery-6.jpg')"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQS -->
+    <section id="faqs" class="section">
+      <div class="paper-card reveal">
+        <div class="card-head">
+          <h2 data-i18n="faqs.title">FAQs</h2>
+          <p class="sub" data-i18n="faqs.sub">We’ll keep this updated.</p>
+        </div>
+
+        <div class="faq">
+          <details>
+            <summary data-i18n="faqs.q1">What should I wear?</summary>
+            <p class="body" data-i18n="faqs.a1">Dress code details coming soon.</p>
+          </details>
+
+          <details>
+            <summary data-i18n="faqs.q2">Can I bring a plus-one?</summary>
+            <p class="body" data-i18n="faqs.a2">We’ll confirm on your invitation/RSVP.</p>
+          </details>
+
+          <details>
+            <summary data-i18n="faqs.q3">Is there transportation?</summary>
+            <p class="body" data-i18n="faqs.a3">We’re exploring options and will update soon.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-mark">BK • AE</div>
+        <div class="footer-text" data-i18n="footer.text">
+          With love — Bishoy & Arantxa • July 18, 2026
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="./script.js"></script>
+</body>
+</html>
