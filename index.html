@@ -571,9 +571,7 @@
     </style>
 </head>
 <body>
-    <div class="paper-texture"></div>
-
-    <!-- Language Selection Screen -->
+    <!-- Language Selection -->
     <div class="language-selection" id="languageSelection">
         <div class="language-content">
             <h1 class="language-names">
@@ -591,68 +589,36 @@
 
     <!-- Main Content -->
     <div class="main-content" id="mainContent">
-        <!-- Envelope Animation Section -->
-        <section class="envelope-section" id="envelopeSection">
-            <div class="envelope-container" id="envelopeContainer">
-                <div class="envelope" id="envelope">
-                    <div class="envelope-flap"></div>
-                    <div class="envelope-body"></div>
-                    <div class="invitation-card">
-                        <h2>Bishoy <span class="ampersand-small">&</span> Arantxa</h2>
-                        <p style="color: var(--lavender); font-size: 1.2rem; margin-top: 1rem;">
-                            <span class="lang-en">You're Invited</span>
-                            <span class="lang-es">Estás Invitado</span>
-                        </p>
-                    </div>
-                </div>
-                <p class="click-prompt" id="clickPrompt">
-                    <span class="lang-en">Click to Open</span>
-                    <span class="lang-es">Haz Click para Abrir</span>
-                </p>
-            </div>
-            <p class="scroll-hint" id="scrollHint">
-                <span class="lang-en">↓ Scroll Down ↓</span>
-                <span class="lang-es">↓ Desplázate ↓</span>
-            </p>
-        </section>
-
         <!-- Navigation -->
-        <nav id="navbar" style="display: none;">
-            <ul>
-                <li><a href="#monogram">
-                    <span class="lang-en">HOME</span>
-                    <span class="lang-es">INICIO</span>
-                </a></li>
-                <li><a href="#itinerary">
-                    <span class="lang-en">ITINERARY</span>
-                    <span class="lang-es">ITINERARIO</span>
-                </a></li>
-                <li><a href="#accommodations">
-                    <span class="lang-en">HOTELS</span>
-                    <span class="lang-es">HOTELES</span>
-                </a></li>
-                <li><a href="#registry">
-                    <span class="lang-en">REGISTRY</span>
-                    <span class="lang-es">REGALOS</span>
-                </a></li>
+        <nav>
+            <ul class="nav-desktop">
+                <li><a href="#inicio"><span class="lang-en">HOME</span><span class="lang-es">INICIO</span></a></li>
+                <li><a href="#itinerario"><span class="lang-en">ITINERARY</span><span class="lang-es">ITINERARIO</span></a></li>
+                <li><a href="#hospedaje"><span class="lang-en">ACCOMMODATIONS</span><span class="lang-es">HOSPEDAJE</span></a></li>
+                <li><a href="#regalos"><span class="lang-en">REGISTRY</span><span class="lang-es">MESA DE REGALOS</span></a></li>
                 <li><a href="#rsvp">RSVP</a></li>
-                <li>
-                    <button class="language-toggle" onclick="toggleLanguage()">
-                        <span class="lang-en">ES</span>
-                        <span class="lang-es">EN</span>
-                    </button>
-                </li>
+                <li><button class="language-toggle" onclick="toggleLanguage()"><span class="lang-en">ES</span><span class="lang-es">EN</span></button></li>
             </ul>
         </nav>
 
-        <!-- Monogram Section -->
-        <section class="monogram-section" id="monogram" style="display: none;">
-            <div class="monogram">B & A</div>
-            <h1 class="names-title">Bishoy & Arantxa</h1>
-            <p class="wedding-date">
-                <span class="lang-en">July 18, 2026</span>
-                <span class="lang-es">18 de Julio, 2026</span>
-            </p>
+        <!-- Hero Section with Burgundy Card -->
+        <section id="inicio" class="hero">
+            <div class="burgundy-card" onclick="flipCard()">
+                <div class="card-border"></div>
+                <div class="floral-emboss"></div>
+                <div class="card-content">
+                    <h1 class="card-title">
+                        <span class="lang-en">INVITATION</span>
+                        <span class="lang-es">INVITACIÓN</span>
+                    </h1>
+                    <div class="ver-mas-container">
+                        <p class="ver-mas">
+                            <span class="lang-en">SEE MORE</span>
+                            <span class="lang-es">VER MÁS</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- Countdown Section -->
@@ -660,31 +626,19 @@
             <div class="countdown">
                 <div class="countdown-item">
                     <div class="countdown-number" id="days">00</div>
-                    <div class="countdown-label">
-                        <span class="lang-en">Days</span>
-                        <span class="lang-es">Días</span>
-                    </div>
+                    <div class="countdown-label"><span class="lang-en">Days</span><span class="lang-es">Días</span></div>
                 </div>
                 <div class="countdown-item">
                     <div class="countdown-number" id="hours">00</div>
-                    <div class="countdown-label">
-                        <span class="lang-en">Hours</span>
-                        <span class="lang-es">Horas</span>
-                    </div>
+                    <div class="countdown-label"><span class="lang-en">Hrs</span><span class="lang-es">Hrs</span></div>
                 </div>
                 <div class="countdown-item">
                     <div class="countdown-number" id="minutes">00</div>
-                    <div class="countdown-label">
-                        <span class="lang-en">Minutes</span>
-                        <span class="lang-es">Minutos</span>
-                    </div>
+                    <div class="countdown-label"><span class="lang-en">Min</span><span class="lang-es">Min</span></div>
                 </div>
                 <div class="countdown-item">
                     <div class="countdown-number" id="seconds">00</div>
-                    <div class="countdown-label">
-                        <span class="lang-en">Seconds</span>
-                        <span class="lang-es">Segundos</span>
-                    </div>
+                    <div class="countdown-label"><span class="lang-en">Sec</span><span class="lang-es">Seg</span></div>
                 </div>
             </div>
         </section>
@@ -696,16 +650,8 @@
                 <span class="lang-es">Nuestra Historia</span>
             </h2>
             <div class="story-content">
-                <p class="lang-en">
-                    Our journey together has been filled with love, laughter, and unforgettable moments. 
-                    From our first meeting to this beautiful milestone, every step has brought us closer together. 
-                    We are thrilled to celebrate our love with our family and friends in the magical setting of Tepoztlán.
-                </p>
-                <p class="lang-es">
-                    Nuestro viaje juntos ha estado lleno de amor, risas y momentos inolvidables. 
-                    Desde nuestro primer encuentro hasta este hermoso hito, cada paso nos ha acercado más. 
-                    Estamos emocionados de celebrar nuestro amor con nuestra familia y amigos en el mágico entorno de Tepoztlán.
-                </p>
+                <p class="lang-en">Our journey together has been filled with love, laughter, and unforgettable moments. From our first meeting to this beautiful milestone, every step has brought us closer together. We are thrilled to celebrate our love with our family and friends in the magical setting of Tepoztlán.</p>
+                <p class="lang-es">Nuestro viaje juntos ha estado lleno de amor, risas y momentos inolvidables. Desde nuestro primer encuentro hasta este hermoso hito, cada paso nos ha acercado más. Estamos emocionados de celebrar nuestro amor con nuestra familia y amigos en el mágico entorno de Tepoztlán.</p>
             </div>
         </section>
 
@@ -717,61 +663,28 @@
             </h2>
             
             <div class="dress-code">
-                <h3>
-                    <span class="lang-en">Dress Code: Formal</span>
-                    <span class="lang-es">Código de Vestimenta: Formal</span>
-                </h3>
-                <p class="lang-en">
-                    <strong>Women:</strong> Long dress or knee-length dress<br>
-                    <strong>Men:</strong> Complete suit in dark color, white shirt and dress shoes
-                </p>
-                <p class="lang-es">
-                    <strong>Mujeres:</strong> Vestido largo o abajo de las rodillas<br>
-                    <strong>Hombres:</strong> Traje completo color oscuro, camisa blanca y zapatos
-                </p>
+                <h3>Dress code: Formal</h3>
+                <p class="lang-en">Women: Long dress or knee-length dress.<br>Men: Complete dark suit, white shirt and shoes.</p>
+                <p class="lang-es">Mujeres: Vestido largo o abajo de las rodillas.<br>Hombres: Traje completo color obscuro, camisa blanca y zapatos.</p>
             </div>
-
             <div class="events-grid">
-                <!-- Ceremony -->
                 <div class="event-card">
-                    <div class="event-icon">⛪</div>
-                    <h3>
-                        <span class="lang-en">Ceremony</span>
-                        <span class="lang-es">Ceremonia</span>
-                    </h3>
-                    <p class="event-time">1:00 PM</p>
+                    <h3><span class="lang-en">CEREMONY</span><span class="lang-es">CEREMONIA</span></h3>
+                    <p class="event-time"><span class="lang-en">1:00 PM</span><span class="lang-es">13:00 Horas</span></p>
                     <div class="event-location">
-                        <strong>
-                            <span class="lang-en">Orthodox Coptic Church</span>
-                            <span class="lang-es">Iglesia Copta Ortodoxa</span>
-                        </strong>
-                        <span class="lang-en">Our Lady of Guadalupe and Saint Mark</span>
-                        <span class="lang-es">Santa María y San Marcos</span><br>
-                        Barrio de Texcalpan, Tlayacapan
+                        <strong><span class="lang-en">Orthodox Coptic Church</span><span class="lang-es">Iglesia Copta Ortodoxa</span></strong><br>
+                        Tlayacapan, Morelos
                     </div>
-                    <a href="https://maps.google.com/?q=Carr+Yautepec-Tlayacapan+25,+Barrio+de+Texcalpan,+62540+Tlayacapan,+Mor." class="btn" target="_blank">
-                        <span class="lang-en">View Map</span>
-                        <span class="lang-es">Ver Mapa</span>
-                    </a>
+                    <a href="https://maps.google.com/?q=Carr+Yautepec-Tlayacapan+25,+Barrio+de+Texcalpan,+62540+Tlayacapan,+Mor." class="btn" target="_blank"><span class="lang-en">Go to location</span><span class="lang-es">Ir a ubicación</span></a>
                 </div>
-
-                <!-- Reception & Cocktail Combined -->
                 <div class="event-card">
-                    <div class="event-icon">🎉</div>
-                    <h3>
-                        <span class="lang-en">Reception</span>
-                        <span class="lang-es">Recepción</span>
-                    </h3>
-                    <p class="event-time">4:00 PM</p>
+                    <h3><span class="lang-en">RECEPTION</span><span class="lang-es">RECEPCIÓN</span></h3>
+                    <p class="event-time"><span class="lang-en">4:00 PM</span><span class="lang-es">16:00 Horas</span></p>
                     <div class="event-location">
-                        <strong>El Suspiro Tepoztlán</strong>
-                        Carretera Cuernavaca-Tepoztlán 16.5<br>
-                        Barrio Col del Tesoro, Tepoztlán
+                        <strong>El Suspiro Tepoztlán</strong><br>
+                        Tepoztlán, Morelos
                     </div>
-                    <a href="https://maps.google.com/?q=Carretera+Cuernavaca-Tepoztlán+16.5,+Barrio+Col+del+Tesoro,+62520+Tepoztlán,+Mor." class="btn" target="_blank">
-                        <span class="lang-en">View Map</span>
-                        <span class="lang-es">Ver Mapa</span>
-                    </a>
+                    <a href="https://maps.google.com/?q=Carretera+Cuernavaca-Tepoztlán+16.5,+Barrio+Col+del+Tesoro,+62520+Tepoztlán,+Mor." class="btn" target="_blank"><span class="lang-en">Go to location</span><span class="lang-es">Ir a ubicación</span></a>
                 </div>
             </div>
         </section>
@@ -786,35 +699,21 @@
             <div class="hotel-grid">
                 <div class="hotel-card">
                     <h3>Hotel Boutique Tepoztlán</h3>
-                    <p class="lang-en">Charming boutique hotel in the heart of magical Tepoztlán. Walking distance to local attractions.</p>
-                    <p class="lang-es">Encantador hotel boutique en el corazón del mágico Tepoztlán. A poca distancia de atracciones locales.</p>
-                    <a href="#" class="btn">
-                        <span class="lang-en">Book Now</span>
-                        <span class="lang-es">Reservar</span>
-                    </a>
+                    <p class="lang-en">Charming boutique hotel.</p>
+                    <p class="lang-es">Encantador hotel boutique.</p>
+                    <a href="#" class="btn"><span class="lang-en">VISIT WEBSITE</span><span class="lang-es">IR A SITIO WEB</span></a>
                 </div>
-
                 <div class="hotel-card">
                     <h3>Posada del Tepozteco</h3>
-                    <p class="lang-en">Traditional Mexican posada with stunning mountain views and authentic local experience.</p>
-                    <p class="lang-es">Posada tradicional mexicana con impresionantes vistas a las montañas y experiencia local auténtica.</p>
-                    <a href="#" class="btn">
-                        <span class="lang-en">Book Now</span>
-                        <span class="lang-es">Reservar</span>
-                    </a>
+                    <p class="lang-en">Traditional Mexican posada.</p>
+                    <p class="lang-es">Posada tradicional mexicana.</p>
+                    <a href="#" class="btn"><span class="lang-en">VISIT WEBSITE</span><span class="lang-es">IR A SITIO WEB</span></a>
                 </div>
-
                 <div class="hotel-card">
-                    <h3>
-                        <span class="lang-en">More Options</span>
-                        <span class="lang-es">Más Opciones</span>
-                    </h3>
-                    <p class="lang-en">Contact us for additional hotel recommendations and special group rates in the Tepoztlán area.</p>
-                    <p class="lang-es">Contáctanos para recomendaciones adicionales de hoteles y tarifas especiales de grupo en el área de Tepoztlán.</p>
-                    <a href="mailto:wedding@bishoyarantxa.com" class="btn">
-                        <span class="lang-en">Contact Us</span>
-                        <span class="lang-es">Contáctanos</span>
-                    </a>
+                    <h3><span class="lang-en">More Options</span><span class="lang-es">Más Opciones</span></h3>
+                    <p class="lang-en">Contact us for more hotels.</p>
+                    <p class="lang-es">Contáctanos para más hoteles.</p>
+                    <a href="mailto:wedding@bishoyarantxa.com" class="btn"><span class="lang-en">CONTACT</span><span class="lang-es">CONTACTAR</span></a>
                 </div>
             </div>
         </section>
@@ -853,29 +752,17 @@
             <div class="rsvp-form">
                 <form id="rsvpForm">
                     <div class="form-group">
-                        <label for="name">
-                            <span class="lang-en">Full Name</span>
-                            <span class="lang-es">Nombre Completo</span>
-                        </label>
-                        <input type="text" id="name" name="name" required>
+                        <label for="name"><span class="lang-en">Full Name</span><span class="lang-es">Nombre Completo</span></label>
+                        <input type="text" id="name" required>
                     </div>
-
                     <div class="form-group">
-                        <label for="email">
-                            <span class="lang-en">Email</span>
-                            <span class="lang-es">Correo Electrónico</span>
-                        </label>
-                        <input type="email" id="email" name="email" required>
+                        <label for="email"><span class="lang-en">Email</span><span class="lang-es">Correo</span></label>
+                        <input type="email" id="email" required>
                     </div>
-
                     <div class="form-group">
-                        <label for="guests">
-                            <span class="lang-en">Number of Guests</span>
-                            <span class="lang-es">Número de Invitados</span>
-                        </label>
-                        <select id="guests" name="guests" required>
-                            <option value="" class="lang-en">Select...</option>
-                            <option value="" class="lang-es">Selecciona...</option>
+                        <label for="guests"><span class="lang-en">Guests</span><span class="lang-es">Invitados</span></label>
+                        <select id="guests" required>
+                            <option value="">Select...</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -883,162 +770,83 @@
                             <option value="5">5+</option>
                         </select>
                     </div>
-
                     <div class="form-group">
-                        <label>
-                            <span class="lang-en">I will attend:</span>
-                            <span class="lang-es">Asistiré a:</span>
-                        </label>
+                        <label><span class="lang-en">Attending:</span><span class="lang-es">Asistiré:</span></label>
                         <div class="checkbox-group">
-                            <label>
-                                <input type="checkbox" name="ceremony" value="ceremony">
-                                <span class="lang-en">Ceremony</span>
-                                <span class="lang-es">Ceremonia</span>
-                            </label>
-                            <label>
-                                <input type="checkbox" name="reception" value="reception">
-                                <span class="lang-en">Reception</span>
-                                <span class="lang-es">Recepción</span>
-                            </label>
+                            <label><input type="checkbox" name="ceremony"><span class="lang-en">Ceremony</span><span class="lang-es">Ceremonia</span></label>
+                            <label><input type="checkbox" name="reception"><span class="lang-en">Reception</span><span class="lang-es">Recepción</span></label>
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="message">
-                            <span class="lang-en">Message (Optional)</span>
-                            <span class="lang-es">Mensaje (Opcional)</span>
-                        </label>
-                        <textarea id="message" name="message" rows="4"></textarea>
-                    </div>
-
-                    <button type="submit" class="submit-btn">
-                        <span class="lang-en">Confirm</span>
-                        <span class="lang-es">Confirmar</span>
-                    </button>
+                    <button type="submit" class="submit-btn"><span class="lang-en">Submit</span><span class="lang-es">Enviar</span></button>
                 </form>
+                <p id="thankYou" style="display:none; margin-top:2rem; text-align:center; color:var(--burgundy); font-weight:600;"><span class="lang-en">Thank you!</span><span class="lang-es">¡Gracias!</span></p>
             </div>
         </section>
 
         <!-- Footer -->
-        <footer style="display: none;">
+        <footer>
             <p>&copy; 2026 Bishoy & Arantxa</p>
-            <p style="margin-top: 0.8rem;">
-                <span class="lang-en">With love and gratitude</span>
-                <span class="lang-es">Con amor y gratitud</span>
-            </p>
         </footer>
     </div>
 
     <script>
         let currentLanguage = 'en';
-        let envelopeOpened = false;
 
-        // Language Selection
         function selectLanguage(lang) {
             currentLanguage = lang;
             document.getElementById('languageSelection').classList.add('hidden');
-            setTimeout(() => {
-                document.getElementById('mainContent').classList.add('visible');
-            }, 300);
+            document.getElementById('mainContent').classList.add('visible');
             updateLanguage();
         }
 
-        // Toggle Language
         function toggleLanguage() {
             currentLanguage = currentLanguage === 'en' ? 'es' : 'en';
             updateLanguage();
         }
 
-        // Update Language
         function updateLanguage() {
-            document.querySelectorAll('.lang-en, .lang-es').forEach(el => {
-                el.classList.add('lang-hidden');
-            });
-            document.querySelectorAll('.lang-' + currentLanguage).forEach(el => {
-                el.classList.remove('lang-hidden');
-            });
+            document.querySelectorAll('.lang-en, .lang-es').forEach(el => el.classList.add('lang-hidden'));
+            document.querySelectorAll('.lang-' + currentLanguage).forEach(el => el.classList.remove('lang-hidden'));
         }
 
-        // Envelope Animation
-        document.getElementById('envelopeContainer').addEventListener('click', function() {
-            if (!envelopeOpened) {
-                document.getElementById('envelope').classList.add('open');
-                document.getElementById('clickPrompt').style.opacity = '0';
-                envelopeOpened = true;
-                
-                setTimeout(() => {
-                    document.getElementById('scrollHint').classList.add('visible');
-                }, 1500);
-            }
-        });
+        function flipCard() {
+            const card = document.querySelector('.burgundy-card');
+            card.classList.add('clicked');
+            setTimeout(() => {
+                window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+            }, 850);
+            setTimeout(() => {
+                card.classList.remove('clicked');
+            }, 1600);
+        }
 
-        // Show content after scrolling
-        let contentRevealed = false;
-        window.addEventListener('scroll', function() {
-            if (!contentRevealed && window.scrollY > 100) {
-                contentRevealed = true;
-                document.getElementById('navbar').style.display = 'block';
-                document.getElementById('monogram').style.display = 'block';
-                document.querySelectorAll('.countdown-section, .story-section, .itinerary-section, .accommodations-section, .registry-section, .rsvp-section, footer').forEach(section => {
-                    section.style.display = 'block';
-                });
-            }
-        });
-
-        // Countdown Timer
         const weddingDate = new Date('July 18, 2026 13:00:00').getTime();
-
         function updateCountdown() {
             const now = new Date().getTime();
             const distance = weddingDate - now;
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById('days').textContent = days.toString().padStart(2, '0');
-            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            document.getElementById('days').textContent = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+            document.getElementById('hours').textContent = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
         }
-
         updateCountdown();
         setInterval(updateCountdown, 1000);
 
-        // Smooth Scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
             });
         });
 
-        // Scroll Animations
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-        // RSVP Form
         document.getElementById('rsvpForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const message = currentLanguage === 'en' 
-                ? '✨ Thank you for confirming! We can\'t wait to celebrate with you! 💕'
-                : '✨ ¡Gracias por confirmar! ¡No podemos esperar para celebrar contigo! 💕';
-            alert(message);
+            document.getElementById('thankYou').style.display = 'block';
             this.reset();
+            setTimeout(() => { document.getElementById('thankYou').style.display = 'none'; }, 5000);
         });
 
-        // Initialize
         updateLanguage();
     </script>
 </body>
