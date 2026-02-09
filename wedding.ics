@@ -1,0 +1,14 @@
+﻿BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Bishoy & Arantxa//Save the Date//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+UID:bishoy-arantxa-save-the-date-20260718@save-the-date
+DTSTAMP:20260209T000000Z
+DTSTART;VALUE=DATE:20260718
+DTEND;VALUE=DATE:20260719
+SUMMARY:Bishoy & Arantxa Wedding
+DESCRIPTION:Ceremony at 1:00 PM - Orthodox Coptic Church of Our Lady of Guadalupe and Saint Mark\nReception at 4:00 PM - El Suspiro Tepoztlan\nTepoztlan, Morelos, Mexico
+LOCATION:Tepoztlan, Morelos, Mexico
+END:VEVENT
+END:VCALENDAR
