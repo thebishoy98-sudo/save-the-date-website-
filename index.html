@@ -6,15 +6,13 @@
   <title>Arantxa & Bishoy — Save the Date</title>
   <style>
     :root {
-      --cream: #faf8f4;
-      --cream-2: #f9f6f1;
-      --taupe: #8b7b6b;
-      --brown: #6b5d52;
-      --sage: #b8c9c4;
-      --sage-2: #a8bdb8;
-      --rose: #f5ede8;
-      --rose-2: #e8d5d0;
-      --shadow: rgba(57, 40, 27, 0.2);
+      --paper: #f8f3eb;
+      --paper-2: #f2e7d7;
+      --ink: #5b4a3d;
+      --soft: #8d7765;
+      --accent: #d8c2ac;
+      --line: rgba(91, 74, 61, 0.2);
+      /* Replace with provided couple artwork when image file is added, e.g. url('./assets/couple-art.png') */
       --cover-image: url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1600&q=80');
     }
 
@@ -22,408 +20,441 @@
 
     body {
       margin: 0;
+      color: var(--ink);
       font-family: "Cormorant Garamond", "Garamond", "Times New Roman", serif;
-      background: #eceae5;
-      color: var(--brown);
-      min-height: 100vh;
-      overflow: hidden;
+      background: linear-gradient(180deg, #eee8df 0%, #e8ddcf 100%);
     }
 
-    .app {
+    .language-screen {
       min-height: 100vh;
       display: grid;
       place-items: center;
       padding: 1rem;
-      background: radial-gradient(circle at 20% 10%, #fff 0%, #f3efea 40%, #e7e2dc 100%);
+      background: radial-gradient(circle at 20% 10%, #fff 0%, #f4ede3 42%, #eadfce 100%);
     }
 
-    .language-screen {
+    .language-card {
       width: min(92vw, 420px);
       text-align: center;
-      background: rgba(255, 255, 255, 0.8);
-      border: 1px solid rgba(139, 123, 107, 0.25);
-      border-radius: 22px;
-      padding: 3rem 1.75rem;
-      box-shadow: 0 20px 50px rgba(80, 63, 48, 0.16);
+      background: rgba(255, 255, 255, 0.84);
+      border: 1px solid rgba(141, 119, 101, 0.3);
+      border-radius: 24px;
+      padding: 2.6rem 1.6rem;
+      box-shadow: 0 20px 45px rgba(70, 54, 40, 0.15);
       backdrop-filter: blur(5px);
-      transition: opacity 0.45s ease, transform 0.45s ease;
-    }
-
-    .language-screen.hidden {
-      opacity: 0;
-      transform: translateY(8px);
-      pointer-events: none;
     }
 
     .monogram {
+      letter-spacing: 0.2em;
       font-size: 3rem;
-      letter-spacing: 0.25em;
-      color: var(--taupe);
-      margin-bottom: 0.75rem;
+      margin: 0;
     }
 
-    .language-screen p {
+    .language-card p {
       margin: 0.25rem 0;
-      font-size: clamp(1rem, 1.7vw, 1.2rem);
-      letter-spacing: 0.04em;
+      font-size: 1.1rem;
     }
 
     .buttons {
-      margin-top: 1.75rem;
+      margin-top: 1.2rem;
       display: flex;
       justify-content: center;
-      gap: 0.8rem;
       flex-wrap: wrap;
+      gap: 0.75rem;
     }
 
     button {
-      font: inherit;
-      border: 1px solid rgba(107, 93, 82, 0.4);
-      color: var(--brown);
+      border: 1px solid rgba(91, 74, 61, 0.35);
       background: #fff;
+      color: var(--ink);
       border-radius: 999px;
-      padding: 0.65rem 1.35rem;
-      font-size: 1.05rem;
-      letter-spacing: 0.07em;
+      padding: 0.65rem 1.2rem;
+      font: inherit;
       cursor: pointer;
+      letter-spacing: 0.05em;
       transition: 0.2s ease;
     }
 
     button:hover {
       transform: translateY(-1px);
-      background: #f7f2ec;
-      border-color: var(--taupe);
+      background: #f7f1e8;
+      border-color: rgba(91, 74, 61, 0.6);
     }
 
-    .book-wrap {
-      width: min(95vw, 460px);
-      height: min(90vh, 820px);
-      perspective: 1800px;
+    .site {
       display: none;
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 1rem 1rem 2rem;
     }
 
-    .book-wrap.active { display: block; }
+    .site.active { display: block; }
 
-    .book {
+    .hero {
       position: relative;
-      width: 100%;
-      height: 100%;
-      transform-style: preserve-3d;
-    }
-
-    .page {
-      position: absolute;
-      inset: 0;
-      border-radius: 26px;
+      min-height: 72vh;
+      border-radius: 22px;
       overflow: hidden;
-      transform-origin: left center;
-      transform-style: preserve-3d;
-      transition: transform 0.9s cubic-bezier(0.22, 0.7, 0.12, 1), box-shadow 0.5s ease;
-      box-shadow: 0 18px 45px var(--shadow);
-      backface-visibility: hidden;
-      cursor: pointer;
-    }
-
-    .page .front,
-    .page .back {
-      position: absolute;
-      inset: 0;
-      backface-visibility: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 2.4rem 1.7rem;
-    }
-
-    .page .back { transform: rotateY(180deg); }
-
-    .page.flipped {
-      transform: rotateY(-170deg);
-      box-shadow: 0 18px 22px rgba(52, 42, 35, 0.15);
-    }
-
-    .page.cover { z-index: 4; }
-    .page.two { z-index: 3; }
-    .page.three { z-index: 2; }
-    .page.four { z-index: 1; cursor: default; }
-
-    .cover .front {
-      justify-content: flex-end;
-      background-image: linear-gradient(to bottom, transparent 70%, rgba(20, 22, 28, 0.5)), var(--cover-image);
+      box-shadow: 0 26px 40px rgba(53, 41, 33, 0.2);
+      background-image: linear-gradient(to top, rgba(22, 18, 15, 0.56) 20%, rgba(22, 18, 15, 0.08)), var(--cover-image);
       background-size: cover;
       background-position: center;
-      background-repeat: no-repeat;
+      display: flex;
+      align-items: flex-end;
+      padding: 1.3rem;
+    }
+
+    .hero-copy {
+      width: 100%;
       color: #fff;
-    }
-
-    .tap {
-      width: calc(100% - 1.6rem);
+      text-align: center;
+      background: rgba(17, 14, 11, 0.27);
+      border: 1px solid rgba(255, 255, 255, 0.3);
       border-radius: 16px;
-      padding: 0.75rem;
-      margin-bottom: 0.5rem;
-      font-size: 1.1rem;
-      letter-spacing: 0.08em;
-      background: rgba(255, 255, 255, 0.18);
-      border: 1px solid rgba(255, 255, 255, 0.35);
-      backdrop-filter: blur(3px);
+      backdrop-filter: blur(2px);
+      padding: 0.9rem;
     }
 
-    .paper {
-      background:
-        radial-gradient(ellipse at top right, rgba(245, 237, 232, 0.8), transparent 45%),
-        radial-gradient(ellipse at bottom left, rgba(184, 201, 196, 0.34), transparent 40%),
-        linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
-      color: var(--brown);
-    }
-
-    .icon { font-size: 1.8rem; margin-bottom: 0.4rem; }
-
-    h1, h2, h3, p { margin: 0.2rem 0; font-weight: 500; }
-    h2 {
-      font-size: clamp(1.55rem, 4vw, 2rem);
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3rem);
       letter-spacing: 0.04em;
-      line-height: 1.2;
-      color: #6a5b50;
+      line-height: 1.05;
+      font-weight: 500;
     }
 
-    .sub {
-      font-style: italic;
-      color: var(--taupe);
-      font-size: 1.06rem;
-      letter-spacing: 0.03em;
-      margin-bottom: 0.7rem;
+    .hero-copy p {
+      margin: 0.15rem 0;
+      letter-spacing: 0.04em;
+      font-size: 1.1rem;
     }
 
-    .time {
-      margin: 0.6rem 0 1.15rem;
-      font-size: 1.7rem;
-      letter-spacing: 0.08em;
-      color: #776759;
+    .scroll-note {
+      text-align: center;
+      margin: 0.8rem 0 1.15rem;
+      letter-spacing: 0.07em;
+      color: var(--soft);
+      font-size: 0.95rem;
     }
 
-    .venue {
-      line-height: 1.16;
-      font-size: 1.18rem;
-      max-width: 300px;
+    .fold-list {
+      display: grid;
+      gap: 1rem;
     }
 
-    .address {
-      margin-top: 0.9rem;
+    details {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(248,243,235,0.98) 0%, rgba(240,227,211,0.96) 100%),
+        repeating-linear-gradient(
+          170deg,
+          rgba(255,255,255,0.28) 0,
+          rgba(255,255,255,0.28) 6px,
+          rgba(0,0,0,0.01) 6px,
+          rgba(0,0,0,0.01) 12px
+        );
+      box-shadow: 0 12px 25px rgba(57, 44, 35, 0.13);
+      scroll-margin-top: 0.8rem;
+    }
+
+    details[open] {
+      box-shadow: 0 16px 24px rgba(57, 44, 35, 0.17);
+    }
+
+    summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 1rem 1rem 0.9rem;
+      font-size: 1.45rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      border-bottom: 1px solid transparent;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+
+    details[open] summary {
+      border-bottom-color: var(--line);
+    }
+
+    .chevron {
+      font-size: 1.2rem;
+      line-height: 1;
+      transform: rotate(0deg);
+      transition: transform 0.25s ease;
+    }
+
+    details[open] .chevron {
+      transform: rotate(180deg);
+    }
+
+    .fold-body {
+      padding: 0.85rem 1rem 1.1rem;
+    }
+
+    .fold-body p {
+      margin: 0.15rem 0 0.6rem;
+      font-size: 1.12rem;
+      line-height: 1.25;
+    }
+
+    ul {
+      margin: 0.2rem 0 0;
+      padding-left: 1.2rem;
+    }
+
+    li {
+      margin: 0.3rem 0;
+      font-size: 1.03rem;
+      line-height: 1.25;
+    }
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.7rem;
+      margin-top: 0.6rem;
+    }
+
+    .field {
+      border: 1px dashed rgba(91,74,61,0.35);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.45);
+      padding: 0.55rem 0.65rem;
       font-size: 1rem;
-      line-height: 1.2;
-      color: #7f7063;
-      max-width: 310px;
     }
 
-    .divider {
-      width: 170px;
-      height: 34px;
-      margin: 0.55rem auto;
-      opacity: 0.75;
+    .footer-note {
+      margin: 1.1rem 0 0.2rem;
+      text-align: center;
+      color: var(--soft);
+      font-size: 1rem;
     }
 
-    .floral {
-      position: absolute;
-      width: 126px;
-      height: 126px;
-      opacity: 0.7;
-      pointer-events: none;
-    }
-
-    .floral.top-left { top: -20px; left: -20px; transform: rotate(8deg); }
-    .floral.bottom-right { bottom: -24px; right: -26px; transform: rotate(188deg); }
-
-    .final-message {
-      font-size: clamp(2rem, 5vw, 2.4rem);
-      line-height: 1.08;
-      letter-spacing: 0.02em;
-      margin-bottom: 0.4rem;
-    }
-
-    .ending { margin-top: 0.6rem; font-size: 1.08rem; color: #857567; }
-
-    .view-again {
-      margin-top: 1.25rem;
-      background: rgba(255, 255, 255, 0.7);
-    }
-
-    .hint {
-      position: absolute;
-      right: 12px;
-      bottom: 8px;
-      font-size: 0.86rem;
-      color: rgba(107, 93, 82, 0.72);
-      letter-spacing: 0.06em;
-    }
-
-    @media (max-width: 480px) {
-      .book-wrap {
-        width: 96vw;
-        height: 92vh;
-      }
-      .page .front,.page .back { padding: 1.8rem 1.1rem; }
-      .tap { font-size: 1rem; }
-      .venue { font-size: 1.08rem; }
-      .address { font-size: 0.93rem; }
-      .hint { font-size: 0.74rem; }
+    @media (max-width: 650px) {
+      .site { padding: 0.75rem 0.7rem 1.7rem; }
+      .hero { min-height: 64vh; }
+      .grid-two { grid-template-columns: 1fr; }
+      summary { font-size: 1.3rem; }
     }
   </style>
 </head>
 <body>
-  <div class="app">
-    <section class="language-screen" id="languageScreen">
-      <div class="monogram">AB</div>
+  <section class="language-screen" id="languageScreen">
+    <div class="language-card">
+      <p class="monogram">AB</p>
       <p>Please select your language</p>
       <p>Por favor seleccione su idioma</p>
       <div class="buttons">
         <button data-lang="en">English</button>
         <button data-lang="es">Español</button>
       </div>
+    </div>
+  </section>
+
+  <main class="site" id="site" aria-live="polite">
+    <section class="hero">
+      <div class="hero-copy">
+        <h1>Save the Date</h1>
+        <p data-i18n="date">Saturday, September 27, 2026</p>
+        <p data-i18n="location">Tepoztlán, Morelos, Mexico</p>
+      </div>
     </section>
 
-    <main class="book-wrap" id="bookWrap" aria-live="polite">
-      <div class="book" id="book">
-        <section class="page cover" data-page="0">
-          <div class="front">
-            <div class="tap" data-i18n="tap">Tap to reveal details</div>
-          </div>
-          <div class="back paper"></div>
-        </section>
+    <p class="scroll-note" data-i18n="scrollHint">Scroll down and open each folded paper section ✨</p>
 
-        <section class="page two" data-page="1">
-          <div class="front paper">
-            <svg class="floral top-left" viewBox="0 0 120 120" fill="none" aria-hidden="true"><path d="M18 102c21-17 30-47 32-82" stroke="#b8c9c4" stroke-width="1.6"/><path d="M40 52c8-7 18-7 24 1-8 7-18 7-24-1Z" fill="#f1e8e1"/><path d="M56 80c9-8 17-9 25-1-7 10-19 10-25 1Z" fill="#e9d8d2"/></svg>
-            <svg class="floral bottom-right" viewBox="0 0 120 120" fill="none" aria-hidden="true"><path d="M18 102c21-17 30-47 32-82" stroke="#b8c9c4" stroke-width="1.6"/><path d="M40 52c8-7 18-7 24 1-8 7-18 7-24-1Z" fill="#f1e8e1"/><path d="M56 80c9-8 17-9 25-1-7 10-19 10-25 1Z" fill="#e9d8d2"/></svg>
-            <div class="icon">⛪</div>
-            <svg class="divider" viewBox="0 0 170 34" fill="none" aria-hidden="true"><path d="M6 18c35-22 48 14 79 2 30-11 38-1 78-3" stroke="#b8c9c4" stroke-width="1.6"/><circle cx="84" cy="16" r="4" fill="#ecd9d3"/></svg>
-            <h2 data-i18n="churchTitle">Church Ceremony</h2>
-            <div class="sub" data-i18n="churchSubtitle">Ceremonia Religiosa</div>
-            <div class="time">1:00 PM</div>
-            <p class="venue" data-i18n="churchVenue">
-              Orthodox Coptic Church of Our Lady of Guadalupe and Saint Mark
-            </p>
-            <p class="address">Carr Yautepec-Tlayacapan 25<br/>Barrio de Texcalpan<br/>Tlayacapan, Morelos, Mexico</p>
-            <div class="hint" data-i18n="hint">Tap page corner to continue</div>
-          </div>
-          <div class="back paper"></div>
-        </section>
+    <section class="fold-list">
+      <details open>
+        <summary><span data-i18n="ceremonyTitle">Ceremony & Celebration</span><span class="chevron">⌄</span></summary>
+        <div class="fold-body">
+          <p data-i18n="ceremonyBody">A formal invitation with full timeline is coming soon. For now, please save the date for a church ceremony and reception in Tepoztlán.</p>
+          <ul>
+            <li><strong data-i18n="churchLabel">Church ceremony:</strong> 1:00 PM</li>
+            <li><strong data-i18n="receptionLabel">Reception:</strong> 4:00 PM</li>
+          </ul>
+        </div>
+      </details>
 
-        <section class="page three" data-page="2">
-          <div class="front paper">
-            <svg class="floral top-left" viewBox="0 0 120 120" fill="none" aria-hidden="true"><path d="M15 102c30-13 42-42 44-84" stroke="#a8bdb8" stroke-width="1.6"/><path d="M38 48c8-9 19-10 28-2-8 11-21 12-28 2Z" fill="#f4ebe7"/><path d="M62 76c8-8 18-8 25 1-8 9-19 8-25-1Z" fill="#e7d2cd"/></svg>
-            <svg class="floral bottom-right" viewBox="0 0 120 120" fill="none" aria-hidden="true"><path d="M15 102c30-13 42-42 44-84" stroke="#a8bdb8" stroke-width="1.6"/><path d="M38 48c8-9 19-10 28-2-8 11-21 12-28 2Z" fill="#f4ebe7"/><path d="M62 76c8-8 18-8 25 1-8 9-19 8-25-1Z" fill="#e7d2cd"/></svg>
-            <div class="icon">🌿</div>
-            <svg class="divider" viewBox="0 0 170 34" fill="none" aria-hidden="true"><path d="M6 18c35-22 48 14 79 2 30-11 38-1 78-3" stroke="#b8c9c4" stroke-width="1.6"/><circle cx="84" cy="16" r="4" fill="#ecd9d3"/></svg>
-            <h2 data-i18n="receptionTitle">Reception</h2>
-            <div class="sub" data-i18n="receptionSubtitle">Recepción</div>
-            <div class="time">4:00 PM</div>
-            <p class="venue">El Suspiro<br/>Tepoztlán</p>
-            <p class="address">Carretera Cuernavaca-Tepoztlán 16.5<br/>Col del Tesoro<br/>Tepoztlán, Morelos, Mexico</p>
-            <div class="hint" data-i18n="hint">Tap page corner to continue</div>
-          </div>
-          <div class="back paper"></div>
-        </section>
+      <details>
+        <summary><span data-i18n="travelTitle">International Travel</span><span class="chevron">⌄</span></summary>
+        <div class="fold-body">
+          <p data-i18n="travelBody">Because this is an international wedding, we recommend flying to either Mexico City (MEX) or Puebla (PBC). We will coordinate transportation to Tepoztlán.</p>
+          <ul>
+            <li data-i18n="travelItem1">Preferred arrival airports: Mexico City or Puebla.</li>
+            <li data-i18n="travelItem2">Please share your itinerary once booked.</li>
+            <li data-i18n="travelItem3">Group transportation updates will be shared after RSVP.</li>
+          </ul>
+        </div>
+      </details>
 
-        <section class="page four" data-page="3">
-          <div class="front paper">
-            <svg class="divider" viewBox="0 0 170 34" fill="none" aria-hidden="true"><path d="M6 18c35-22 48 14 79 2 30-11 38-1 78-3" stroke="#b8c9c4" stroke-width="1.6"/><circle cx="84" cy="16" r="4" fill="#ecd9d3"/></svg>
-            <h1 class="final-message" data-i18n="final1">We Can't Wait to<br/>Celebrate With You</h1>
-            <h1 class="final-message" style="font-size: clamp(1.8rem,4.7vw,2.15rem); color:#837264" data-i18n="final2">Esperamos Celebrar<br/>Contigo</h1>
-            <div style="font-size:1.4rem; color:#9b8b7f; margin:0.25rem 0;">~</div>
-            <p class="ending" data-i18n="formal">Formal invitation to follow</p>
-            <p class="ending" data-i18n="formalEs">Invitación formal a seguir</p>
-            <button class="view-again" id="restart" data-i18n="restart">View Again</button>
+      <details>
+        <summary><span data-i18n="stayTitle">Accommodation Options</span><span class="chevron">⌄</span></summary>
+        <div class="fold-body">
+          <p data-i18n="stayBody">We will send recommended hotels and stays at different price ranges so everyone can choose what works best.</p>
+          <ul>
+            <li data-i18n="stayItem1">Boutique hotel options near venue.</li>
+            <li data-i18n="stayItem2">Family-friendly options and shared villa ideas.</li>
+            <li data-i18n="stayItem3">Room block details in the formal invitation.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary><span data-i18n="coordTitle">Transportation & Coordination</span><span class="chevron">⌄</span></summary>
+        <div class="fold-body">
+          <p data-i18n="coordBody">Need help with transfers, arrival times, or local logistics? Please coordinate with Bishoy and we will help organize transportation.</p>
+          <ul>
+            <li data-i18n="coordItem1">Airport-to-hotel transfers available.</li>
+            <li data-i18n="coordItem2">Group shuttle details will follow.</li>
+            <li data-i18n="coordItem3">Contact details will be included in RSVP confirmation.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary><span data-i18n="rsvpTitle">RSVP Details We Need</span><span class="chevron">⌄</span></summary>
+        <div class="fold-body">
+          <p data-i18n="rsvpBody">When RSVP opens, please fill in the details below — especially food allergies.</p>
+          <div class="grid-two">
+            <div class="field" data-i18n="field1">Full name(s)</div>
+            <div class="field" data-i18n="field2">Phone / WhatsApp</div>
+            <div class="field" data-i18n="field3">Email address</div>
+            <div class="field" data-i18n="field4">Arrival & departure flights</div>
+            <div class="field" data-i18n="field5">Hotel / accommodation choice</div>
+            <div class="field" data-i18n="field6">Food allergies or dietary restrictions</div>
+            <div class="field" data-i18n="field7">Plus-one / family attending</div>
+            <div class="field" data-i18n="field8">Transportation assistance needed</div>
           </div>
-          <div class="back paper"></div>
-        </section>
-      </div>
-    </main>
-  </div>
+        </div>
+      </details>
+
+      <details>
+        <summary><span data-i18n="extraTitle">What Else Should a Great Save the Date Include?</span><span class="chevron">⌄</span></summary>
+        <div class="fold-body">
+          <ul>
+            <li data-i18n="extra1">Wedding website link and update timeline.</li>
+            <li data-i18n="extra2">Recommended travel window (arrive at least one day early).</li>
+            <li data-i18n="extra3">Expected weather + dress guidance.</li>
+            <li data-i18n="extra4">Passport / visa reminder for international guests.</li>
+            <li data-i18n="extra5">Local emergency contact and weekend FAQ.</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+
+    <p class="footer-note" data-i18n="footer">Formal invitation to follow • Invitación formal a seguir</p>
+  </main>
 
   <script>
-    const state = { lang: 'en', current: 0 };
-
     const i18n = {
       en: {
-        tap: 'Tap to reveal details',
-        churchTitle: 'Church Ceremony',
-        churchSubtitle: 'Ceremonia Religiosa',
-        churchVenue: 'Orthodox Coptic Church of Our Lady of Guadalupe and Saint Mark',
-        receptionTitle: 'Reception',
-        receptionSubtitle: 'Recepción',
-        final1: "We Can't Wait to\nCelebrate With You",
-        final2: 'Esperamos Celebrar\nContigo',
-        formal: 'Formal invitation to follow',
-        formalEs: 'Invitación formal a seguir',
-        restart: 'View Again',
-        hint: 'Tap page corner to continue'
+        date: 'Saturday, September 27, 2026',
+        location: 'Tepoztlán, Morelos, Mexico',
+        scrollHint: 'Scroll down and open each folded paper section ✨',
+        ceremonyTitle: 'Ceremony & Celebration',
+        ceremonyBody: 'A formal invitation with full timeline is coming soon. For now, please save the date for a church ceremony and reception in Tepoztlán.',
+        churchLabel: 'Church ceremony',
+        receptionLabel: 'Reception',
+        travelTitle: 'International Travel',
+        travelBody: 'Because this is an international wedding, we recommend flying to either Mexico City (MEX) or Puebla (PBC). We will coordinate transportation to Tepoztlán.',
+        travelItem1: 'Preferred arrival airports: Mexico City or Puebla.',
+        travelItem2: 'Please share your itinerary once booked.',
+        travelItem3: 'Group transportation updates will be shared after RSVP.',
+        stayTitle: 'Accommodation Options',
+        stayBody: 'We will send recommended hotels and stays at different price ranges so everyone can choose what works best.',
+        stayItem1: 'Boutique hotel options near venue.',
+        stayItem2: 'Family-friendly options and shared villa ideas.',
+        stayItem3: 'Room block details in the formal invitation.',
+        coordTitle: 'Transportation & Coordination',
+        coordBody: 'Need help with transfers, arrival times, or local logistics? Please coordinate with Bishoy and we will help organize transportation.',
+        coordItem1: 'Airport-to-hotel transfers available.',
+        coordItem2: 'Group shuttle details will follow.',
+        coordItem3: 'Contact details will be included in RSVP confirmation.',
+        rsvpTitle: 'RSVP Details We Need',
+        rsvpBody: 'When RSVP opens, please fill in the details below — especially food allergies.',
+        field1: 'Full name(s)',
+        field2: 'Phone / WhatsApp',
+        field3: 'Email address',
+        field4: 'Arrival & departure flights',
+        field5: 'Hotel / accommodation choice',
+        field6: 'Food allergies or dietary restrictions',
+        field7: 'Plus-one / family attending',
+        field8: 'Transportation assistance needed',
+        extraTitle: 'What Else Should a Great Save the Date Include?',
+        extra1: 'Wedding website link and update timeline.',
+        extra2: 'Recommended travel window (arrive at least one day early).',
+        extra3: 'Expected weather + dress guidance.',
+        extra4: 'Passport / visa reminder for international guests.',
+        extra5: 'Local emergency contact and weekend FAQ.',
+        footer: 'Formal invitation to follow • Invitación formal a seguir'
       },
       es: {
-        tap: 'Toca para ver detalles',
-        churchTitle: 'Ceremonia Religiosa',
-        churchSubtitle: 'Church Ceremony',
-        churchVenue: 'Iglesia Copta Ortodoxa Santa María y San Marcos',
-        receptionTitle: 'Recepción',
-        receptionSubtitle: 'Reception',
-        final1: 'Esperamos Celebrar\nContigo',
-        final2: "We Can't Wait to\nCelebrate With You",
-        formal: 'Invitación formal a seguir',
-        formalEs: 'Formal invitation to follow',
-        restart: 'Ver otra vez',
-        hint: 'Toca la esquina para continuar'
+        date: 'Sábado, 27 de septiembre de 2026',
+        location: 'Tepoztlán, Morelos, México',
+        scrollHint: 'Desliza hacia abajo y abre cada sección de papel doblado ✨',
+        ceremonyTitle: 'Ceremonia y Celebración',
+        ceremonyBody: 'La invitación formal con el itinerario completo llegará pronto. Por ahora, aparta la fecha para la ceremonia religiosa y la recepción en Tepoztlán.',
+        churchLabel: 'Ceremonia religiosa',
+        receptionLabel: 'Recepción',
+        travelTitle: 'Viaje Internacional',
+        travelBody: 'Como esta es una boda internacional, recomendamos volar a Ciudad de México (MEX) o Puebla (PBC). Coordinaremos transporte a Tepoztlán.',
+        travelItem1: 'Aeropuertos recomendados: Ciudad de México o Puebla.',
+        travelItem2: 'Por favor comparte tu itinerario cuando reserves.',
+        travelItem3: 'Las actualizaciones de transporte grupal se enviarán después del RSVP.',
+        stayTitle: 'Opciones de Hospedaje',
+        stayBody: 'Compartiremos hoteles y hospedajes recomendados en diferentes rangos de precio para que cada invitado elija la mejor opción.',
+        stayItem1: 'Opciones tipo boutique cerca de la sede.',
+        stayItem2: 'Opciones familiares e ideas de villas compartidas.',
+        stayItem3: 'Detalles de bloqueos de habitaciones en la invitación formal.',
+        coordTitle: 'Transporte y Coordinación',
+        coordBody: '¿Necesitas ayuda con traslados, horarios de llegada o logística local? Coordina con Bishoy y te ayudaremos a organizar transporte.',
+        coordItem1: 'Traslados aeropuerto-hotel disponibles.',
+        coordItem2: 'Los detalles del shuttle grupal se compartirán pronto.',
+        coordItem3: 'Los datos de contacto se incluirán tras confirmar RSVP.',
+        rsvpTitle: 'Datos que Necesitamos para RSVP',
+        rsvpBody: 'Cuando abramos el RSVP, por favor completa estos datos — especialmente alergias alimentarias.',
+        field1: 'Nombre(s) completo(s)',
+        field2: 'Teléfono / WhatsApp',
+        field3: 'Correo electrónico',
+        field4: 'Vuelos de llegada y salida',
+        field5: 'Hotel / hospedaje elegido',
+        field6: 'Alergias alimentarias o restricciones',
+        field7: 'Acompañante / familia que asiste',
+        field8: 'Si necesitas ayuda con transporte',
+        extraTitle: '¿Qué Más Debe Incluir un Buen Save the Date?',
+        extra1: 'Enlace al sitio web de la boda y cronograma de actualizaciones.',
+        extra2: 'Ventana recomendada de viaje (llegar al menos un día antes).',
+        extra3: 'Clima estimado + guía de vestimenta.',
+        extra4: 'Recordatorio de pasaporte / visa para invitados internacionales.',
+        extra5: 'Contacto local de emergencia y FAQ del fin de semana.',
+        footer: 'Invitación formal a seguir • Formal invitation to follow'
       }
     };
 
     const languageScreen = document.getElementById('languageScreen');
-    const bookWrap = document.getElementById('bookWrap');
-    const pages = Array.from(document.querySelectorAll('.page'));
+    const site = document.getElementById('site');
 
-    function applyLanguage() {
+    function applyLanguage(lang) {
       document.querySelectorAll('[data-i18n]').forEach((node) => {
         const key = node.getAttribute('data-i18n');
-        const value = i18n[state.lang][key];
-        if (!value) return;
-        node.innerHTML = value.replaceAll('\n', '<br/>');
+        const value = i18n[lang][key];
+        if (value) node.textContent = value;
       });
+      document.documentElement.lang = lang;
     }
 
-    function nextPage(pageIndex) {
-      const page = pages[pageIndex];
-      if (!page || page.classList.contains('flipped') || page.classList.contains('four')) return;
-      page.classList.add('flipped');
-      state.current = Math.min(state.current + 1, pages.length - 1);
-    }
-
-    function resetBook() {
-      pages.forEach((page) => page.classList.remove('flipped'));
-      state.current = 0;
-      bookWrap.scrollTo({ top: 0 });
-    }
-
-    document.querySelectorAll('button[data-lang]').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        state.lang = btn.dataset.lang;
-        applyLanguage();
-        languageScreen.classList.add('hidden');
-        setTimeout(() => {
-          languageScreen.style.display = 'none';
-          bookWrap.classList.add('active');
-        }, 450);
+    document.querySelectorAll('button[data-lang]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const lang = button.dataset.lang;
+        applyLanguage(lang);
+        languageScreen.style.display = 'none';
+        site.classList.add('active');
       });
     });
-
-    pages.forEach((page, idx) => {
-      page.addEventListener('click', () => nextPage(idx));
-    });
-
-    document.getElementById('restart').addEventListener('click', (e) => {
-      e.stopPropagation();
-      resetBook();
-    });
-
-    applyLanguage();
   </script>
 </body>
 </html>
