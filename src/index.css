@@ -1,0 +1,204 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 48 33% 96%;
+    --foreground: 78 22% 20%;
+
+    --card: 42 30% 94%;
+    --card-foreground: 78 22% 20%;
+
+    --popover: 48 33% 96%;
+    --popover-foreground: 78 22% 20%;
+
+    --primary: 78 21% 28%;
+    --primary-foreground: 48 33% 96%;
+
+    --secondary: 42 25% 90%;
+    --secondary-foreground: 78 22% 20%;
+
+    --muted: 42 18% 88%;
+    --muted-foreground: 78 10% 42%;
+
+    --accent: 42 43% 53%;
+    --accent-foreground: 42 15% 12%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 48 33% 96%;
+
+    --border: 42 22% 78%;
+    --input: 42 22% 82%;
+    --ring: 42 43% 53%;
+
+    --radius: 0.125rem;
+
+    --gold: 42 43% 53%;
+    --gold-light: 42 55% 72%;
+    --olive: 78 21% 28%;
+    --olive-light: 78 12% 55%;
+    --parchment: 48 33% 96%;
+    --parchment-warm: 40 30% 92%;
+    --seal: 0 35% 30%;
+    --seal-light: 0 30% 42%;
+
+    --sidebar-background: 48 33% 96%;
+    --sidebar-foreground: 78 22% 20%;
+    --sidebar-primary: 78 21% 28%;
+    --sidebar-primary-foreground: 48 33% 96%;
+    --sidebar-accent: 42 25% 90%;
+    --sidebar-accent-foreground: 78 22% 20%;
+    --sidebar-border: 42 22% 78%;
+    --sidebar-ring: 42 43% 53%;
+  }
+
+  .dark {
+    --background: 48 33% 96%;
+    --foreground: 78 22% 20%;
+    --card: 42 30% 94%;
+    --card-foreground: 78 22% 20%;
+    --popover: 48 33% 96%;
+    --popover-foreground: 78 22% 20%;
+    --primary: 78 21% 28%;
+    --primary-foreground: 48 33% 96%;
+    --secondary: 42 25% 90%;
+    --secondary-foreground: 78 22% 20%;
+    --muted: 42 18% 88%;
+    --muted-foreground: 78 10% 42%;
+    --accent: 42 43% 53%;
+    --accent-foreground: 42 15% 12%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 48 33% 96%;
+    --border: 42 22% 78%;
+    --input: 42 22% 82%;
+    --ring: 42 43% 53%;
+    --sidebar-background: 48 33% 96%;
+    --sidebar-foreground: 78 22% 20%;
+    --sidebar-primary: 78 21% 28%;
+    --sidebar-primary-foreground: 48 33% 96%;
+    --sidebar-accent: 42 25% 90%;
+    --sidebar-accent-foreground: 78 22% 20%;
+    --sidebar-border: 42 22% 78%;
+    --sidebar-ring: 42 43% 53%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@layer components {
+  .font-script {
+    font-family: 'Great Vibes', cursive;
+  }
+
+  .font-serif {
+    font-family: 'Playfair Display', serif;
+  }
+
+  .vintage-card {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    box-shadow:
+      inset 0 0 0 3px hsl(var(--card)),
+      inset 0 0 0 4px hsl(var(--border) / 0.5),
+      0 4px 24px hsl(var(--olive) / 0.06);
+  }
+
+  .vintage-input {
+    background: hsl(var(--parchment));
+    border: 1px solid hsl(var(--border));
+    font-family: 'Playfair Display', serif;
+    transition: border-color 200ms ease;
+  }
+
+  .vintage-input:focus {
+    border-color: hsl(var(--accent));
+    outline: none;
+    box-shadow: 0 0 0 2px hsl(var(--accent) / 0.15);
+  }
+
+  .gold-text {
+    color: hsl(var(--accent));
+  }
+
+  .gold-shimmer {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--gold)) 0%,
+      hsl(var(--gold-light)) 25%,
+      hsl(var(--gold)) 50%,
+      hsl(var(--gold-light)) 75%,
+      hsl(var(--gold)) 100%
+    );
+    background-size: 200% 200%;
+    animation: shimmer 4s ease-in-out infinite;
+  }
+
+  .ornament-line {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .ornament-line::before,
+  .ornament-line::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(var(--border)),
+      transparent
+    );
+  }
+}
+
+@keyframes shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes stroke-draw {
+  from { stroke-dashoffset: 300; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes flip-in {
+  from {
+    transform: rotateX(90deg);
+    opacity: 0;
+  }
+  to {
+    transform: rotateX(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes flip-out {
+  from {
+    transform: rotateX(0deg);
+    opacity: 1;
+  }
+  to {
+    transform: rotateX(-90deg);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
