@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { memo, useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const WEDDING_DATE = new Date("2026-07-18T13:00:00-06:00");
@@ -20,31 +20,40 @@ interface FlipDigitProps {
   label: string;
 }
 
-const FlipDigit = ({ value, label }: FlipDigitProps) => {
+const FlipDigit = memo(({ value, label }: FlipDigitProps) => {
   const display = String(value).padStart(2, "0");
+  const [pulse, setPulse] = useState(0);
+  const firstPaint = useRef(true);
+
+  useEffect(() => {
+    if (firstPaint.current) {
+      firstPaint.current = false;
+      return;
+    }
+    setPulse((n) => n + 1);
+  }, [display]);
 
   return (
     <div className="flex flex-col items-center">
       <div className="relative w-16 h-20 sm:w-20 sm:h-24 vintage-card flex items-center justify-center overflow-hidden">
-        <AnimatePresence initial={false} mode="wait">
-          <motion.span
-            key={display}
-            initial={{ y: -12, opacity: 0.35 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 12, opacity: 0.35 }}
-            transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
-            className="text-2xl sm:text-3xl font-serif font-bold text-foreground absolute tabular-nums will-change-transform"
-          >
-            {display}
-          </motion.span>
-        </AnimatePresence>
+        <motion.span
+          animate={
+            pulse === 0
+              ? { y: 0, opacity: 1 }
+              : { y: [-5, 0], opacity: [0.72, 1] }
+          }
+          transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          className="text-2xl sm:text-3xl font-serif font-bold text-foreground absolute tabular-nums will-change-transform"
+        >
+          {display}
+        </motion.span>
       </div>
       <span className="mt-2 text-xs sm:text-sm tracking-[0.2em] uppercase text-muted-foreground font-serif">
         {label}
       </span>
     </div>
   );
-};
+});
 
 export const CountdownTimer = () => {
   const { t } = useLanguage();
