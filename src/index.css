@@ -109,21 +109,24 @@
     border: 1px solid hsl(var(--border));
     box-shadow:
       inset 0 0 0 3px hsl(var(--card)),
-      inset 0 0 0 4px hsl(var(--border) / 0.5),
-      0 4px 24px hsl(var(--olive) / 0.06);
+      inset 0 0 0 4px hsl(var(--border) / 0.55),
+      0 8px 40px hsl(var(--olive) / 0.09),
+      0 2px 8px hsl(var(--gold) / 0.07),
+      0 1px 2px hsl(var(--olive) / 0.08);
   }
 
   .vintage-input {
-    background: hsl(var(--parchment));
+    background: hsl(var(--parchment-warm));
     border: 1px solid hsl(var(--border));
     font-family: 'Playfair Display', serif;
-    transition: border-color 200ms ease;
+    font-size: 1rem;
+    transition: border-color 220ms ease, box-shadow 220ms ease;
   }
 
   .vintage-input:focus {
-    border-color: hsl(var(--accent));
+    border-color: hsl(var(--gold));
     outline: none;
-    box-shadow: 0 0 0 2px hsl(var(--accent) / 0.15);
+    box-shadow: 0 0 0 3px hsl(var(--gold) / 0.12), 0 1px 4px hsl(var(--gold) / 0.08);
   }
 
   .gold-text {
@@ -132,15 +135,16 @@
 
   .gold-shimmer {
     background: linear-gradient(
-      135deg,
+      115deg,
       hsl(var(--gold)) 0%,
-      hsl(var(--gold-light)) 25%,
+      hsl(var(--gold-light)) 22%,
+      hsl(42 70% 82%) 38%,
       hsl(var(--gold)) 50%,
-      hsl(var(--gold-light)) 75%,
+      hsl(var(--gold-light)) 72%,
       hsl(var(--gold)) 100%
     );
-    background-size: 200% 200%;
-    animation: shimmer 4s ease-in-out infinite;
+    background-size: 250% 250%;
+    animation: shimmer 3.5s ease-in-out infinite;
   }
 
   .ornament-line {
@@ -157,9 +161,27 @@
     background: linear-gradient(
       90deg,
       transparent,
+      hsl(var(--gold) / 0.55),
       hsl(var(--border)),
+      hsl(var(--gold) / 0.55),
       transparent
     );
+    animation: ornamentFlow 6s ease-in-out infinite;
+    background-size: 200% 100%;
+  }
+
+  .ornament-line span {
+    animation: ornamentPulse 3.6s ease-in-out infinite;
+  }
+
+  .page-vignette {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% 0%, hsl(var(--gold) / 0.05) 0%, transparent 65%),
+      radial-gradient(ellipse 60% 40% at 50% 100%, hsl(var(--olive) / 0.04) 0%, transparent 60%);
   }
 }
 
@@ -193,6 +215,16 @@
     transform: rotateX(-90deg);
     opacity: 0;
   }
+}
+
+@keyframes ornamentFlow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes ornamentPulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.1); opacity: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {

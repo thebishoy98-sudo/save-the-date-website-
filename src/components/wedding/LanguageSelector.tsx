@@ -28,9 +28,8 @@ export const LanguageSelector = () => {
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="text-center space-y-10 px-6"
           >
-            {/* Decorative top */}
             <div className="space-y-3">
-              <p className="font-script text-4xl sm:text-5xl gold-text">B & A</p>
+              <p className="font-script text-4xl sm:text-5xl gold-text">A & B</p>
               <div className="w-16 h-px bg-border mx-auto" />
             </div>
 
@@ -62,7 +61,7 @@ export const LanguageSelector = () => {
             </div>
 
             <p className="text-xs text-muted-foreground font-serif">
-              18 · 07 · 2026 — Tepoztlán, Morelos
+              July 18, 2026 — Tepoztlán, Morelos
             </p>
           </motion.div>
         </motion.div>

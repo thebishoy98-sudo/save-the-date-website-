@@ -45,7 +45,7 @@ export const EnvelopeReveal = () => {
                 }}
               >
                 <p className="text-xs tracking-[0.3em] uppercase text-muted-foreground mb-3">{t("envelope.label")}</p>
-                <p className="font-script text-2xl sm:text-3xl gold-text mb-2">Bishoy & Arantxa</p>
+                <p className="font-script text-2xl sm:text-3xl gold-text mb-2">Arantxa & Bishoy</p>
                 <div className="w-12 h-px bg-border my-3" />
                 <p className="text-sm text-muted-foreground font-serif">{t("envelope.request")}</p>
                 <p className="text-sm text-muted-foreground font-serif">{t("envelope.ceremony")}</p>
@@ -104,7 +104,7 @@ export const EnvelopeReveal = () => {
             className="text-center max-w-lg space-y-6"
           >
             <p className="text-xs tracking-[0.3em] uppercase text-muted-foreground">{t("envelope.blessing")}</p>
-            <h2 className="font-script text-4xl sm:text-5xl gold-text">Bishoy & Arantxa</h2>
+            <h2 className="font-script text-4xl sm:text-5xl gold-text">Arantxa & Bishoy</h2>
             <p className="text-base text-foreground leading-relaxed font-serif">{t("envelope.honor")}</p>
             <p className="text-2xl font-serif tracking-[0.15em] text-foreground">{t("envelope.date")}</p>
             <p className="text-base text-foreground font-serif">{t("envelope.place")}</p>

@@ -24,8 +24,8 @@ const translations: Record<string, Record<Language, string>> = {
   "envelope.request": { es: "Solicitan el honor de su presencia", en: "Request the honor of your presence" },
   "envelope.ceremony": { es: "en su ceremonia de matrimonio", en: "at their wedding ceremony" },
   "envelope.tap": { es: "Toca para abrir", en: "Tap to open" },
-  "envelope.blessing": { es: "Con la bendición de Dios y de nuestras familias", en: "With God's blessing and that of our families" },
-  "envelope.honor": { es: "Tienen el honor de invitarle a celebrar su unión en matrimonio el día", en: "Have the honor of inviting you to celebrate their union in marriage on" },
+  "envelope.blessing": { es: "Con la bendición de Dios y la alegría de nuestras familias", en: "With God's blessing and the joy of our families" },
+  "envelope.honor": { es: "les invitan a compartir la celebración de su matrimonio el día", en: "invite you to share in the celebration of their marriage on" },
   "envelope.date": { es: "Sábado, 18 de Julio de 2026", en: "Saturday, July 18, 2026" },
   "envelope.place": { es: "Tepoztlán, Morelos, México", en: "Tepoztlán, Morelos, Mexico" },
   "envelope.details": { es: "Detalles a continuación", en: "Details below" },
@@ -45,6 +45,8 @@ const translations: Record<string, Record<Language, string>> = {
   "dress.title": { es: "Formal", en: "Formal" },
   "dress.men": { es: "Caballeros", en: "Gentlemen" },
   "dress.women": { es: "Damas", en: "Ladies" },
+  "dress.men.desc": { es: "Traje oscuro o esmoquin · Corbata o moño", en: "Dark suit or tuxedo · Tie or bow tie" },
+  "dress.women.desc": { es: "Vestido de gala o cóctel", en: "Formal gown or cocktail dress" },
   "dress.note": { es: "Favor de evitar el color blanco y crema.", en: "Please avoid wearing white or cream." },
 
   // Gifts
@@ -73,6 +75,9 @@ const translations: Record<string, Record<Language, string>> = {
   "rsvp.submit": { es: "Confirmar Asistencia", en: "Confirm Attendance" },
   "rsvp.thanks": { es: "¡Gracias!", en: "Thank you!" },
   "rsvp.thanks.message": { es: "Hemos recibido tu confirmación. ¡Nos vemos pronto!", en: "We've received your confirmation. See you soon!" },
+  "rsvp.hotel": { es: "Hotel de preferencia", en: "Preferred hotel" },
+  "rsvp.hotel.placeholder": { es: "Selecciona un hotel...", en: "Select a hotel..." },
+  "rsvp.hotel.other": { es: "Otro / No estoy seguro", en: "Other / Not sure yet" },
 
   // Hotels
   "hotels.label": { es: "Hospedaje", en: "Accommodation" },

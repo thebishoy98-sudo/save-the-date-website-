@@ -8,7 +8,8 @@ import { DressCodeCard } from "@/components/wedding/DressCodeCard";
 import { GiftsCard } from "@/components/wedding/GiftsCard";
 import { RSVPForm } from "@/components/wedding/RSVPForm";
 import { HotelSection } from "@/components/wedding/HotelSection";
-import { PhotoBreak1, PhotoBreak2, PhotoBreak3 } from "@/components/wedding/PhotoBreak";
+import { PhotoBreak1, PhotoBreak3 } from "@/components/wedding/PhotoBreak";
+import { ExperienceMotion } from "@/components/wedding/ExperienceMotion";
 
 const WeddingContent = () => {
   const { t } = useLanguage();
@@ -26,6 +27,8 @@ const WeddingContent = () => {
 
   return (
     <main className="min-h-screen bg-background relative">
+      <div className="page-vignette" aria-hidden />
+      <ExperienceMotion />
       {showOverlay && (
         <div className="fixed inset-0 z-50 pointer-events-none opacity-50 bg-accent/10 flex items-center justify-center">
           <p className="text-foreground text-sm font-serif">Reference Overlay (Press R to hide)</p>
@@ -51,8 +54,6 @@ const WeddingContent = () => {
 
       <DressCodeCard />
 
-      <PhotoBreak2 />
-
       <GiftsCard />
 
       <div className="ornament-line max-w-xs mx-auto px-6">
@@ -74,7 +75,7 @@ const WeddingContent = () => {
       <RSVPForm />
 
       <footer className="py-16 text-center">
-        <p className="font-script text-2xl gold-text mb-2">Bishoy & Arantxa</p>
+        <p className="font-script text-2xl gold-text mb-2">Arantxa & Bishoy</p>
         <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground font-serif">
           {t("footer.date")}
         </p>

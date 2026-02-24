@@ -14,12 +14,12 @@ export const SectionReveal = ({ children, className, delay = 0 }: SectionRevealP
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      initial={{ opacity: 0, y: 36, scale: 0.985, filter: "blur(5px)" }}
+      animate={isInView ? { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" } : {}}
       transition={{
-        duration: 0.9,
+        duration: 1,
         delay,
-        ease: [0.22, 1, 0.36, 1],
+        ease: [0.16, 1, 0.3, 1],
       }}
       className={className}
     >

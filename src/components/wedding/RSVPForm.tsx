@@ -7,7 +7,7 @@ export const RSVPForm = () => {
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({
     nombre: "", confirmacion: "", numInvitados: "1",
-    telefono: "", alergias: "", aeropuerto: "", transporte: "",
+    telefono: "", aeropuerto: "", transporte: "", hotel: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -25,7 +25,7 @@ export const RSVPForm = () => {
       <section className="py-16 px-6">
         <div className="max-w-md mx-auto vintage-card rounded-sm p-10 text-center space-y-4">
           <h2 className="font-script text-3xl gold-text">{t("rsvp.thanks")}</h2>
-          <p className="text-sm text-muted-foreground font-serif">{t("rsvp.thanks.message")}</p>
+          <p className="text-base text-muted-foreground font-serif">{t("rsvp.thanks.message")}</p>
         </div>
       </section>
     );
@@ -44,7 +44,7 @@ export const RSVPForm = () => {
             <div className="space-y-2">
               <label className="text-xs tracking-[0.2em] uppercase text-muted-foreground font-serif">{t("rsvp.name")}</label>
               <input type="text" name="nombre" required value={form.nombre} onChange={handleChange}
-                className="w-full px-4 py-3 vintage-input rounded-sm text-sm" placeholder={t("rsvp.name.placeholder")} />
+                className="w-full px-4 py-3 vintage-input rounded-sm text-base" placeholder={t("rsvp.name.placeholder")} />
             </div>
 
             <div className="space-y-2">
@@ -52,11 +52,11 @@ export const RSVPForm = () => {
               <div className="flex gap-4">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="radio" name="confirmacion" value="si" required onChange={handleChange} className="accent-accent" />
-                  <span className="text-sm font-serif text-foreground">{t("rsvp.confirm.yes")}</span>
+                  <span className="text-base font-serif text-foreground">{t("rsvp.confirm.yes")}</span>
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="radio" name="confirmacion" value="no" onChange={handleChange} className="accent-accent" />
-                  <span className="text-sm font-serif text-foreground">{t("rsvp.confirm.no")}</span>
+                  <span className="text-base font-serif text-foreground">{t("rsvp.confirm.no")}</span>
                 </label>
               </div>
             </div>
@@ -64,21 +64,15 @@ export const RSVPForm = () => {
             <div className="space-y-2">
               <label className="text-xs tracking-[0.2em] uppercase text-muted-foreground font-serif">{t("rsvp.guests")}</label>
               <select name="numInvitados" value={form.numInvitados} onChange={handleChange}
-                className="w-full px-4 py-3 vintage-input rounded-sm text-sm appearance-none">
-                {[1, 2, 3, 4, 5].map(n => <option key={n} value={n}>{n}</option>)}
+                className="w-full px-4 py-3 vintage-input rounded-sm text-base appearance-none">
+                {[1, 2].map(n => <option key={n} value={n}>{n}</option>)}
               </select>
             </div>
 
             <div className="space-y-2">
               <label className="text-xs tracking-[0.2em] uppercase text-muted-foreground font-serif">{t("rsvp.phone")}</label>
               <input type="tel" name="telefono" value={form.telefono} onChange={handleChange}
-                className="w-full px-4 py-3 vintage-input rounded-sm text-sm" placeholder="+52 ..." />
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-xs tracking-[0.2em] uppercase text-muted-foreground font-serif">{t("rsvp.allergies")}</label>
-              <textarea name="alergias" value={form.alergias} onChange={handleChange} rows={3}
-                className="w-full px-4 py-3 vintage-input rounded-sm text-sm resize-none" placeholder={t("rsvp.allergies.placeholder")} />
+                className="w-full px-4 py-3 vintage-input rounded-sm text-base" placeholder="+52 ..." />
             </div>
 
             <div className="space-y-2">
@@ -86,11 +80,11 @@ export const RSVPForm = () => {
               <div className="flex gap-4">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="radio" name="aeropuerto" value="PBC" onChange={handleChange} className="accent-accent" />
-                  <span className="text-sm font-serif text-foreground">Puebla (PBC)</span>
+                  <span className="text-base font-serif text-foreground">Puebla (PBC)</span>
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="radio" name="aeropuerto" value="MEX" onChange={handleChange} className="accent-accent" />
-                  <span className="text-sm font-serif text-foreground">CDMX (MEX)</span>
+                  <span className="text-base font-serif text-foreground">CDMX (MEX)</span>
                 </label>
               </div>
             </div>
@@ -100,13 +94,30 @@ export const RSVPForm = () => {
               <div className="flex gap-4">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="radio" name="transporte" value="si" onChange={handleChange} className="accent-accent" />
-                  <span className="text-sm font-serif text-foreground">{t("rsvp.transport.yes")}</span>
+                  <span className="text-base font-serif text-foreground">{t("rsvp.transport.yes")}</span>
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="radio" name="transporte" value="no" onChange={handleChange} className="accent-accent" />
-                  <span className="text-sm font-serif text-foreground">{t("rsvp.transport.no")}</span>
+                  <span className="text-base font-serif text-foreground">{t("rsvp.transport.no")}</span>
                 </label>
               </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-xs tracking-[0.2em] uppercase text-muted-foreground font-serif">{t("rsvp.hotel")}</label>
+              <select name="hotel" value={form.hotel} onChange={handleChange}
+                className="w-full px-4 py-3 vintage-input rounded-sm text-base appearance-none">
+                <option value="">{t("rsvp.hotel.placeholder")}</option>
+                <option value="posada">Posada del Tepozteco ★★★★</option>
+                <option value="palacio">Palacio del Cobre ★★★★</option>
+                <option value="casa-fernanda">Casa Fernanda Hotel Boutique ★★★★★</option>
+                <option value="tatala">Hotel Tatala ★★★</option>
+                <option value="buena-vibra">La Buena Vibra Wellness Resort ★★★★★</option>
+                <option value="castillo">Hotel Boutique Castillo Piedras Vivas ★★★</option>
+                <option value="amomoxtli">Amomoxtli ★★★★★</option>
+                <option value="finca-catalina">Finca Catalina Hotel Boutique ★★★★</option>
+                <option value="other">{t("rsvp.hotel.other")}</option>
+              </select>
             </div>
 
             <div className="p-4 rounded-sm bg-secondary text-center">
@@ -116,7 +127,7 @@ export const RSVPForm = () => {
             </div>
 
             <button type="submit"
-              className="w-full py-3 rounded-sm font-serif text-sm tracking-[0.15em] uppercase transition-colors duration-200 bg-primary text-primary-foreground hover:bg-foreground">
+              className="w-full py-3 rounded-sm font-serif text-base tracking-[0.15em] uppercase transition-colors duration-200 bg-primary text-primary-foreground hover:bg-foreground">
               {t("rsvp.submit")}
             </button>
           </form>
