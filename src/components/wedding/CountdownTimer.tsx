@@ -26,14 +26,14 @@ const FlipDigit = ({ value, label }: FlipDigitProps) => {
   return (
     <div className="flex flex-col items-center">
       <div className="relative w-16 h-20 sm:w-20 sm:h-24 vintage-card flex items-center justify-center overflow-hidden">
-        <AnimatePresence>
+        <AnimatePresence initial={false} mode="wait">
           <motion.span
             key={display}
-            initial={{ y: -20, opacity: 0 }}
+            initial={{ y: -12, opacity: 0.35 }}
             animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 20, opacity: 0 }}
-            transition={{ duration: 0.22, ease: "easeOut" }}
-            className="text-2xl sm:text-3xl font-serif font-bold text-foreground absolute"
+            exit={{ y: 12, opacity: 0.35 }}
+            transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+            className="text-2xl sm:text-3xl font-serif font-bold text-foreground absolute tabular-nums will-change-transform"
           >
             {display}
           </motion.span>

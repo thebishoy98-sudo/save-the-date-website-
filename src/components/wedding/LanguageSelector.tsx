@@ -28,16 +28,47 @@ export const LanguageSelector = () => {
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="text-center space-y-10 px-6"
           >
-            <div className="space-y-3">
-              <p className="font-script text-4xl sm:text-5xl gold-text">A & B</p>
-              <div className="w-16 h-px bg-border mx-auto" />
+            {/* Monogram crest */}
+            <div className="flex flex-col items-center gap-1">
+              {/* Top ornamental rule */}
+              <div className="flex items-center gap-2">
+                <div className="w-14 h-px" style={{ background: "linear-gradient(90deg, transparent, hsl(var(--gold) / 0.6))" }} />
+                <svg width="8" height="8" viewBox="0 0 8 8" aria-hidden>
+                  <polygon points="4,0 6,4 4,8 2,4" fill="hsl(var(--accent))" opacity="0.7"/>
+                </svg>
+                <div className="w-14 h-px" style={{ background: "linear-gradient(90deg, hsl(var(--gold) / 0.6), transparent)" }} />
+              </div>
+
+              {/* A ✦ B */}
+              <div className="flex items-center" style={{ gap: "10px" }}>
+                <span className="font-script gold-text leading-none select-none" style={{ fontSize: "5.5rem" }}>A</span>
+
+                {/* Center ornament */}
+                <div className="flex flex-col items-center" style={{ gap: "4px", paddingBottom: "6px" }}>
+                  <div style={{ width: "0.5px", height: "14px", background: "hsl(var(--gold) / 0.35)" }} />
+                  <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden>
+                    <polygon points="5,0 6.5,5 5,10 3.5,5" fill="hsl(var(--accent))" opacity="0.55"/>
+                    <polygon points="0,5 5,3.5 10,5 5,6.5" fill="hsl(var(--accent))" opacity="0.55"/>
+                  </svg>
+                  <div style={{ width: "0.5px", height: "14px", background: "hsl(var(--gold) / 0.35)" }} />
+                </div>
+
+                <span className="font-script gold-text leading-none select-none" style={{ fontSize: "5.5rem" }}>B</span>
+              </div>
+
+              {/* Bottom ornamental rule */}
+              <div className="flex items-center gap-2 -mt-2">
+                <div className="w-14 h-px" style={{ background: "linear-gradient(90deg, transparent, hsl(var(--gold) / 0.6))" }} />
+                <svg width="8" height="8" viewBox="0 0 8 8" aria-hidden>
+                  <polygon points="4,0 6,4 4,8 2,4" fill="hsl(var(--accent))" opacity="0.7"/>
+                </svg>
+                <div className="w-14 h-px" style={{ background: "linear-gradient(90deg, hsl(var(--gold) / 0.6), transparent)" }} />
+              </div>
             </div>
 
-            <div className="space-y-2">
-              <p className="text-xs tracking-[0.3em] uppercase text-muted-foreground font-serif">
-                Elige tu idioma / Choose your language
-              </p>
-            </div>
+            <p className="text-xs tracking-[0.3em] uppercase text-muted-foreground font-serif">
+              Elige tu idioma / Choose your language
+            </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
