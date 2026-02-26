@@ -10,6 +10,7 @@ import { RSVPForm } from "@/components/wedding/RSVPForm";
 import { HotelSection } from "@/components/wedding/HotelSection";
 import { PhotoBreak1, PhotoBreak3 } from "@/components/wedding/PhotoBreak";
 import { ExperienceMotion } from "@/components/wedding/ExperienceMotion";
+import { StorySection } from "@/components/wedding/StorySection";
 
 const WeddingContent = () => {
   const { t } = useLanguage();
@@ -51,6 +52,8 @@ const WeddingContent = () => {
       <EventSection />
 
       <PhotoBreak1 />
+
+      <StorySection />
 
       <DressCodeCard />
 
