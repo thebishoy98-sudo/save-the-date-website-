@@ -27,7 +27,7 @@ export const EventSection = () => {
                   {t("events.ceremony")}
                 </h3>
                 <div className="w-8 h-px bg-accent mx-auto" />
-                <p className="font-script text-lg sm:text-2xl gold-text">1:00 pm</p>
+                <p className="font-script text-lg sm:text-2xl gold-text">12:30 pm</p>
                 <p className="text-[11px] sm:text-sm text-muted-foreground leading-relaxed font-serif">
                   {t("events.ceremony.venue")}
                 </p>
@@ -60,7 +60,7 @@ export const EventSection = () => {
                   {t("events.reception")}
                 </h3>
                 <div className="w-8 h-px bg-accent mx-auto" />
-                <p className="font-script text-lg sm:text-2xl gold-text">4:00 pm</p>
+                <p className="font-script text-lg sm:text-2xl gold-text">3:30 pm</p>
                 <p className="text-[11px] sm:text-sm text-muted-foreground leading-relaxed font-serif">
                   {t("events.reception.venue")}
                 </p>
