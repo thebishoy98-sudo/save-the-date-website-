@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { SectionReveal } from "./SectionReveal";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useIsMobile } from "@/hooks/use-mobile";
-import couple3 from "@/assets/couple-3.jpg";
+import coupleStory from "@/assets/couple-photo.png";
 import couple2 from "@/assets/couple-2.jpg";
 import couple4 from "@/assets/couple-4.jpg";
 
@@ -133,7 +133,7 @@ export const PhotoBreak1 = () => {
   const { t } = useLanguage();
   return (
     <PhotoBreak
-      src={couple3}
+      src={coupleStory}
       alt="Arantxa & Bishoy"
       layout="offset-right"
       caption={t("events.label") === "Event Details" ? "Our Journey Together" : "Nuestro Camino Juntos"}
