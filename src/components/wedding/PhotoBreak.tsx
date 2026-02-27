@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { SectionReveal } from "./SectionReveal";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useIsMobile } from "@/hooks/use-mobile";
-import coupleStory from "@/assets/couple-photo.png";
+import coupleStory from "@/assets/couple-3.jpg";
 import couple2 from "@/assets/couple-2.jpg";
 import couple4 from "@/assets/couple-4.jpg";
 

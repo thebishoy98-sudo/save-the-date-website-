@@ -40,11 +40,6 @@ const translations: Record<string, Record<Language, string>> = {
   "events.reception.venue": { es: "El Suspiro Tepoztlán", en: "El Suspiro Tepoztlán" },
   "events.reception.address": { es: "Tepoztlán, Morelos", en: "Tepoztlán, Morelos" },
 
-  // Story
-  "story.label": { es: "Nuestra Historia", en: "Our Story" },
-  "story.title": { es: "Cómo Empezó Todo", en: "How It All Started" },
-  "story.body": { es: "Nos conocimos en Ciudad de México y, desde ese día, Bishoy encontró la excusa perfecta para regresar una y otra vez.\n\nEntre vuelos, videollamadas, tacos, koshari, y debates serios sobre si el picante mexicano o el sazón egipcio gana (spoiler: ganamos los dos), nuestro amor a distancia siguió creciendo hasta convertirse en esta aventura.", en: "We met in Mexico City, and from that day on, Bishoy suddenly had very important reasons to keep coming back.\n\nBetween flights, long-distance video calls, tacos, koshari, and highly competitive debates about whether Mexican spice or Egyptian flavor wins (spoiler: we both do), our long-distance love kept growing into this beautiful adventure." },
-
   // Dress code
   "dress.label": { es: "Código de Vestimenta", en: "Dress Code" },
   "dress.title": { es: "Etiqueta Formal", en: "Formal Attire" },
@@ -141,3 +136,4 @@ export const useLanguage = () => {
   if (!ctx) throw new Error("useLanguage must be used within LanguageProvider");
   return ctx;
 };
+
