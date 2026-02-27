@@ -7,7 +7,7 @@ export const HeroSection = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center px-6 py-16 relative overflow-hidden">
+    <section className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 py-12 sm:py-16 relative overflow-hidden">
       {/* Ambient background glow */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden>
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[500px] rounded-full opacity-60"
@@ -20,7 +20,7 @@ export const HeroSection = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className="text-center space-y-9 max-w-3xl w-full relative z-10 mt-16"
+        className="text-center space-y-7 sm:space-y-9 max-w-3xl w-full relative z-10 mt-10 sm:mt-16"
       >
         {/* Photo with triple-ring frame */}
         <motion.div
@@ -52,11 +52,11 @@ export const HeroSection = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.25, duration: 0.5 }}
-            className="text-sm tracking-[0.35em] uppercase text-muted-foreground"
+            className="text-xs sm:text-sm tracking-[0.22em] sm:tracking-[0.35em] uppercase text-muted-foreground"
           >
             {t("hero.subtitle")}
           </motion.p>
-          <h1 className="mt-1 sm:mt-2 font-script text-[4.6rem] sm:text-[7.5rem] md:text-[8.5rem] gold-text leading-[0.96]">
+          <h1 className="mt-1 sm:mt-2 font-script text-[3.3rem] sm:text-[7.5rem] md:text-[8.5rem] gold-text leading-[0.96]">
             Arantxa &amp;
             <br />
             Bishoy
@@ -69,7 +69,7 @@ export const HeroSection = () => {
           transition={{ delay: 0.35, duration: 0.5 }}
           className="ornament-line max-w-3xl mx-auto"
         >
-          <span className="text-[1.6rem] sm:text-[2.1rem] tracking-[0.18em] font-serif text-foreground whitespace-nowrap uppercase">
+          <span className="text-[1.2rem] sm:text-[2.1rem] tracking-[0.12em] sm:tracking-[0.18em] font-serif text-foreground whitespace-nowrap uppercase">
             July 18, 2026
           </span>
         </motion.div>
@@ -78,7 +78,7 @@ export const HeroSection = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.5 }}
-          className="text-sm tracking-[0.28em] uppercase text-muted-foreground"
+          className="text-xs sm:text-sm tracking-[0.18em] sm:tracking-[0.28em] uppercase text-muted-foreground"
         >
           {t("hero.location")}
         </motion.p>

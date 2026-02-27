@@ -35,7 +35,7 @@ const FlipDigit = memo(({ value, label }: FlipDigitProps) => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="relative w-16 h-20 sm:w-20 sm:h-24 vintage-card flex items-center justify-center overflow-hidden">
+      <div className="relative w-14 h-16 sm:w-20 sm:h-24 vintage-card flex items-center justify-center overflow-hidden">
         <motion.span
           animate={
             pulse === 0
@@ -43,12 +43,12 @@ const FlipDigit = memo(({ value, label }: FlipDigitProps) => {
               : { y: [-5, 0], opacity: [0.72, 1] }
           }
           transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="text-2xl sm:text-3xl font-serif font-bold text-foreground absolute tabular-nums will-change-transform"
+          className="text-xl sm:text-3xl font-serif font-bold text-foreground absolute tabular-nums will-change-transform"
         >
           {display}
         </motion.span>
       </div>
-      <span className="mt-2 text-xs sm:text-sm tracking-[0.2em] uppercase text-muted-foreground font-serif">
+      <span className="mt-2 text-[10px] sm:text-sm tracking-[0.12em] sm:tracking-[0.2em] uppercase text-muted-foreground font-serif">
         {label}
       </span>
     </div>
@@ -65,7 +65,7 @@ export const CountdownTimer = () => {
   }, []);
 
   return (
-    <div className="flex gap-3 sm:gap-5 justify-center">
+    <div className="flex flex-wrap gap-2 sm:gap-5 justify-center">
       <FlipDigit value={timeLeft.days} label={t("countdown.days")} />
       <FlipDigit value={timeLeft.hours} label={t("countdown.hours")} />
       <FlipDigit value={timeLeft.minutes} label={t("countdown.minutes")} />
