@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:vintage-invite-wonder.lovable.app)"
+      "WebFetch(domain:vintage-invite-wonder.lovable.app)",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \"C:\\\\Users\\\\BishoyKamel\\\\OneDrive - Quantum Improvements Consulting \\(Low\\)\\\\Desktop\\\\jira\\\\pull-jira-tests.ps1\")"
     ]
   }
 }

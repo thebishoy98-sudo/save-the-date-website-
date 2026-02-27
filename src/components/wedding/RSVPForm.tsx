@@ -3,11 +3,11 @@ import { SectionReveal } from "./SectionReveal";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export const RSVPForm = () => {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({
     nombre: "", confirmacion: "", numInvitados: "1",
-    telefono: "", aeropuerto: "", transporte: "", hotel: "",
+    telefono: "", aeropuerto: "", hotel: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -67,12 +67,17 @@ export const RSVPForm = () => {
                 className="w-full px-4 py-3 vintage-input rounded-sm text-base appearance-none">
                 {[1, 2].map(n => <option key={n} value={n}>{n}</option>)}
               </select>
+              <p className="text-xs text-muted-foreground font-serif leading-relaxed">
+                {lang === "es"
+                  ? "Si serán más de 2 personas, por favor comunícate con Bishoy o Arantxa para confirmar la cantidad."
+                  : "If your party is more than 2, please reach out to Bishoy or Arantxa to confirm the number of guests."}
+              </p>
             </div>
 
             <div className="space-y-2">
               <label className="text-xs tracking-[0.2em] uppercase text-muted-foreground font-serif">{t("rsvp.phone")}</label>
               <input type="tel" name="telefono" value={form.telefono} onChange={handleChange}
-                className="w-full px-4 py-3 vintage-input rounded-sm text-base" placeholder="+52 ..." />
+                className="w-full px-4 py-3 vintage-input rounded-sm text-base" placeholder={lang === "es" ? "+52 ..." : "+1 ..."} />
             </div>
 
             <div className="space-y-2">
@@ -85,20 +90,6 @@ export const RSVPForm = () => {
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="radio" name="aeropuerto" value="MEX" onChange={handleChange} className="accent-accent" />
                   <span className="text-base font-serif text-foreground">CDMX (MEX)</span>
-                </label>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-xs tracking-[0.2em] uppercase text-muted-foreground font-serif">{t("rsvp.transport")}</label>
-              <div className="flex gap-4">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input type="radio" name="transporte" value="si" onChange={handleChange} className="accent-accent" />
-                  <span className="text-base font-serif text-foreground">{t("rsvp.transport.yes")}</span>
-                </label>
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input type="radio" name="transporte" value="no" onChange={handleChange} className="accent-accent" />
-                  <span className="text-base font-serif text-foreground">{t("rsvp.transport.no")}</span>
                 </label>
               </div>
             </div>

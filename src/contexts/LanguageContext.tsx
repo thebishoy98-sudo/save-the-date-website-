@@ -47,12 +47,18 @@ const translations: Record<string, Record<Language, string>> = {
 
   // Dress code
   "dress.label": { es: "Código de Vestimenta", en: "Dress Code" },
-  "dress.title": { es: "Formal", en: "Formal" },
+  "dress.title": { es: "Etiqueta Formal", en: "Formal Attire" },
   "dress.men": { es: "Caballeros", en: "Gentlemen" },
   "dress.women": { es: "Damas", en: "Ladies" },
-  "dress.men.desc": { es: "Traje oscuro o esmoquin · Corbata o moño", en: "Dark suit or tuxedo · Tie or bow tie" },
-  "dress.women.desc": { es: "Vestido de gala o cóctel", en: "Formal gown or cocktail dress" },
-  "dress.note": { es: "Favor de evitar el color blanco y crema.", en: "Please avoid wearing white or cream." },
+  "dress.men.desc": { es: "Traje con corbata opcional", en: "Suit · Tie optional" },
+
+  // Our Story
+  "story.label": { es: "Nuestra Historia", en: "Our Story" },
+  "story.title": { es: "Cómo Todo Comenzó", en: "How It All Started" },
+  "story.p1": { es: "Nos conocimos en la Ciudad de México, y desde ese día, Bishoy encontró de repente razones muy importantes para seguir regresando.", en: "We met in Mexico City, and from that day on, Bishoy suddenly had very important reasons to keep coming back." },
+  "story.p2": { es: "Entre vuelos, videollamadas a distancia, tacos, shawarma y debates muy competitivos sobre si gana el picante mexicano o el sabor egipcio (spoiler: ganamos los dos), nuestro amor a distancia fue creciendo hasta convertirse en esta hermosa aventura.", en: "Between flights, long-distance video calls, tacos, shawarma, and highly competitive debates about whether Mexican spice or Egyptian flavor wins (spoiler: we both do), our long-distance love kept growing into this beautiful adventure." },
+  "dress.women.desc": { es: "Vestido largo", en: "Floor-length gown" },
+  "dress.note": { es: "El blanco y todas sus tonalidades quedan reservados exclusivamente para la novia.", en: "White and all its shades are reserved exclusively for the bride." },
 
   // Gifts
   "gifts.label": { es: "Mesa de Regalos", en: "Gift Registry" },
@@ -104,6 +110,11 @@ const translations: Record<string, Record<Language, string>> = {
   "hotels.palacio.note2": { es: "✦ 10% de descuento en pagos en efectivo", en: "✦ 10% discount for cash payments" },
   "hotels.palacio.note3": { es: "✦ Check-in: 3:00 pm · Check-out: 11:00 am", en: "✦ Check-in: 3:00 pm · Check-out: 11:00 am" },
   "hotels.palacio.note4": { es: "✦ Incluye desayuno continental", en: "✦ Includes continental breakfast" },
+
+  // Location / Map
+  "location.label": { es: "Ubicación", en: "Location" },
+  "location.title": { es: "Cómo Llegar", en: "Getting There" },
+  "location.note": { es: "Te pedimos reservar tu hospedaje en Tepoztlán, el hermoso pueblo de montaña donde celebramos nuestra boda. Por favor no reserves cerca del aeropuerto, ya que eso es la Ciudad de México, a más de una hora del festejo.", en: "Please reserve your stay in Tepoztlán, the beautiful mountain village where our wedding takes place. Do not book near the airport." },
 
   // Footer
   "footer.date": { es: "18 de Julio, 2026 · Tepoztlán", en: "July 18, 2026 · Tepoztlán" },

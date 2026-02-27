@@ -9,8 +9,10 @@ import { GiftsCard } from "@/components/wedding/GiftsCard";
 import { RSVPForm } from "@/components/wedding/RSVPForm";
 import { HotelSection } from "@/components/wedding/HotelSection";
 import { PhotoBreak1, PhotoBreak3 } from "@/components/wedding/PhotoBreak";
+import { OurStory } from "@/components/wedding/OurStory";
+import { LocationMap } from "@/components/wedding/LocationMap";
+import { SuggestedFlights } from "@/components/wedding/SuggestedFlights";
 import { ExperienceMotion } from "@/components/wedding/ExperienceMotion";
-import { StorySection } from "@/components/wedding/StorySection";
 
 const WeddingContent = () => {
   const { t } = useLanguage();
@@ -36,53 +38,71 @@ const WeddingContent = () => {
         </div>
       )}
 
-      <LanguageSelector />
-      <HeroSection />
+      <div className="book-page">
+        <LanguageSelector />
+        <HeroSection />
 
-      <div className="ornament-line max-w-xs mx-auto px-6">
-        <span className="text-xs gold-text">✦</span>
+        <div className="ornament-line max-w-xs mx-auto px-6">
+          <span className="text-sm gold-text">.</span>
+        </div>
+
+        <EnvelopeReveal />
+
+        <div className="ornament-line max-w-xs mx-auto px-6">
+          <span className="text-sm gold-text">.</span>
+        </div>
+
+        <OurStory />
+
+        <div className="ornament-line max-w-xs mx-auto px-6">
+          <span className="text-sm gold-text">.</span>
+        </div>
+
+        <EventSection />
+
+        <div className="ornament-line max-w-xs mx-auto px-6">
+          <span className="text-sm gold-text">.</span>
+        </div>
+
+        <LocationMap />
+
+        <div className="ornament-line max-w-xs mx-auto px-6">
+          <span className="text-sm gold-text">.</span>
+        </div>
+
+        <SuggestedFlights />
+
+        <PhotoBreak1 />
+
+        <DressCodeCard />
+
+        <GiftsCard />
+
+        <div className="ornament-line max-w-xs mx-auto px-6">
+          <span className="text-sm gold-text">.</span>
+        </div>
+
+        <HotelSection />
+
+        <div className="ornament-line max-w-xs mx-auto px-6">
+          <span className="text-sm gold-text">.</span>
+        </div>
+
+        <PhotoBreak3 />
+
+        <div className="ornament-line max-w-xs mx-auto px-6">
+          <span className="text-sm gold-text">.</span>
+        </div>
+
+        <RSVPForm />
+
+        <footer className="py-16 text-center">
+          <p className="font-script text-2xl gold-text mb-2">Arantxa & Bishoy</p>
+          <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground font-serif">
+            {t("footer.date")}
+          </p>
+        </footer>
       </div>
-
-      <EnvelopeReveal />
-
-      <div className="ornament-line max-w-xs mx-auto px-6">
-        <span className="text-xs gold-text">✦</span>
-      </div>
-
-      <EventSection />
-
-      <PhotoBreak1 />
-
-      <StorySection />
-
-      <DressCodeCard />
-
-      <GiftsCard />
-
-      <div className="ornament-line max-w-xs mx-auto px-6">
-        <span className="text-xs gold-text">✦</span>
-      </div>
-
-      <HotelSection />
-
-      <div className="ornament-line max-w-xs mx-auto px-6">
-        <span className="text-xs gold-text">✦</span>
-      </div>
-
-      <PhotoBreak3 />
-
-      <div className="ornament-line max-w-xs mx-auto px-6">
-        <span className="text-xs gold-text">✦</span>
-      </div>
-
-      <RSVPForm />
-
-      <footer className="py-16 text-center">
-        <p className="font-script text-2xl gold-text mb-2">Arantxa & Bishoy</p>
-        <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground font-serif">
-          {t("footer.date")}
-        </p>
-      </footer>
     </main>
   );
 };

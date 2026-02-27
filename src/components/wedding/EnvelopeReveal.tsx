@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
+import geminiSeal from "@/assets/Gemini_Generated_Image_ganwmjganwmjganw.png";
 
 export const EnvelopeReveal = () => {
   const { t } = useLanguage();
@@ -26,38 +27,43 @@ export const EnvelopeReveal = () => {
             style={{ perspective: "800px" }}
           >
             <div className="relative w-72 sm:w-96 h-48 sm:h-60">
+              {/* Envelope body */}
               <div
                 className="absolute inset-0 rounded-sm"
                 style={{
-                  background: "hsl(var(--card))",
-                  border: "1px solid hsl(var(--border))",
-                  boxShadow: "0 8px 40px hsl(var(--olive) / 0.1)",
+                  background: "hsl(36 28% 87%)",
+                  border: "1.5px solid hsl(32 22% 72%)",
+                  boxShadow: "0 12px 48px hsl(20 12% 22% / 0.14), 0 4px 16px hsl(20 12% 22% / 0.08)",
                 }}
               />
+              {/* Letter inside */}
               <motion.div
                 animate={isOpen ? { y: -120 } : { y: 0 }}
                 transition={{ delay: 0.8, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                 className="absolute inset-x-4 top-4 bottom-4 rounded-sm flex flex-col items-center justify-center text-center p-6"
                 style={{
-                  background: "hsl(var(--parchment))",
-                  border: "1px solid hsl(var(--border))",
+                  background: "hsl(var(--card))",
+                  border: "1px solid hsl(32 18% 82%)",
+                  boxShadow: "0 2px 8px hsl(20 12% 22% / 0.06)",
                   zIndex: 1,
                 }}
               >
                 <p className="text-xs tracking-[0.3em] uppercase text-muted-foreground mb-3">{t("envelope.label")}</p>
                 <p className="font-script text-2xl sm:text-3xl gold-text mb-2">Arantxa & Bishoy</p>
-                <div className="w-12 h-px bg-border my-3" />
+                <div className="w-12 h-px bg-accent my-3" />
                 <p className="text-sm text-muted-foreground font-serif">{t("envelope.request")}</p>
                 <p className="text-sm text-muted-foreground font-serif">{t("envelope.ceremony")}</p>
               </motion.div>
+              {/* Bottom flap body */}
               <div
                 className="absolute inset-x-0 bottom-0 h-[55%] rounded-b-sm"
                 style={{
-                  background: "hsl(var(--card))",
+                  background: "hsl(36 28% 87%)",
                   zIndex: 2,
                   clipPath: "polygon(0 40%, 50% 0%, 100% 40%, 100% 100%, 0 100%)",
                 }}
               />
+              {/* Top flap — slightly darker for contrast */}
               <motion.div
                 animate={isOpen ? { rotateX: -180 } : { rotateX: 0 }}
                 transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
@@ -67,21 +73,25 @@ export const EnvelopeReveal = () => {
                 <div
                   className="w-full h-full"
                   style={{
-                    background: "hsl(var(--card))",
+                    background: "hsl(34 24% 82%)",
                     clipPath: "polygon(0 0, 100% 0, 50% 100%)",
-                    border: "1px solid hsl(var(--border))",
                     backfaceVisibility: "hidden",
                   }}
                 />
               </motion.div>
+
+              {/* Gemini seal */}
               {!isOpen && (
                 <div
-                  className="absolute left-1/2 -translate-x-1/2 w-10 h-10 rounded-full z-[4] gold-shimmer flex items-center justify-center"
-                  style={{ top: "52%", boxShadow: "0 2px 8px hsl(var(--gold) / 0.3)" }}
+                  className="absolute z-[4]"
+                  style={{ top: "45%", left: "50%", transform: "translate(-50%, -50%)" }}
                 >
-                  <div className="w-[80%] h-[80%] rounded-full flex items-center justify-center" style={{ background: "hsl(var(--seal))" }}>
-                    <span className="font-script text-xs text-parchment">A&B</span>
-                  </div>
+                  <img
+                    src={geminiSeal}
+                    alt="A and B seal"
+                    className="w-20 h-20 rounded-full object-cover shadow-lg"
+                    loading="lazy"
+                  />
                 </div>
               )}
             </div>

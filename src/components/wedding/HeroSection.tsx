@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { CountdownTimer } from "./CountdownTimer";
-import { WaxSeal } from "./WaxSeal";
 import { useLanguage } from "@/contexts/LanguageContext";
 import couplePhoto from "@/assets/couple-1.jpg";
 
@@ -20,14 +19,14 @@ export const HeroSection = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-        className="text-center space-y-9 max-w-3xl w-full relative z-10"
+        transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+        className="text-center space-y-9 max-w-3xl w-full relative z-10 mt-16"
       >
         {/* Photo with triple-ring frame */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.88 }}
+          initial={{ opacity: 0, scale: 0.92 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.3, duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ delay: 0.15, duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="relative mx-auto w-52 h-52 sm:w-64 sm:h-64"
         >
           {/* Outer gold glow ring */}
@@ -52,7 +51,7 @@ export const HeroSection = () => {
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 1 }}
+            transition={{ delay: 0.25, duration: 0.5 }}
             className="text-sm tracking-[0.35em] uppercase text-muted-foreground"
           >
             {t("hero.subtitle")}
@@ -67,10 +66,10 @@ export const HeroSection = () => {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.8, duration: 1 }}
+          transition={{ delay: 0.35, duration: 0.5 }}
           className="ornament-line max-w-3xl mx-auto"
         >
-          <span className="text-[1.25rem] sm:text-[1.5rem] tracking-[0.18em] font-serif text-foreground whitespace-nowrap uppercase">
+          <span className="text-[1.6rem] sm:text-[2.1rem] tracking-[0.18em] font-serif text-foreground whitespace-nowrap uppercase">
             July 18, 2026
           </span>
         </motion.div>
@@ -78,29 +77,25 @@ export const HeroSection = () => {
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.9, duration: 1 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
           className="text-sm tracking-[0.28em] uppercase text-muted-foreground"
         >
           {t("hero.location")}
         </motion.p>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 1 }}
+          transition={{ delay: 0.45, duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
           <CountdownTimer />
         </motion.div>
-
-        <div className="pt-4">
-          <WaxSeal />
-        </div>
       </motion.div>
 
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2.5, duration: 1 }}
+        transition={{ delay: 1.2, duration: 0.6 }}
         className="absolute bottom-10"
       >
         <motion.div

@@ -1,86 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Raleway:wght@300;400;500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 48 33% 96%;
-    --foreground: 78 22% 20%;
+    --background: 40 30% 97%;
+    --page-paper: 40 30% 97%;
+    --foreground: 20 12% 22%;
 
-    --card: 42 30% 94%;
-    --card-foreground: 78 22% 20%;
+    --card: 40 20% 99%;
+    --card-foreground: 20 12% 22%;
 
-    --popover: 48 33% 96%;
-    --popover-foreground: 78 22% 20%;
+    --popover: 40 30% 97%;
+    --popover-foreground: 20 12% 22%;
 
-    --primary: 78 21% 28%;
-    --primary-foreground: 48 33% 96%;
+    --primary: 20 12% 22%;
+    --primary-foreground: 40 30% 97%;
 
-    --secondary: 42 25% 90%;
-    --secondary-foreground: 78 22% 20%;
+    --secondary: 350 20% 95%;
+    --secondary-foreground: 20 12% 22%;
 
-    --muted: 42 18% 88%;
-    --muted-foreground: 78 10% 42%;
+    --muted: 30 12% 93%;
+    --muted-foreground: 20 8% 50%;
 
-    --accent: 42 43% 53%;
-    --accent-foreground: 42 15% 12%;
+    --accent: 350 28% 65%;
+    --accent-foreground: 20 12% 22%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 48 33% 96%;
+    --destructive-foreground: 40 30% 97%;
 
-    --border: 42 22% 78%;
-    --input: 42 22% 82%;
-    --ring: 42 43% 53%;
+    --border: 30 15% 88%;
+    --input: 30 12% 92%;
+    --ring: 350 28% 65%;
 
-    --radius: 0.125rem;
+    --radius: 0.25rem;
 
-    --gold: 42 43% 53%;
-    --gold-light: 42 55% 72%;
-    --olive: 78 21% 28%;
-    --olive-light: 78 12% 55%;
-    --parchment: 48 33% 96%;
-    --parchment-warm: 40 30% 92%;
-    --seal: 0 35% 30%;
-    --seal-light: 0 30% 42%;
+    --gold: 38 40% 58%;
+    --gold-light: 38 52% 72%;
+    --olive: 350 20% 72%;
+    --olive-light: 350 12% 82%;
+    --parchment: 40 30% 97%;
+    --parchment-warm: 38 22% 94%;
+    --seal: 350 35% 35%;
+    --seal-light: 350 28% 48%;
 
-    --sidebar-background: 48 33% 96%;
-    --sidebar-foreground: 78 22% 20%;
-    --sidebar-primary: 78 21% 28%;
-    --sidebar-primary-foreground: 48 33% 96%;
-    --sidebar-accent: 42 25% 90%;
-    --sidebar-accent-foreground: 78 22% 20%;
-    --sidebar-border: 42 22% 78%;
-    --sidebar-ring: 42 43% 53%;
+    --sidebar-background: 40 30% 97%;
+    --sidebar-foreground: 20 12% 22%;
+    --sidebar-primary: 20 12% 22%;
+    --sidebar-primary-foreground: 40 30% 97%;
+    --sidebar-accent: 350 20% 95%;
+    --sidebar-accent-foreground: 20 12% 22%;
+    --sidebar-border: 30 15% 88%;
+    --sidebar-ring: 350 28% 65%;
   }
 
   .dark {
-    --background: 48 33% 96%;
-    --foreground: 78 22% 20%;
-    --card: 42 30% 94%;
-    --card-foreground: 78 22% 20%;
-    --popover: 48 33% 96%;
-    --popover-foreground: 78 22% 20%;
-    --primary: 78 21% 28%;
-    --primary-foreground: 48 33% 96%;
-    --secondary: 42 25% 90%;
-    --secondary-foreground: 78 22% 20%;
-    --muted: 42 18% 88%;
-    --muted-foreground: 78 10% 42%;
-    --accent: 42 43% 53%;
-    --accent-foreground: 42 15% 12%;
+    --background: 40 30% 97%;
+    --page-paper: 40 30% 97%;
+    --foreground: 20 12% 22%;
+    --card: 40 20% 99%;
+    --card-foreground: 20 12% 22%;
+    --popover: 40 30% 97%;
+    --popover-foreground: 20 12% 22%;
+    --primary: 20 12% 22%;
+    --primary-foreground: 40 30% 97%;
+    --secondary: 350 20% 95%;
+    --secondary-foreground: 20 12% 22%;
+    --muted: 30 12% 93%;
+    --muted-foreground: 20 8% 50%;
+    --accent: 350 28% 65%;
+    --accent-foreground: 20 12% 22%;
     --destructive: 0 84% 60%;
-    --destructive-foreground: 48 33% 96%;
-    --border: 42 22% 78%;
-    --input: 42 22% 82%;
-    --ring: 42 43% 53%;
-    --sidebar-background: 48 33% 96%;
-    --sidebar-foreground: 78 22% 20%;
-    --sidebar-primary: 78 21% 28%;
-    --sidebar-primary-foreground: 48 33% 96%;
-    --sidebar-accent: 42 25% 90%;
-    --sidebar-accent-foreground: 78 22% 20%;
-    --sidebar-border: 42 22% 78%;
-    --sidebar-ring: 42 43% 53%;
+    --destructive-foreground: 40 30% 97%;
+    --border: 30 15% 88%;
+    --input: 30 12% 92%;
+    --ring: 350 28% 65%;
+    --sidebar-background: 40 30% 97%;
+    --sidebar-foreground: 20 12% 22%;
+    --sidebar-primary: 20 12% 22%;
+    --sidebar-primary-foreground: 40 30% 97%;
+    --sidebar-accent: 350 20% 95%;
+    --sidebar-accent-foreground: 20 12% 22%;
+    --sidebar-border: 30 15% 88%;
+    --sidebar-ring: 350 28% 65%;
   }
 }
 
@@ -91,42 +95,52 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.02em;
   }
 }
 
 @layer components {
   .font-script {
-    font-family: 'Great Vibes', cursive;
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
   }
 
   .font-serif {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+  }
+
+  .book-page {
+    max-width: 900px;
+    margin: 0 auto;
+    min-height: 100vh;
+    position: relative;
   }
 
   .vintage-card {
     background: hsl(var(--card));
     border: 1px solid hsl(var(--border));
     box-shadow:
-      inset 0 0 0 3px hsl(var(--card)),
-      inset 0 0 0 4px hsl(var(--border) / 0.55),
-      0 8px 40px hsl(var(--olive) / 0.09),
-      0 2px 8px hsl(var(--gold) / 0.07),
-      0 1px 2px hsl(var(--olive) / 0.08);
+      0 1px 12px hsl(350 15% 50% / 0.06),
+      0 4px 24px hsl(350 15% 50% / 0.04);
   }
 
   .vintage-input {
     background: hsl(var(--parchment-warm));
     border: 1px solid hsl(var(--border));
-    font-family: 'Playfair Display', serif;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
     font-size: 1rem;
-    transition: border-color 220ms ease, box-shadow 220ms ease;
+    letter-spacing: 0.04em;
+    transition: border-color 200ms ease, box-shadow 200ms ease;
   }
 
   .vintage-input:focus {
-    border-color: hsl(var(--gold));
+    border-color: hsl(var(--accent));
     outline: none;
-    box-shadow: 0 0 0 3px hsl(var(--gold) / 0.12), 0 1px 4px hsl(var(--gold) / 0.08);
+    box-shadow: 0 0 0 3px hsl(var(--accent) / 0.12);
   }
 
   .gold-text {
@@ -138,7 +152,7 @@
       115deg,
       hsl(var(--gold)) 0%,
       hsl(var(--gold-light)) 22%,
-      hsl(42 70% 82%) 38%,
+      hsl(38 65% 82%) 38%,
       hsl(var(--gold)) 50%,
       hsl(var(--gold-light)) 72%,
       hsl(var(--gold)) 100%
@@ -150,7 +164,7 @@
   .ornament-line {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 1.25rem;
   }
 
   .ornament-line::before,
@@ -158,20 +172,16 @@
     content: '';
     flex: 1;
     height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      hsl(var(--gold) / 0.55),
-      hsl(var(--border)),
-      hsl(var(--gold) / 0.55),
-      transparent
-    );
-    animation: ornamentFlow 6s ease-in-out infinite;
-    background-size: 200% 100%;
+    background: linear-gradient(90deg, transparent, hsl(var(--border)), transparent);
+    animation: none;
   }
 
   .ornament-line span {
-    animation: ornamentPulse 3.6s ease-in-out infinite;
+    animation: ornamentPulse 5s ease-in-out infinite;
+    color: hsl(var(--accent));
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
   }
 
   .page-vignette {
@@ -180,8 +190,8 @@
     pointer-events: none;
     z-index: 0;
     background:
-      radial-gradient(ellipse 80% 50% at 50% 0%, hsl(var(--gold) / 0.05) 0%, transparent 65%),
-      radial-gradient(ellipse 60% 40% at 50% 100%, hsl(var(--olive) / 0.04) 0%, transparent 60%);
+      radial-gradient(ellipse 80% 25% at 50% 0%, hsl(var(--accent) / 0.04) 0%, transparent 100%),
+      radial-gradient(ellipse 60% 20% at 50% 100%, hsl(var(--foreground) / 0.02) 0%, transparent 100%);
   }
 }
 
@@ -223,8 +233,8 @@
 }
 
 @keyframes ornamentPulse {
-  0%, 100% { transform: scale(1); opacity: 0.8; }
-  50% { transform: scale(1.1); opacity: 1; }
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
