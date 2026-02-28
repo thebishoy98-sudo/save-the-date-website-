@@ -84,7 +84,7 @@ export const RSVPForm = () => {
     ) {
       setError(
         lang === "es"
-          ? "Por favor ingresa un numero valido de ninos."
+          ? "Por favor ingresa un numero valido de niños."
           : "Please enter a valid number of children.",
       );
       return;
@@ -293,7 +293,7 @@ export const RSVPForm = () => {
 
             <div className="space-y-2">
               <label className="text-xs tracking-[0.16em] sm:tracking-[0.2em] uppercase text-muted-foreground font-serif">
-                {lang === "es" ? "Traes ninos? (comida para ninos)" : "Are you bringing children? (kids food)"}
+                {lang === "es" ? "Traes niños? (comida para niños)" : "Are you bringing children? (kids food)"}
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <label className="flex items-center gap-2 cursor-pointer">
@@ -310,7 +310,7 @@ export const RSVPForm = () => {
             {form.bringingChildren === "yes" && (
               <div className="space-y-2">
                 <label className="text-xs tracking-[0.16em] sm:tracking-[0.2em] uppercase text-muted-foreground font-serif">
-                  {lang === "es" ? "Cuantos ninos?" : "How many children?"}
+                  {lang === "es" ? "Cuantos niños?" : "How many children?"}
                 </label>
                 <input
                   type="text"
