@@ -28,42 +28,36 @@ const posadaRooms: RoomRow[] = [
 const moreHotels = [
   {
     name: "Casa Fernanda Hotel Boutique",
-    stars: "★★★★★",
     phone: "739 395 0522",
     tel: "+527393950522",
     maps: "https://maps.google.com/?q=Casa+Fernanda+Hotel+Boutique+Tepoztlan+Morelos",
   },
   {
     name: "Hotel Tatala Boutique",
-    stars: "★★★",
     phone: "442 821 0001",
     tel: "+524428210001",
     maps: "https://maps.google.com/?q=Hotel+Tatala+Boutique+Tepoztlan+Morelos",
   },
   {
     name: "La Buena Vibra Wellness Resort",
-    stars: "★★★★★",
     phone: "739 395 1491",
     tel: "+527393951491",
     maps: "https://maps.google.com/?q=La+Buena+Vibra+Wellness+Resort+Tepoztlan+Morelos",
   },
   {
     name: "Castillo de Piedras Vivas",
-    stars: "★★★",
     phone: "739 395 2910",
     tel: "+527393952910",
     maps: "https://maps.google.com/?q=Hotel+Boutique+Castillo+de+Piedras+Vivas+Tepoztlan+Morelos",
   },
   {
     name: "Amomoxtli",
-    stars: "★★★★★",
     phone: "739 395 0012",
     tel: "+527393950012",
     maps: "https://maps.google.com/?q=Amomoxtli+Tepoztlan+Morelos",
   },
   {
     name: "Finca Catalina Hotel Boutique",
-    stars: "★★★★",
     phone: "777 222 6633",
     tel: "+527772226633",
     maps: "https://maps.google.com/?q=Finca+Catalina+Hotel+Boutique+Tepoztlan+Morelos",
@@ -305,7 +299,6 @@ export const HotelSection = () => {
                     >
                       <div>
                         <p className="text-sm font-serif text-foreground leading-snug">{hotel.name}</p>
-                        <p className="text-xs gold-text mt-1">{hotel.stars}</p>
                       </div>
                       <div className="w-6 h-px bg-accent mx-auto" />
                       <div className="flex items-center justify-center gap-2">

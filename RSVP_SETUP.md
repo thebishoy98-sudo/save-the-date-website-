@@ -21,6 +21,8 @@ If your table already exists from an older setup, run:
 
 ```sql
 alter table public.rsvps add column if not exists kids_food_required boolean null;
+alter table public.rsvps add column if not exists bringing_children boolean null;
+alter table public.rsvps add column if not exists children_count int null check (children_count is null or children_count > 0);
 ```
 
 ## 3) Deploy email notification function

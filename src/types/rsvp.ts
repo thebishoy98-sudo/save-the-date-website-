@@ -12,4 +12,6 @@ export interface RSVPRecord {
   allergies_notes: string | null;
   transport_needed: boolean | null;
   kids_food_required: boolean | null;
+  bringing_children: boolean | null;
+  children_count: number | null;
 }

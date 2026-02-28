@@ -237,6 +237,19 @@ const Dashboard = () => {
                       ? "Yes"
                       : "No"}
                 </p>
+                <p className="text-sm text-muted-foreground">
+                  Bringing children:{" "}
+                  {row.bringing_children === null
+                    ? "Not specified"
+                    : row.bringing_children
+                      ? "Yes"
+                      : "No"}
+                </p>
+                {row.bringing_children && (
+                  <p className="text-sm text-muted-foreground">
+                    Children count: {row.children_count ?? "Not specified"}
+                  </p>
+                )}
                 {row.allergies_notes && (
                   <p className="text-sm text-muted-foreground mt-1">
                     Notes: {row.allergies_notes}

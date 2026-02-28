@@ -15,6 +15,8 @@ interface RSVPNotifyBody {
   allergies_notes?: string | null;
   transport_needed?: boolean | null;
   kids_food_required?: boolean | null;
+  bringing_children?: boolean | null;
+  children_count?: number | null;
 }
 
 Deno.serve(async (req) => {
@@ -59,6 +61,18 @@ Deno.serve(async (req) => {
           : body.kids_food_required
             ? "Yes"
             : "No"
+      }`,
+      `Bringing children: ${
+        body.bringing_children === null || body.bringing_children === undefined
+          ? "Not specified"
+          : body.bringing_children
+            ? "Yes"
+            : "No"
+      }`,
+      `Children count: ${
+        body.children_count === null || body.children_count === undefined
+          ? "Not specified"
+          : body.children_count
       }`,
       `Notes: ${body.allergies_notes ?? "N/A"}`,
     ].join("\n");

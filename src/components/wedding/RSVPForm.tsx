@@ -9,11 +9,12 @@ interface RSVPFormState {
   confirmacion: "yes" | "no" | "";
   numInvitados: string;
   telefono: string;
-  aeropuerto: "PBC" | "MEX" | "";
+  aeropuerto: "PBC" | "MEX" | "LOCAL" | "";
   hotel: string;
-  notas: string;
   transporte: "yes" | "no" | "";
   kidsFood: "yes" | "no" | "";
+  bringingChildren: "yes" | "no" | "";
+  childrenCount: string;
 }
 
 const initialForm: RSVPFormState = {
@@ -24,9 +25,10 @@ const initialForm: RSVPFormState = {
   telefono: "",
   aeropuerto: "",
   hotel: "",
-  notas: "",
   transporte: "",
   kidsFood: "",
+  bringingChildren: "",
+  childrenCount: "",
 };
 
 export const RSVPForm = () => {
@@ -40,9 +42,9 @@ export const RSVPForm = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
-    if (name === "numInvitados") {
+    if (name === "numInvitados" || name === "childrenCount") {
       const digitsOnly = value.replace(/\D/g, "");
-      setForm({ ...form, numInvitados: digitsOnly });
+      setForm({ ...form, [name]: digitsOnly });
       return;
     }
     setForm({ ...form, [name]: value });
@@ -70,6 +72,13 @@ export const RSVPForm = () => {
       setError("Number of guests must be a valid number greater than 0.");
       return;
     }
+    if (
+      form.bringingChildren === "yes" &&
+      (!/^\d+$/.test(form.childrenCount) || Number.parseInt(form.childrenCount, 10) < 1)
+    ) {
+      setError("Please enter a valid number of children.");
+      return;
+    }
 
     if (!isSupabaseConfigured || !supabase) {
       setError("RSVP service is not configured yet. Please try again soon.");
@@ -87,15 +96,12 @@ export const RSVPForm = () => {
       phone: form.telefono.trim() || null,
       arrival_airport: form.aeropuerto || null,
       hotel: form.hotel || null,
-      allergies_notes: form.notas.trim() || null,
-      transport_needed:
-        form.transporte === ""
-          ? null
-          : form.transporte === "yes",
-      kids_food_required:
-        form.kidsFood === ""
-          ? null
-          : form.kidsFood === "yes",
+      allergies_notes: null,
+      transport_needed: form.transporte === "" ? null : form.transporte === "yes",
+      kids_food_required: form.kidsFood === "" ? null : form.kidsFood === "yes",
+      bringing_children: form.bringingChildren === "" ? null : form.bringingChildren === "yes",
+      children_count:
+        form.bringingChildren === "yes" ? Number.parseInt(form.childrenCount, 10) || null : null,
     };
 
     const { error: insertError } = await supabase.from("rsvps").insert(payload);
@@ -219,11 +225,6 @@ export const RSVPForm = () => {
                 className="w-full px-4 py-3 vintage-input rounded-sm text-base"
                 placeholder="1"
               />
-              <p className="text-xs text-muted-foreground font-serif leading-relaxed">
-                {lang === "es"
-                  ? "Si seran mas de 2 personas, por favor comunicate con Bishoy o Arantxa para confirmar la cantidad."
-                  : "If your party is more than 2, please reach out to Bishoy or Arantxa to confirm the number of guests."}
-              </p>
             </div>
 
             <div className="space-y-2">
@@ -247,88 +248,43 @@ export const RSVPForm = () => {
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="aeropuerto"
-                    value="PBC"
-                    required
-                    checked={form.aeropuerto === "PBC"}
-                    onChange={handleChange}
-                    className="accent-accent"
-                  />
+                  <input type="radio" name="aeropuerto" value="PBC" required checked={form.aeropuerto === "PBC"} onChange={handleChange} className="accent-accent" />
                   <span className="text-base font-serif text-foreground">Puebla (PBC)</span>
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="aeropuerto"
-                    value="MEX"
-                    checked={form.aeropuerto === "MEX"}
-                    onChange={handleChange}
-                    className="accent-accent"
-                  />
+                  <input type="radio" name="aeropuerto" value="MEX" checked={form.aeropuerto === "MEX"} onChange={handleChange} className="accent-accent" />
                   <span className="text-base font-serif text-foreground">CDMX (MEX)</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input type="radio" name="aeropuerto" value="LOCAL" checked={form.aeropuerto === "LOCAL"} onChange={handleChange} className="accent-accent" />
+                  <span className="text-base font-serif text-foreground">{lang === "es" ? "Vivo local (no aeropuerto)" : "I live local (no airport)"}</span>
                 </label>
               </div>
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs tracking-[0.16em] sm:tracking-[0.2em] uppercase text-muted-foreground font-serif">
-                {t("rsvp.transport")}
-              </label>
+              <label className="text-xs tracking-[0.16em] sm:tracking-[0.2em] uppercase text-muted-foreground font-serif">{t("rsvp.transport")}</label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="transporte"
-                    value="yes"
-                    required
-                    checked={form.transporte === "yes"}
-                    onChange={handleChange}
-                    className="accent-accent"
-                  />
+                  <input type="radio" name="transporte" value="yes" required checked={form.transporte === "yes"} onChange={handleChange} className="accent-accent" />
                   <span className="text-base font-serif text-foreground">{t("rsvp.transport.yes")}</span>
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="transporte"
-                    value="no"
-                    checked={form.transporte === "no"}
-                    onChange={handleChange}
-                    className="accent-accent"
-                  />
+                  <input type="radio" name="transporte" value="no" checked={form.transporte === "no"} onChange={handleChange} className="accent-accent" />
                   <span className="text-base font-serif text-foreground">{t("rsvp.transport.no")}</span>
                 </label>
               </div>
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs tracking-[0.16em] sm:tracking-[0.2em] uppercase text-muted-foreground font-serif">
-                {t("rsvp.kidsFood")}
-              </label>
+              <label className="text-xs tracking-[0.16em] sm:tracking-[0.2em] uppercase text-muted-foreground font-serif">{t("rsvp.kidsFood")}</label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="kidsFood"
-                    value="yes"
-                    required
-                    checked={form.kidsFood === "yes"}
-                    onChange={handleChange}
-                    className="accent-accent"
-                  />
+                  <input type="radio" name="kidsFood" value="yes" required checked={form.kidsFood === "yes"} onChange={handleChange} className="accent-accent" />
                   <span className="text-base font-serif text-foreground">{t("rsvp.kidsFood.yes")}</span>
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="kidsFood"
-                    value="no"
-                    checked={form.kidsFood === "no"}
-                    onChange={handleChange}
-                    className="accent-accent"
-                  />
+                  <input type="radio" name="kidsFood" value="no" checked={form.kidsFood === "no"} onChange={handleChange} className="accent-accent" />
                   <span className="text-base font-serif text-foreground">{t("rsvp.kidsFood.no")}</span>
                 </label>
               </div>
@@ -336,50 +292,61 @@ export const RSVPForm = () => {
 
             <div className="space-y-2">
               <label className="text-xs tracking-[0.16em] sm:tracking-[0.2em] uppercase text-muted-foreground font-serif">
-                {t("rsvp.hotel")}
+                {lang === "es" ? "Traes ninos?" : "Are you bringing children?"}
               </label>
-              <select
-                name="hotel"
-                required
-                value={form.hotel}
-                onChange={handleChange}
-                className="w-full px-4 py-3 vintage-input rounded-sm text-base appearance-none"
-              >
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input type="radio" name="bringingChildren" value="yes" checked={form.bringingChildren === "yes"} onChange={handleChange} className="accent-accent" />
+                  <span className="text-base font-serif text-foreground">{lang === "es" ? "Si" : "Yes"}</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input type="radio" name="bringingChildren" value="no" checked={form.bringingChildren === "no"} onChange={handleChange} className="accent-accent" />
+                  <span className="text-base font-serif text-foreground">No</span>
+                </label>
+              </div>
+            </div>
+
+            {form.bringingChildren === "yes" && (
+              <div className="space-y-2">
+                <label className="text-xs tracking-[0.16em] sm:tracking-[0.2em] uppercase text-muted-foreground font-serif">
+                  {lang === "es" ? "Cuantos ninos?" : "How many children?"}
+                </label>
+                <input
+                  type="text"
+                  name="childrenCount"
+                  required
+                  value={form.childrenCount}
+                  onChange={handleChange}
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  minLength={1}
+                  className="w-full px-4 py-3 vintage-input rounded-sm text-base"
+                  placeholder="1"
+                />
+              </div>
+            )}
+
+            <div className="space-y-2">
+              <label className="text-xs tracking-[0.16em] sm:tracking-[0.2em] uppercase text-muted-foreground font-serif">{t("rsvp.hotel")}</label>
+              <select name="hotel" required value={form.hotel} onChange={handleChange} className="w-full px-4 py-3 vintage-input rounded-sm text-base appearance-none">
                 <option value="">{t("rsvp.hotel.placeholder")}</option>
-                <option value="posada">Posada del Tepozteco ****</option>
-                <option value="palacio">Palacio del Cobre ****</option>
-                <option value="casa-fernanda">Casa Fernanda Hotel Boutique *****</option>
-                <option value="tatala">Hotel Tatala ***</option>
-                <option value="buena-vibra">La Buena Vibra Wellness Resort *****</option>
-                <option value="castillo">Hotel Boutique Castillo Piedras Vivas ***</option>
-                <option value="amomoxtli">Amomoxtli *****</option>
-                <option value="finca-catalina">Finca Catalina Hotel Boutique ****</option>
+                <option value="posada">Posada del Tepozteco</option>
+                <option value="palacio">Palacio del Cobre</option>
+                <option value="casa-fernanda">Casa Fernanda Hotel Boutique</option>
+                <option value="tatala">Hotel Tatala</option>
+                <option value="buena-vibra">La Buena Vibra Wellness Resort</option>
+                <option value="castillo">Hotel Boutique Castillo Piedras Vivas</option>
+                <option value="amomoxtli">Amomoxtli</option>
+                <option value="finca-catalina">Finca Catalina Hotel Boutique</option>
                 <option value="other">{t("rsvp.hotel.other")}</option>
               </select>
             </div>
 
-            <div className="space-y-2">
-              <label className="text-xs tracking-[0.16em] sm:tracking-[0.2em] uppercase text-muted-foreground font-serif">
-                {t("rsvp.allergies")}
-              </label>
-              <textarea
-                name="notas"
-                value={form.notas}
-                onChange={handleChange}
-                className="w-full px-4 py-3 vintage-input rounded-sm text-base min-h-24"
-                placeholder={t("rsvp.allergies.placeholder")}
-              />
-            </div>
-
             <div className="p-4 rounded-sm bg-secondary text-center">
-              <p className="text-xs text-muted-foreground font-serif leading-relaxed whitespace-pre-line">
-                {t("rsvp.travel.note")}
-              </p>
+              <p className="text-xs text-muted-foreground font-serif leading-relaxed whitespace-pre-line">{t("rsvp.travel.note")}</p>
             </div>
 
-            {error && (
-              <p className="text-sm text-destructive font-serif">{error}</p>
-            )}
+            {error && <p className="text-sm text-destructive font-serif">{error}</p>}
 
             <button
               type="submit"

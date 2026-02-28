@@ -13,7 +13,9 @@ create table if not exists public.rsvps (
   hotel text null,
   allergies_notes text null,
   transport_needed boolean null,
-  kids_food_required boolean null
+  kids_food_required boolean null,
+  bringing_children boolean null,
+  children_count int null check (children_count is null or children_count > 0)
 );
 
 alter table public.rsvps enable row level security;
