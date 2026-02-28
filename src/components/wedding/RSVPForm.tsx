@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
 import { SectionReveal } from "./SectionReveal";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { isSupabaseConfigured, supabase } from "@/lib/supabase";
@@ -35,6 +35,24 @@ export const RSVPForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [form, setForm] = useState<RSVPFormState>(initialForm);
+  const [hasStartedInvite, setHasStartedInvite] = useState(false);
+  const inviteToken = useMemo(() => {
+    if (typeof window === "undefined") return null;
+    const params = new URLSearchParams(window.location.search);
+    const value = params.get("invite");
+    return value?.trim() || null;
+  }, []);
+
+  useEffect(() => {
+    const markInviteOpened = async () => {
+      if (!inviteToken || !supabase) return;
+      await supabase.rpc("track_sms_invite_event", {
+        p_invite_token: inviteToken,
+        p_event: "opened",
+      });
+    };
+    void markInviteOpened();
+  }, [inviteToken]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
@@ -43,9 +61,24 @@ export const RSVPForm = () => {
     if (name === "numInvitados" || name === "childrenCount") {
       const digitsOnly = value.replace(/\D/g, "");
       setForm({ ...form, [name]: digitsOnly });
+      if (!hasStartedInvite && inviteToken && supabase) {
+        setHasStartedInvite(true);
+        void supabase.rpc("track_sms_invite_event", {
+          p_invite_token: inviteToken,
+          p_event: "started",
+        });
+      }
       return;
     }
     setForm({ ...form, [name]: value });
+
+    if (!hasStartedInvite && inviteToken && supabase && value.trim()) {
+      setHasStartedInvite(true);
+      void supabase.rpc("track_sms_invite_event", {
+        p_invite_token: inviteToken,
+        p_event: "started",
+      });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -117,6 +150,7 @@ export const RSVPForm = () => {
       bringing_children: form.bringingChildren === "" ? null : form.bringingChildren === "yes",
       children_count:
         form.bringingChildren === "yes" ? Number.parseInt(form.childrenCount, 10) || null : null,
+      invite_token: inviteToken,
     };
 
     const { error: insertError } = await supabase.from("rsvps").insert(payload);
@@ -125,6 +159,14 @@ export const RSVPForm = () => {
       setError(insertError.message);
       setIsSubmitting(false);
       return;
+    }
+
+    if (inviteToken) {
+      await supabase.rpc("track_sms_invite_event", {
+        p_invite_token: inviteToken,
+        p_event: "responded",
+        p_attending: form.confirmacion === "yes",
+      });
     }
 
     const { error: notifyError } = await supabase.functions.invoke("rsvp-notify", {
