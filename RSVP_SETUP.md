@@ -1,4 +1,4 @@
-# RSVP Setup (Database + Dashboard + Email)
+# RSVP Setup (Database + Dashboard + Email + SMS Tracking)
 
 ## 1) Configure environment variables
 Create `.env` with:
@@ -6,24 +6,25 @@ Create `.env` with:
 ```bash
 VITE_SUPABASE_URL=YOUR_SUPABASE_PROJECT_URL
 VITE_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
+VITE_SITE_URL=https://yourdomain.com
 ```
 
-## 2) Create the database table and policies
+`VITE_SITE_URL` is used to generate each guest's unique invite URL.
+
+## 2) Create database tables and policies
 In Supabase SQL Editor, run:
 
 - `supabase/schema.sql`
 
-This creates `public.rsvps` and sets RLS so:
-- Anyone can insert RSVP rows
-- Only authenticated users can read rows (for dashboard)
+This creates:
+- `public.rsvps` (RSVP responses)
+- `public.sms_invites` (unique invite links + status tracking)
 
-If your table already exists from an older setup, run:
+Status flow for `sms_invites`:
+- `draft` → `sent` → `opened` → `started` → `accepted` or `declined`
 
-```sql
-alter table public.rsvps add column if not exists kids_food_required boolean null;
-alter table public.rsvps add column if not exists bringing_children boolean null;
-alter table public.rsvps add column if not exists children_count int null check (children_count is null or children_count > 0);
-```
+Security improvement included:
+- guests update invite tracking through `track_sms_invite_event(...)` RPC only (no broad anonymous table updates)
 
 ## 3) Deploy email notification function
 From project root:
@@ -45,8 +46,18 @@ In Supabase Auth:
 - Create an email/password user for yourself
 - Use that account on `/dashboard`
 
-## 5) Use it
-- Guests submit RSVP on `/`
-- Data is stored in Supabase table `rsvps`
-- You get email notification for each new RSVP
-- You review responses at `/dashboard`
+## 5) SMS provider options (cheap/free)
+- **Best starter (simple): Twilio** — easy API, reliable, paid usage.
+- **Budget alternative:** MessageBird / Vonage depending on your destination country pricing.
+- **Mostly free testing:** Twilio trial credits (good for MVP/testing, not for production blasts).
+- **Ultra-low cost DIY:** send manually from your phone with exported CSV + unique URLs (no API cost, more manual).
+
+## 6) Use it
+- Add invite contacts from dashboard **SMS Invite Tracking** section or from `SMS_Invite_Template.csv`
+- Each row has a unique URL like `/?invite=<token>`
+- Share that URL by SMS
+- Dashboard shows:
+  - who opened the link
+  - who started filling data but did not finish
+  - who accepted/declined
+  - who is still pending

@@ -14,4 +14,29 @@ export interface RSVPRecord {
   kids_food_required: boolean | null;
   bringing_children: boolean | null;
   children_count: number | null;
+  invite_token: string | null;
 }
+
+export type SMSInviteStatus =
+  | "draft"
+  | "sent"
+  | "opened"
+  | "started"
+  | "accepted"
+  | "declined";
+
+export interface SMSInviteRecord {
+  id: string;
+  created_at: string;
+  guest_name: string;
+  phone: string;
+  invite_token: string;
+  invite_url: string;
+  status: SMSInviteStatus;
+  sent_at: string | null;
+  opened_at: string | null;
+  started_at: string | null;
+  responded_at: string | null;
+  notes: string | null;
+}
+
