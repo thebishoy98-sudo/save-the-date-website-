@@ -257,7 +257,7 @@ export const RSVPForm = () => {
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="radio" name="aeropuerto" value="LOCAL" checked={form.aeropuerto === "LOCAL"} onChange={handleChange} className="accent-accent" />
-                  <span className="text-base font-serif text-foreground">{lang === "es" ? "Vivo local (no aeropuerto)" : "I live local (no airport)"}</span>
+                  <span className="text-base font-serif text-foreground">{lang === "es" ? "Soy local (sin aeropuerto)" : "I live local (no airport)"}</span>
                 </label>
               </div>
             </div>

@@ -14,7 +14,7 @@ export const LocationMap = () => {
 
           <div className="text-center">
             <p className="text-xs tracking-[0.3em] uppercase text-muted-foreground mb-3">{t("location.label")}</p>
-            <h2 className="font-script text-4xl gold-text">{t("location.title")}</h2>
+            {!isEs && <h2 className="font-script text-4xl gold-text">{t("location.title")}</h2>}
           </div>
 
           {/* Language-specific route map image */}
