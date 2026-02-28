@@ -50,7 +50,7 @@ const translations: Record<string, Record<Language, string>> = {
   // Our Story
   "story.label": { es: "Nuestra Historia", en: "Our Story" },
   "story.title": { es: "Como Todo Comenzó", en: "How It All Started" },
-  "story.p1": { es: "Nos conocimos en la Ciudad de México, y desde ese día, Bishoy encontró de repente razones muy importantes para seguir regresando.", en: "We met in Mexico City, and from that day on, Bishoy suddenly had very important reasons to keep coming back." },
+  "story.p1": { es: "Nos conocimos en la Ciudad de México, y desde ese día, Bishoy encontró razones muy importantes para seguir regresando.", en: "We met in Mexico City, and from that day on, Bishoy suddenly had very important reasons to keep coming back." },
   "story.p2": { es: "Entre vuelos, videollamadas a distancia, tacos, shawarma y debates muy competitivos sobre si gana el picante mexicano o el sabor egipcio (spoiler: ganamos los dos), nuestro amor a distancia fue creciendo hasta convertirse en esta hermosa aventura.", en: "Between flights, long-distance video calls, tacos, shawarma, and highly competitive debates about whether Mexican spice or Egyptian flavor wins (spoiler: we both do), our long-distance love kept growing into this beautiful adventure." },
   "dress.women.desc": { es: "Vestido largo", en: "Floor-length gown" },
   "dress.note": { es: "El blanco y todas sus tonalidades quedan reservados exclusivamente para la novia.", en: "White and all its shades are reserved exclusively for the bride." },
