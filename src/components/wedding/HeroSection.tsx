@@ -4,7 +4,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import couplePhoto from "@/assets/couple-1.jpg";
 
 export const HeroSection = () => {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
 
   return (
     <section className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 py-12 sm:py-16 relative overflow-hidden">
@@ -70,7 +70,7 @@ export const HeroSection = () => {
           className="ornament-line max-w-3xl mx-auto"
         >
           <span className="text-[1.2rem] sm:text-[2.1rem] tracking-[0.12em] sm:tracking-[0.18em] font-serif text-foreground whitespace-nowrap uppercase">
-            July 18, 2026
+            {lang === "es" ? "18 de julio de 2026" : "July 18, 2026"}
           </span>
         </motion.div>
 
