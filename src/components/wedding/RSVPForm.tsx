@@ -292,12 +292,12 @@ export const RSVPForm = () => {
 
             <div className="space-y-2">
               <label className="text-xs tracking-[0.16em] sm:tracking-[0.2em] uppercase text-muted-foreground font-serif">
-                {lang === "es" ? "Traes ninos?" : "Are you bringing children?"}
+                {lang === "es" ? "¿Traes niños?" : "Are you bringing children?"}
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="radio" name="bringingChildren" value="yes" checked={form.bringingChildren === "yes"} onChange={handleChange} className="accent-accent" />
-                  <span className="text-base font-serif text-foreground">{lang === "es" ? "Si" : "Yes"}</span>
+                  <span className="text-base font-serif text-foreground">{lang === "es" ? "Sí" : "Yes"}</span>
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="radio" name="bringingChildren" value="no" checked={form.bringingChildren === "no"} onChange={handleChange} className="accent-accent" />
@@ -309,7 +309,7 @@ export const RSVPForm = () => {
             {form.bringingChildren === "yes" && (
               <div className="space-y-2">
                 <label className="text-xs tracking-[0.16em] sm:tracking-[0.2em] uppercase text-muted-foreground font-serif">
-                  {lang === "es" ? "Cuantos ninos?" : "How many children?"}
+                  {lang === "es" ? "¿Cuántos niños?" : "How many children?"}
                 </label>
                 <input
                   type="text"

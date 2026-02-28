@@ -68,7 +68,7 @@ export const EventSection = () => {
                   {t("events.reception.address")}
                 </p>
                 <a
-                  href="https://maps.google.com/?q=El+Suspiro+Tepoztlan,+Carretera+Cuernavaca-Tepoztlán+16.5+Barrio,+Col+del+Tesoro,+62520+Tepoztlán,+Mor."
+                  href="https://maps.google.com/?q=El+Suspiro+Tepoztlan,+Carretera+Cuernavaca-Tepoztlan+16.5+Barrio,+Col+del+Tesoro,+62520+Tepoztlan,+Mor."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 sm:gap-2 mt-1 sm:mt-2 text-[10px] sm:text-xs tracking-[0.1em] sm:tracking-[0.15em] uppercase font-serif text-accent hover:text-foreground transition-colors duration-200"

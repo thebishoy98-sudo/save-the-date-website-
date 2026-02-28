@@ -15,14 +15,14 @@ interface RoomRow {
 }
 
 const posadaRooms: RoomRow[] = [
-  { name: "Hacienda", price: 7580, note: "Cama KS, vista jardin", noteEn: "King bed, garden view" },
-  { name: "Standard", price: 8800, note: "Diferentes vistas al jardin", noteEn: "Various garden views" },
+  { name: "Hacienda", price: 7580, note: "Cama KS, vista jardín", noteEn: "King bed, garden view" },
+  { name: "Standard", price: 8800, note: "Diferentes vistas al jardín", noteEn: "Various garden views" },
   { name: "Superior", price: 10700, note: "Cama KS, terraza privada", noteEn: "King bed, private terrace" },
-  { name: "Junior", price: 11200, note: "Vista jardin y montana", noteEn: "Garden & mountain view" },
-  { name: "Deluxe Suite", price: 13200, note: "Vista montana, terraza", noteEn: "Mountain view, terrace" },
+  { name: "Junior", price: 11200, note: "Vista jardín y montaña", noteEn: "Garden & mountain view" },
+  { name: "Deluxe Suite", price: 13200, note: "Vista montaña, terraza", noteEn: "Mountain view, terrace" },
   { name: "Master Suite", price: 15600, note: "Jacuzzi, terraza privada", noteEn: "Jacuzzi, private terrace" },
   { name: "Gran Suite", price: 15900, note: "2 hab, cocina, sala", noteEn: "2 rooms, kitchen, living room" },
-  { name: "Village (La Villa)", price: 22800, note: "3 hab, jardin, 6 huespedes", noteEn: "3 rooms, garden, 6 guests" },
+  { name: "Village (La Villa)", price: 22800, note: "3 hab, jardín, 6 huéspedes", noteEn: "3 rooms, garden, 6 guests" },
 ];
 
 const moreHotels = [
@@ -278,7 +278,7 @@ export const HotelSection = () => {
               <div className="vintage-card rounded-sm p-4 sm:p-6 space-y-4">
                 <div className="text-center">
                   <p className="text-xs tracking-[0.3em] uppercase text-muted-foreground font-serif">
-                    {lang === "en" ? "More Options" : "Mas Opciones"}
+                    {lang === "en" ? "More Options" : "Más Opciones"}
                   </p>
                 </div>
 
