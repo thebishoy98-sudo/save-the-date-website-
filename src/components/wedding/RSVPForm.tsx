@@ -39,7 +39,13 @@ export const RSVPForm = () => {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   ) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    if (name === "numInvitados") {
+      const digitsOnly = value.replace(/\D/g, "");
+      setForm({ ...form, numInvitados: digitsOnly });
+      return;
+    }
+    setForm({ ...form, [name]: value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -50,6 +56,7 @@ export const RSVPForm = () => {
       !form.nombre.trim() ||
       !form.email.trim() ||
       !form.confirmacion ||
+      !form.numInvitados.trim() ||
       !form.telefono.trim() ||
       !form.aeropuerto ||
       !form.transporte ||
@@ -57,6 +64,10 @@ export const RSVPForm = () => {
       !form.hotel
     ) {
       setError("Please complete all required fields before submitting.");
+      return;
+    }
+    if (!/^\d+$/.test(form.numInvitados) || Number.parseInt(form.numInvitados, 10) < 1) {
+      setError("Number of guests must be a valid number greater than 0.");
       return;
     }
 
@@ -196,18 +207,18 @@ export const RSVPForm = () => {
               <label className="text-xs tracking-[0.16em] sm:tracking-[0.2em] uppercase text-muted-foreground font-serif">
                 {t("rsvp.guests")}
               </label>
-              <select
+              <input
+                type="text"
                 name="numInvitados"
+                required
                 value={form.numInvitados}
                 onChange={handleChange}
-                className="w-full px-4 py-3 vintage-input rounded-sm text-base appearance-none"
-              >
-                {[1, 2].map((n) => (
-                  <option key={n} value={n}>
-                    {n}
-                  </option>
-                ))}
-              </select>
+                inputMode="numeric"
+                pattern="[0-9]*"
+                minLength={1}
+                className="w-full px-4 py-3 vintage-input rounded-sm text-base"
+                placeholder="1"
+              />
               <p className="text-xs text-muted-foreground font-serif leading-relaxed">
                 {lang === "es"
                   ? "Si seran mas de 2 personas, por favor comunicate con Bishoy o Arantxa para confirmar la cantidad."
