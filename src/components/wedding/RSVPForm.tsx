@@ -46,6 +46,20 @@ export const RSVPForm = () => {
     e.preventDefault();
     setError("");
 
+    if (
+      !form.nombre.trim() ||
+      !form.email.trim() ||
+      !form.confirmacion ||
+      !form.telefono.trim() ||
+      !form.aeropuerto ||
+      !form.transporte ||
+      !form.kidsFood ||
+      !form.hotel
+    ) {
+      setError("Please complete all required fields before submitting.");
+      return;
+    }
+
     if (!isSupabaseConfigured || !supabase) {
       setError("RSVP service is not configured yet. Please try again soon.");
       return;
@@ -139,6 +153,7 @@ export const RSVPForm = () => {
               <input
                 type="email"
                 name="email"
+                required
                 value={form.email}
                 onChange={handleChange}
                 className="w-full px-4 py-3 vintage-input rounded-sm text-base"
@@ -207,6 +222,7 @@ export const RSVPForm = () => {
               <input
                 type="tel"
                 name="telefono"
+                required
                 value={form.telefono}
                 onChange={handleChange}
                 className="w-full px-4 py-3 vintage-input rounded-sm text-base"
@@ -224,6 +240,7 @@ export const RSVPForm = () => {
                     type="radio"
                     name="aeropuerto"
                     value="PBC"
+                    required
                     checked={form.aeropuerto === "PBC"}
                     onChange={handleChange}
                     className="accent-accent"
@@ -254,6 +271,7 @@ export const RSVPForm = () => {
                     type="radio"
                     name="transporte"
                     value="yes"
+                    required
                     checked={form.transporte === "yes"}
                     onChange={handleChange}
                     className="accent-accent"
@@ -284,6 +302,7 @@ export const RSVPForm = () => {
                     type="radio"
                     name="kidsFood"
                     value="yes"
+                    required
                     checked={form.kidsFood === "yes"}
                     onChange={handleChange}
                     className="accent-accent"
@@ -310,6 +329,7 @@ export const RSVPForm = () => {
               </label>
               <select
                 name="hotel"
+                required
                 value={form.hotel}
                 onChange={handleChange}
                 className="w-full px-4 py-3 vintage-input rounded-sm text-base appearance-none"
