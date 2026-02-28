@@ -84,7 +84,9 @@ export const LanguageSelector = () => {
           </button>
         </div>
 
-        <p className="text-xs text-muted-foreground font-serif">July 18, 2026 - Tepoztlan, Morelos</p>
+        <p className="text-xs text-muted-foreground font-serif">
+          {lang === "es" ? "18 de julio de 2026 - Tepoztlan, Morelos" : "July 18, 2026 - Tepoztlan, Morelos"}
+        </p>
       </div>
     </div>
   );
