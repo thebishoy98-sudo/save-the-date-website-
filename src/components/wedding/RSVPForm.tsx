@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { SectionReveal } from "./SectionReveal";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { isSupabaseConfigured, supabase } from "@/lib/supabase";
@@ -12,7 +12,6 @@ interface RSVPFormState {
   aeropuerto: "PBC" | "MEX" | "LOCAL" | "";
   hotel: string;
   transporte: "yes" | "no" | "";
-  kidsFood: "yes" | "no" | "";
   bringingChildren: "yes" | "no" | "";
   childrenCount: string;
 }
@@ -26,7 +25,6 @@ const initialForm: RSVPFormState = {
   aeropuerto: "",
   hotel: "",
   transporte: "",
-  kidsFood: "",
   bringingChildren: "",
   childrenCount: "",
 };
@@ -62,7 +60,7 @@ export const RSVPForm = () => {
       !form.telefono.trim() ||
       !form.aeropuerto ||
       !form.transporte ||
-      !form.kidsFood ||
+      !form.bringingChildren ||
       !form.hotel
     ) {
       setError(
@@ -114,7 +112,8 @@ export const RSVPForm = () => {
       hotel: form.hotel || null,
       allergies_notes: null,
       transport_needed: form.transporte === "" ? null : form.transporte === "yes",
-      kids_food_required: form.kidsFood === "" ? null : form.kidsFood === "yes",
+      kids_food_required:
+        form.bringingChildren === "" ? null : form.bringingChildren === "yes",
       bringing_children: form.bringingChildren === "" ? null : form.bringingChildren === "yes",
       children_count:
         form.bringingChildren === "yes" ? Number.parseInt(form.childrenCount, 10) || null : null,
@@ -293,27 +292,13 @@ export const RSVPForm = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs tracking-[0.16em] sm:tracking-[0.2em] uppercase text-muted-foreground font-serif">{t("rsvp.kidsFood")}</label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input type="radio" name="kidsFood" value="yes" required checked={form.kidsFood === "yes"} onChange={handleChange} className="accent-accent" />
-                  <span className="text-base font-serif text-foreground">{t("rsvp.kidsFood.yes")}</span>
-                </label>
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input type="radio" name="kidsFood" value="no" checked={form.kidsFood === "no"} onChange={handleChange} className="accent-accent" />
-                  <span className="text-base font-serif text-foreground">{t("rsvp.kidsFood.no")}</span>
-                </label>
-              </div>
-            </div>
-
-            <div className="space-y-2">
               <label className="text-xs tracking-[0.16em] sm:tracking-[0.2em] uppercase text-muted-foreground font-serif">
-                {lang === "es" ? "¿Traes niños?" : "Are you bringing children?"}
+                {lang === "es" ? "Traes ninos? (comida para ninos)" : "Are you bringing children? (kids food)"}
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="radio" name="bringingChildren" value="yes" checked={form.bringingChildren === "yes"} onChange={handleChange} className="accent-accent" />
-                  <span className="text-base font-serif text-foreground">{lang === "es" ? "Sí" : "Yes"}</span>
+                  <span className="text-base font-serif text-foreground">{lang === "es" ? "Si" : "Yes"}</span>
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="radio" name="bringingChildren" value="no" checked={form.bringingChildren === "no"} onChange={handleChange} className="accent-accent" />
@@ -325,7 +310,7 @@ export const RSVPForm = () => {
             {form.bringingChildren === "yes" && (
               <div className="space-y-2">
                 <label className="text-xs tracking-[0.16em] sm:tracking-[0.2em] uppercase text-muted-foreground font-serif">
-                  {lang === "es" ? "¿Cuántos niños?" : "How many children?"}
+                  {lang === "es" ? "Cuantos ninos?" : "How many children?"}
                 </label>
                 <input
                   type="text"
