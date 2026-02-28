@@ -11,7 +11,7 @@ export const EnvelopeReveal = () => {
   const handleOpen = () => {
     if (isOpen) return;
     setIsOpen(true);
-    setTimeout(() => setShowContent(true), 1600);
+    setTimeout(() => setShowContent(true), 2600);
   };
 
   return (
@@ -39,7 +39,7 @@ export const EnvelopeReveal = () => {
               {/* Letter inside */}
               <motion.div
                 animate={isOpen ? { y: -120 } : { y: 0 }}
-                transition={{ delay: 0.8, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ delay: 1.2, duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
                 className="absolute inset-x-4 top-4 bottom-4 rounded-sm flex flex-col items-center justify-center text-center p-6"
                 style={{
                   background: "hsl(var(--card))",
@@ -66,7 +66,7 @@ export const EnvelopeReveal = () => {
               {/* Top flap — slightly darker for contrast */}
               <motion.div
                 animate={isOpen ? { rotateX: -180 } : { rotateX: 0 }}
-                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
                 className="absolute inset-x-0 top-0 h-[55%]"
                 style={{ transformOrigin: "top center", transformStyle: "preserve-3d", zIndex: 3 }}
               >
@@ -110,7 +110,7 @@ export const EnvelopeReveal = () => {
             key="content"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 1.3, ease: [0.22, 1, 0.36, 1] }}
             className="text-center max-w-lg space-y-6"
           >
             <p className="text-xs tracking-[0.3em] uppercase text-muted-foreground">{t("envelope.blessing")}</p>

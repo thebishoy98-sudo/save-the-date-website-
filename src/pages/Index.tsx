@@ -15,7 +15,7 @@ import { SuggestedFlights } from "@/components/wedding/SuggestedFlights";
 import { ExperienceMotion } from "@/components/wedding/ExperienceMotion";
 
 const WeddingContent = () => {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [showOverlay, setShowOverlay] = useState(false);
 
   useEffect(() => {
@@ -34,7 +34,9 @@ const WeddingContent = () => {
       <ExperienceMotion />
       {showOverlay && (
         <div className="fixed inset-0 z-50 pointer-events-none opacity-50 bg-accent/10 flex items-center justify-center">
-          <p className="text-foreground text-sm font-serif">Reference Overlay (Press R to hide)</p>
+          <p className="text-foreground text-sm font-serif">
+            {lang === "es" ? "Superposicion de referencia (Presiona R para ocultar)" : "Reference Overlay (Press R to hide)"}
+          </p>
         </div>
       )}
 

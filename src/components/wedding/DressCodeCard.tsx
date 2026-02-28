@@ -1,4 +1,4 @@
-import { SectionReveal } from "./SectionReveal";
+﻿import { SectionReveal } from "./SectionReveal";
 import { useLanguage } from "@/contexts/LanguageContext";
 import suitIcon from "@/assets/dresscode-suit.jpg";
 import dressIcon from "@/assets/dresscode-dress.jpg";
@@ -42,12 +42,13 @@ export const DressCodeCard = () => {
           </div>
 
           <div className="mt-6 flex items-center justify-center gap-3 vintage-card rounded-sm px-6 py-3 max-w-sm mx-auto">
-            <span className="gold-text flex-shrink-0">✦</span>
+            <span className="gold-text flex-shrink-0">*</span>
             <p className="text-sm text-muted-foreground font-serif text-center">{t("dress.note")}</p>
-            <span className="gold-text flex-shrink-0">✦</span>
+            <span className="gold-text flex-shrink-0">*</span>
           </div>
         </div>
       </SectionReveal>
     </section>
   );
 };
+

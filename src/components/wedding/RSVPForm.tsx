@@ -65,23 +65,39 @@ export const RSVPForm = () => {
       !form.kidsFood ||
       !form.hotel
     ) {
-      setError("Please complete all required fields before submitting.");
+      setError(
+        lang === "es"
+          ? "Por favor completa todos los campos obligatorios antes de enviar."
+          : "Please complete all required fields before submitting.",
+      );
       return;
     }
     if (!/^\d+$/.test(form.numInvitados) || Number.parseInt(form.numInvitados, 10) < 1) {
-      setError("Number of guests must be a valid number greater than 0.");
+      setError(
+        lang === "es"
+          ? "El numero de invitados debe ser un numero valido mayor que 0."
+          : "Number of guests must be a valid number greater than 0.",
+      );
       return;
     }
     if (
       form.bringingChildren === "yes" &&
       (!/^\d+$/.test(form.childrenCount) || Number.parseInt(form.childrenCount, 10) < 1)
     ) {
-      setError("Please enter a valid number of children.");
+      setError(
+        lang === "es"
+          ? "Por favor ingresa un numero valido de ninos."
+          : "Please enter a valid number of children.",
+      );
       return;
     }
 
     if (!isSupabaseConfigured || !supabase) {
-      setError("RSVP service is not configured yet. Please try again soon.");
+      setError(
+        lang === "es"
+          ? "El servicio RSVP aun no esta configurado. Intenta de nuevo en unos minutos."
+          : "RSVP service is not configured yet. Please try again soon.",
+      );
       return;
     }
 
@@ -165,7 +181,7 @@ export const RSVPForm = () => {
 
             <div className="space-y-2">
               <label className="text-xs tracking-[0.16em] sm:tracking-[0.2em] uppercase text-muted-foreground font-serif">
-                Email
+                {lang === "es" ? "Correo electronico" : "Email"}
               </label>
               <input
                 type="email"
@@ -353,7 +369,7 @@ export const RSVPForm = () => {
               disabled={isSubmitting}
               className="w-full py-3 rounded-sm font-serif text-sm sm:text-base tracking-[0.12em] sm:tracking-[0.15em] uppercase transition-colors duration-200 bg-primary text-primary-foreground hover:bg-foreground disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {isSubmitting ? "Submitting..." : t("rsvp.submit")}
+              {isSubmitting ? (lang === "es" ? "Enviando..." : "Submitting...") : t("rsvp.submit")}
             </button>
           </form>
         </div>

@@ -48,9 +48,11 @@ export const SuggestedFlights = () => {
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="text-[10px] tracking-[0.18em] sm:tracking-[0.22em] uppercase text-muted-foreground mb-1">Volaris</p>
-                  <p className="font-serif text-base sm:text-lg font-medium text-foreground tracking-wide">EWR to PBC</p>
+                  <p className="font-serif text-base sm:text-lg font-medium text-foreground tracking-wide">
+                    {isEs ? "EWR a PBC" : "EWR to PBC"}
+                  </p>
                   <p className="text-xs text-muted-foreground mt-0.5">
-                    {isEs ? "Vuelo directo" : "Non-stop"} | Newark to Puebla
+                    {isEs ? "Vuelo directo | Newark a Puebla" : "Non-stop | Newark to Puebla"}
                   </p>
                 </div>
                 <span className="text-[9px] px-2 py-1 rounded-sm border border-accent/30 text-accent tracking-[0.1em] uppercase">
@@ -78,9 +80,11 @@ export const SuggestedFlights = () => {
             <div className="vintage-card rounded-sm p-4 sm:p-6 space-y-4 sm:space-y-5">
               <div>
                 <p className="text-[10px] tracking-[0.18em] sm:tracking-[0.22em] uppercase text-muted-foreground mb-1">Aeromexico</p>
-                <p className="font-serif text-base sm:text-lg font-medium text-foreground tracking-wide">EWR to MEX</p>
+                <p className="font-serif text-base sm:text-lg font-medium text-foreground tracking-wide">
+                  {isEs ? "EWR a MEX" : "EWR to MEX"}
+                </p>
                 <p className="text-xs text-muted-foreground mt-0.5">
-                  {isEs ? "Vuelo directo" : "Non-stop"} | Newark to Mexico City
+                  {isEs ? "Vuelo directo | Newark a Ciudad de Mexico" : "Non-stop | Newark to Mexico City"}
                 </p>
               </div>
 
