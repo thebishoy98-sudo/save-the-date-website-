@@ -122,6 +122,7 @@ const Dashboard = () => {
   const [newInviteLanguage, setNewInviteLanguage] = useState<"en" | "es">(getManualInviteLanguage);
   const [creatingInvite, setCreatingInvite] = useState(false);
   const [importingInvites, setImportingInvites] = useState(false);
+  const [importStatus, setImportStatus] = useState("");
   const csvInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
@@ -352,6 +353,7 @@ const Dashboard = () => {
     if (!supabase) return;
     setInvitesError("");
     setInvitesNotice("");
+    setImportStatus("Reading CSV file...");
     setImportingInvites(true);
 
     try {
@@ -363,6 +365,7 @@ const Dashboard = () => {
 
       if (lines.length < 2) {
         setInvitesError("CSV must include a header and at least one row.");
+        setImportStatus("");
         setImportingInvites(false);
         return;
       }
@@ -377,10 +380,12 @@ const Dashboard = () => {
 
       if (colIndex.guest_name < 0 || colIndex.phone < 0) {
         setInvitesError("CSV must contain at least guest_name and phone columns.");
+        setImportStatus("");
         setImportingInvites(false);
         return;
       }
 
+      setImportStatus("Validating rows...");
       const inserts = lines.slice(1).map((line) => {
         const cells = parseCsvLine(line);
         const guestName = (cells[colIndex.guest_name] ?? "").trim();
@@ -408,24 +413,29 @@ const Dashboard = () => {
 
       if (inserts.length === 0) {
         setInvitesError("No valid rows found in CSV.");
+        setImportStatus("");
         setImportingInvites(false);
         return;
       }
 
+      setImportStatus(`Saving ${inserts.length} invites...`);
       const { error } = await supabase.from("sms_invites").insert(inserts);
       if (error) {
         setInvitesError(error.message);
+        setImportStatus("");
         setImportingInvites(false);
         return;
       }
 
       setInvitesNotice(`Imported ${inserts.length} invites.`);
+      setImportStatus("Import complete.");
       if (csvInputRef.current) {
         csvInputRef.current.value = "";
       }
       await loadRows();
     } catch (error) {
       setInvitesError(error instanceof Error ? error.message : "Failed to import CSV.");
+      setImportStatus("");
     } finally {
       setImportingInvites(false);
     }
@@ -521,6 +531,14 @@ const Dashboard = () => {
             <p className="text-xs text-muted-foreground mt-2">
               CSV required columns: {CSV_REQUIRED_COLUMNS.join(", ")}
             </p>
+            {importingInvites && (
+              <p className="text-sm mt-2 text-amber-700">
+                Processing import... {importStatus}
+              </p>
+            )}
+            {!importingInvites && importStatus && (
+              <p className="text-sm mt-2 text-emerald-700">{importStatus}</p>
+            )}
           </div>
 
           <div className="border border-border rounded-sm p-3">
