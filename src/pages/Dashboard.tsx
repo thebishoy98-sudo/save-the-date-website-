@@ -91,6 +91,7 @@ const Dashboard = () => {
   const [newInviteLanguage, setNewInviteLanguage] = useState<"en" | "es">(getManualInviteLanguage);
   const [creatingInvite, setCreatingInvite] = useState(false);
   const [importingInvites, setImportingInvites] = useState(false);
+  const [convertingSelectedInvites, setConvertingSelectedInvites] = useState(false);
   const [importStatus, setImportStatus] = useState("");
   const [deletingInviteId, setDeletingInviteId] = useState<string | null>(null);
   const [deletingAllInvites, setDeletingAllInvites] = useState(false);
@@ -99,6 +100,7 @@ const Dashboard = () => {
   const [deletingResponseId, setDeletingResponseId] = useState<string | null>(null);
   const [updatingResponseId, setUpdatingResponseId] = useState<string | null>(null);
   const [responseNotice, setResponseNotice] = useState("");
+  const [selectedDraftInviteIds, setSelectedDraftInviteIds] = useState<Record<string, true>>({});
   const csvInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
@@ -142,6 +144,19 @@ const Dashboard = () => {
     const pending = total - accepted;
     return { total, opened, started, accepted, pending };
   }, [invites]);
+
+  const draftEnglishInvites = useMemo(() => invites.filter((invite) => invite.status === "draft" && invite.invite_language === "en"), [invites]);
+
+  const selectedDraftCount = useMemo(() => draftEnglishInvites.filter((invite) => selectedDraftInviteIds[invite.id]).length, [draftEnglishInvites, selectedDraftInviteIds]);
+
+  useEffect(() => {
+    setSelectedDraftInviteIds((prev) => {
+      const allowedIds = new Set(draftEnglishInvites.map((invite) => invite.id));
+      const next = Object.fromEntries(Object.keys(prev).filter((id) => allowedIds.has(id)).map((id) => [id, true])) as Record<string, true>;
+      if (Object.keys(next).length === Object.keys(prev).length) return prev;
+      return next;
+    });
+  }, [draftEnglishInvites]);
 
   const loadRows = async () => {
     if (!supabase) return;
@@ -822,11 +837,25 @@ const Dashboard = () => {
           {invitesError && <p className="text-sm text-destructive">{invitesError}</p>}
           {invitesNotice && <p className="text-sm text-emerald-700">{invitesNotice}</p>}
 
+          <div className="rounded-sm border border-border p-3 text-sm text-muted-foreground">
+            Draft EN invites available: {draftEnglishInvites.length}. Selected for conversion: {selectedDraftCount}.
+          </div>
+
           <div className="space-y-3">
             {invites.map((invite) => (
               <div key={invite.id} className="border border-border rounded-sm p-3 sm:p-4">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-                  <p className="font-medium">{invite.guest_name}</p>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    {invite.status === "draft" && invite.invite_language === "en" && (
+                      <input
+                        type="checkbox"
+                        checked={Boolean(selectedDraftInviteIds[invite.id])}
+                        onChange={(e) => toggleDraftInviteSelection(invite.id, e.target.checked)}
+                        aria-label={`Select ${invite.guest_name} for EN to ES conversion`}
+                      />
+                    )}
+                    <p className="font-medium">{invite.guest_name}</p>
+                  </div>
                   <p className="text-xs text-muted-foreground">Created {new Date(invite.created_at).toLocaleString()}</p>
                 </div>
                 <div className="flex items-center justify-between gap-2 mt-1">
