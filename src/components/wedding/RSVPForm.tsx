@@ -8,7 +8,7 @@ interface RSVPFormState {
   email: string;
   confirmacion: "yes" | "no" | "";
   numInvitados: string;
-  plusOneName: string;
+  plusOneNames: string[];
   telefono: string;
   aeropuerto: "PBC" | "MEX" | "LOCAL" | "";
   hotel: string;
@@ -22,7 +22,7 @@ const initialForm: RSVPFormState = {
   email: "",
   confirmacion: "",
   numInvitados: "1",
-  plusOneName: "",
+  plusOneNames: [],
   telefono: "",
   aeropuerto: "",
   hotel: "",
@@ -56,6 +56,17 @@ export const RSVPForm = () => {
     void markInviteOpened();
   }, [inviteToken]);
 
+  useEffect(() => {
+    const guestCount = Number.parseInt(form.numInvitados, 10) || 1;
+    const plusOneCount = Math.max(guestCount - 1, 0);
+
+    setForm((prev) => {
+      if (prev.plusOneNames.length === plusOneCount) return prev;
+      const nextPlusOnes = Array.from({ length: plusOneCount }, (_, idx) => prev.plusOneNames[idx] ?? "");
+      return { ...prev, plusOneNames: nextPlusOnes };
+    });
+  }, [form.numInvitados]);
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   ) => {
@@ -73,6 +84,21 @@ export const RSVPForm = () => {
       return;
     }
     setForm({ ...form, [name]: value });
+
+    if (!hasStartedInvite && inviteToken && supabase && value.trim()) {
+      setHasStartedInvite(true);
+      void supabase.rpc("track_sms_invite_event", {
+        p_invite_token: inviteToken,
+        p_event: "started",
+      });
+    }
+  };
+
+  const handlePlusOneNameChange = (index: number, value: string) => {
+    setForm((prev) => ({
+      ...prev,
+      plusOneNames: prev.plusOneNames.map((current, idx) => (idx === index ? value : current)),
+    }));
 
     if (!hasStartedInvite && inviteToken && supabase && value.trim()) {
       setHasStartedInvite(true);
@@ -105,11 +131,12 @@ export const RSVPForm = () => {
       );
       return;
     }
-    if (Number.parseInt(form.numInvitados, 10) > 1 && !form.plusOneName.trim()) {
+    const plusOneCount = Math.max((Number.parseInt(form.numInvitados, 10) || 1) - 1, 0);
+    if (plusOneCount > 0 && form.plusOneNames.some((name) => !name.trim())) {
       setError(
         lang === "es"
-          ? "Por favor ingresa el nombre de tu acompañante."
-          : "Please enter your plus one guest name.",
+          ? "Por favor ingresa el nombre de cada acompañante."
+          : "Please enter each plus one guest name.",
       );
       return;
     }
@@ -151,7 +178,7 @@ export const RSVPForm = () => {
       attending: form.confirmacion === "yes",
       guest_count: Number.parseInt(form.numInvitados, 10) || 1,
       plus_one_name:
-        Number.parseInt(form.numInvitados, 10) > 1 ? form.plusOneName.trim() || null : null,
+        plusOneCount > 0 ? form.plusOneNames.map((name) => name.trim()).join(", ") : null,
       phone: form.telefono.trim() || null,
       arrival_airport: form.aeropuerto || null,
       hotel: form.hotel || null,
@@ -299,17 +326,25 @@ export const RSVPForm = () => {
             {Number.parseInt(form.numInvitados || "1", 10) > 1 && (
               <div className="space-y-2">
                 <label className="text-xs tracking-[0.16em] sm:tracking-[0.2em] uppercase text-muted-foreground font-serif">
-                  {lang === "es" ? "Nombre del acompañante" : "Plus one guest name"}
+                  {lang === "es" ? "Nombres de acompañantes" : "Plus one guest names"}
                 </label>
-                <input
-                  type="text"
-                  name="plusOneName"
-                  required
-                  value={form.plusOneName}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 vintage-input rounded-sm text-base"
-                  placeholder={lang === "es" ? "Nombre del acompañante" : "Plus one full name"}
-                />
+                <div className="space-y-2">
+                  {form.plusOneNames.map((plusOneName, index) => (
+                    <input
+                      key={`plus-one-${index}`}
+                      type="text"
+                      required
+                      value={plusOneName}
+                      onChange={(e) => handlePlusOneNameChange(index, e.target.value)}
+                      className="w-full px-4 py-3 vintage-input rounded-sm text-base"
+                      placeholder={
+                        lang === "es"
+                          ? `Nombre del acompañante ${index + 1}`
+                          : `Plus one full name ${index + 1}`
+                      }
+                    />
+                  ))}
+                </div>
               </div>
             )}
 
