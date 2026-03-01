@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { isSupabaseConfigured, supabase } from "@/lib/supabase";
 import type { RSVPRecord, SMSInviteRecord } from "@/types/rsvp";
 
 const SITE_URL = (import.meta.env.VITE_SITE_URL as string | undefined)?.trim() || window.location.origin;
+const CSV_REQUIRED_COLUMNS = ["guest_name", "phone", "invite_language", "reserved_seats"] as const;
 
 const getManualInviteLanguage = (): "en" | "es" => {
   if (typeof window === "undefined") return "en";
@@ -114,11 +115,14 @@ const Dashboard = () => {
   const [loadError, setLoadError] = useState("");
   const [invites, setInvites] = useState<SMSInviteRecord[]>([]);
   const [invitesError, setInvitesError] = useState("");
+  const [invitesNotice, setInvitesNotice] = useState("");
   const [newInviteName, setNewInviteName] = useState("");
   const [newInvitePhone, setNewInvitePhone] = useState("");
   const [newInviteSeats, setNewInviteSeats] = useState("1");
   const [newInviteLanguage, setNewInviteLanguage] = useState<"en" | "es">(getManualInviteLanguage);
   const [creatingInvite, setCreatingInvite] = useState(false);
+  const [importingInvites, setImportingInvites] = useState(false);
+  const csvInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -229,9 +233,51 @@ const Dashboard = () => {
   const copyMessage = async (invite: SMSInviteRecord) => {
     try {
       await navigator.clipboard.writeText(buildSmsText(invite));
+      setInvitesNotice(`Copied message for ${invite.guest_name}.`);
     } catch (error) {
       setInvitesError(error instanceof Error ? error.message : "Unable to copy message");
     }
+  };
+
+  const downloadInviteTemplateCsv = () => {
+    const header = CSV_REQUIRED_COLUMNS.join(",");
+    const sampleRows = [
+      ["Maria Lopez", "5541234567", "es", "2"],
+      ["John Smith", "9735550102", "en", "1"],
+    ];
+    const csv = [header, ...sampleRows.map((r) => r.join(","))].join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "sms_invites_template.csv";
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const parseCsvLine = (line: string): string[] => {
+    const result: string[] = [];
+    let current = "";
+    let inQuotes = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '"') {
+        const next = line[i + 1];
+        if (inQuotes && next === '"') {
+          current += '"';
+          i++;
+        } else {
+          inQuotes = !inQuotes;
+        }
+      } else if (ch === "," && !inQuotes) {
+        result.push(current.trim());
+        current = "";
+      } else {
+        current += ch;
+      }
+    }
+    result.push(current.trim());
+    return result;
   };
 
   const exportInvitesCsv = () => {
@@ -302,6 +348,89 @@ const Dashboard = () => {
     await loadRows();
   };
 
+  const importInvitesCsvFile = async (file: File) => {
+    if (!supabase) return;
+    setInvitesError("");
+    setInvitesNotice("");
+    setImportingInvites(true);
+
+    try {
+      const raw = await file.text();
+      const lines = raw
+        .split(/\r?\n/)
+        .map((line) => line.trim())
+        .filter((line) => line.length > 0);
+
+      if (lines.length < 2) {
+        setInvitesError("CSV must include a header and at least one row.");
+        setImportingInvites(false);
+        return;
+      }
+
+      const headers = parseCsvLine(lines[0]).map((h) => h.toLowerCase());
+      const colIndex = {
+        guest_name: headers.indexOf("guest_name"),
+        phone: headers.indexOf("phone"),
+        invite_language: headers.indexOf("invite_language"),
+        reserved_seats: headers.indexOf("reserved_seats"),
+      };
+
+      if (colIndex.guest_name < 0 || colIndex.phone < 0) {
+        setInvitesError("CSV must contain at least guest_name and phone columns.");
+        setImportingInvites(false);
+        return;
+      }
+
+      const inserts = lines.slice(1).map((line) => {
+        const cells = parseCsvLine(line);
+        const guestName = (cells[colIndex.guest_name] ?? "").trim();
+        const rawPhone = (cells[colIndex.phone] ?? "").trim();
+        const langCell = (cells[colIndex.invite_language] ?? "").trim().toLowerCase();
+        const inviteLanguage: "en" | "es" = langCell === "es" ? "es" : "en";
+        const seatCell = (cells[colIndex.reserved_seats] ?? "").trim();
+        const seats = /^\d+$/.test(seatCell) && Number.parseInt(seatCell, 10) > 0 ? Number.parseInt(seatCell, 10) : 1;
+
+        if (!guestName || !rawPhone) {
+          return null;
+        }
+
+        const token = crypto.randomUUID();
+        return {
+          guest_name: guestName,
+          phone: normalizePhoneByLanguage(rawPhone, inviteLanguage),
+          invite_language: inviteLanguage,
+          reserved_seats: seats,
+          invite_token: token,
+          invite_url: `${SITE_URL}/?invite=${token}`,
+          status: "draft" as const,
+        };
+      }).filter(Boolean);
+
+      if (inserts.length === 0) {
+        setInvitesError("No valid rows found in CSV.");
+        setImportingInvites(false);
+        return;
+      }
+
+      const { error } = await supabase.from("sms_invites").insert(inserts);
+      if (error) {
+        setInvitesError(error.message);
+        setImportingInvites(false);
+        return;
+      }
+
+      setInvitesNotice(`Imported ${inserts.length} invites.`);
+      if (csvInputRef.current) {
+        csvInputRef.current.value = "";
+      }
+      await loadRows();
+    } catch (error) {
+      setInvitesError(error instanceof Error ? error.message : "Failed to import CSV.");
+    } finally {
+      setImportingInvites(false);
+    }
+  };
+
   if (!isSupabaseConfigured || !supabase) {
     return (
       <div className="min-h-screen bg-background px-4 py-10">
@@ -335,12 +464,32 @@ const Dashboard = () => {
             <button onClick={() => void loadRows()} className="px-4 py-2 rounded-sm border border-border hover:bg-secondary">
               Refresh
             </button>
+            <button
+              onClick={() => csvInputRef.current?.click()}
+              className="px-4 py-2 rounded-sm border border-border hover:bg-secondary"
+              disabled={importingInvites}
+            >
+              {importingInvites ? "Importing..." : "Import SMS CSV"}
+            </button>
+            <button onClick={() => downloadInviteTemplateCsv()} className="px-4 py-2 rounded-sm border border-border hover:bg-secondary">
+              Download CSV Template
+            </button>
             <button onClick={() => exportInvitesCsv()} className="px-4 py-2 rounded-sm border border-border hover:bg-secondary">
-              Export SMS CSV
+              Export Existing CSV
             </button>
             <button onClick={() => void handleLogout()} className="px-4 py-2 rounded-sm bg-primary text-primary-foreground hover:bg-foreground">
               Sign out
             </button>
+            <input
+              ref={csvInputRef}
+              type="file"
+              accept=".csv,text/csv"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) void importInvitesCsvFile(file);
+              }}
+            />
           </div>
         </div>
 
@@ -368,6 +517,9 @@ const Dashboard = () => {
             <h2 className="font-serif text-lg">SMS Invite Tracking</h2>
             <p className="text-sm text-muted-foreground mt-1">
               Create unique links, copy a ready-to-send SMS text, and track opens, started forms, and accepted/declined RSVPs.
+            </p>
+            <p className="text-xs text-muted-foreground mt-2">
+              CSV required columns: {CSV_REQUIRED_COLUMNS.join(", ")}
             </p>
           </div>
 
@@ -445,6 +597,7 @@ const Dashboard = () => {
           </div>
 
           {invitesError && <p className="text-sm text-destructive">{invitesError}</p>}
+          {invitesNotice && <p className="text-sm text-emerald-700">{invitesNotice}</p>}
 
           <div className="space-y-3">
             {invites.map((invite) => (
