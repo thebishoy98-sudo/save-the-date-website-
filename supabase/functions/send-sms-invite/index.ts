@@ -82,7 +82,7 @@ ${body.invite_url}
 
 Por favor haznos saber si planeas asistir antes del 15/03/2026.
 
-Mas adelante, cerca de la fecha de la boda, te contactaremos para re-confirmar.`
+M\u00E1s adelamte, cerca de la fecha de la boda, te contactaremos para re-confirmar.`
         : `Hello ${body.guest_name} ${heart}
 
 We are counting down the days to our wedding and would love for you to be part of this special moment.

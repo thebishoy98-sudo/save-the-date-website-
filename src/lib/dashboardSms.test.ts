@@ -75,7 +75,7 @@ describe("buildSmsText", () => {
     expect(text).toContain("Hola Alex");
     expect(text).toContain("1 lugar reservado para ti.");
     expect(text).toContain("Por favor haznos saber si planeas asistir antes del 15/03/2026.");
-    expect(text).toContain("Mas adelante, cerca de la fecha de la boda, te contactaremos para re-confirmar.");
+    expect(text).toContain("Más adelamte, cerca de la fecha de la boda, te contactaremos para re-confirmar.");
   });
 
   it("builds spanish message with plural seat text", () => {

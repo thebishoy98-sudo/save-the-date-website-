@@ -36,6 +36,7 @@ if ($null -eq $rows -or $rows.Count -eq 0) {
 $sentCount = 0
 $skipCount = 0
 $heart = [char]0x2764
+$aAcute = [char]0x00E1
 
 foreach ($row in $rows) {
   $guestName = (Get-FirstValue -Row $row -Names @("guest_name", "name", "GuestName", "Name")).Trim()
@@ -77,7 +78,7 @@ $inviteUrl
 
 Por favor haznos saber si planeas asistir antes del 15/03/2026.
 
-Mas adelante, cerca de la fecha de la boda, te contactaremos para re-confirmar.
+M$($aAcute)s adelamte, cerca de la fecha de la boda, te contactaremos para re-confirmar.
 "@
 
   $digits = ($phoneRaw -replace '\D', '')
