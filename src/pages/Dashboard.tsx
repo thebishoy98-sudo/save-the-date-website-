@@ -28,11 +28,12 @@ const buildSmsText = (invite: SMSInviteRecord) => {
   const language = invite.invite_language ?? "en";
   const seats = invite.reserved_seats ?? 1;
   if (language === "es") {
-    return `Estimado/a ${invite.guest_name} \u{1F90D}
+    const seatsText = seats === 1 ? "1 lugar reservado para ti." : `${seats} lugares reservados para ti y tus invitados.`;
+    return `Hola ${invite.guest_name} \u{1F90D}
 
 Estamos contando los dias para nuestra boda y nos encantaria que fueras parte de este momento tan especial.
 
-Hemos reservado ${seats} lugar(es) para ti.
+Tenemos ${seatsText}
 
 Todos los detalles estan disponibles aqui:
 ${invite.invite_url}

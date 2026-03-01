@@ -67,13 +67,14 @@ Deno.serve(async (req) => {
 
     const language = body.invite_language ?? "en";
     const seats = body.reserved_seats ?? 1;
+    const seatsText = seats === 1 ? "1 lugar reservado para ti." : `${seats} lugares reservados para ti y tus invitados.`;
     const text =
       language === "es"
-        ? `Estimado/a ${body.guest_name} \u{1F90D}
+        ? `Hola ${body.guest_name} \u{1F90D}
 
 Estamos contando los dias para nuestra boda y nos encantaria que fueras parte de este momento tan especial.
 
-Hemos reservado ${seats} lugar(es) para ti.
+Tenemos ${seatsText}
 
 Todos los detalles estan disponibles aqui:
 ${body.invite_url}
