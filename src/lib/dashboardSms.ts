@@ -28,7 +28,7 @@ ${invite.invite_url}
 
 Por favor haznos saber si planeas asistir antes del 15/03/2026.
 
-Mas adelamte, cerca de la fecha de la fecha, te contactaremos para re-confirmar.`;
+Más adelamte, cerca de la fecha de la fecha, te contactaremos para re-confirmar.`;
   }
   return `Hello ${invite.guest_name} \u{1F90D}
 
