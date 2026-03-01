@@ -28,7 +28,7 @@ ${invite.invite_url}
 
 Por favor confirma tu asistencia antes del 15/03/2026`;
   }
-  return `Dear ${invite.guest_name} \u{1F90D}
+  return `Hello ${invite.guest_name} \u{1F90D}
 
 We are counting down the days to our wedding and would love for you to be part of this special moment.
 
