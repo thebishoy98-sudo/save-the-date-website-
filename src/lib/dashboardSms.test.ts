@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildSmsText, normalizePhoneByLanguage, parseCsvLine } from "@/lib/dashboardSms";
+import { buildSmsText, forceMexicanPhoneFormat, normalizePhoneByLanguage, parseCsvLine } from "@/lib/dashboardSms";
 import type { SMSInviteRecord } from "@/types/rsvp";
 
 const baseInvite: SMSInviteRecord = {
@@ -51,6 +51,22 @@ describe("normalizePhoneByLanguage", () => {
   it("strips formatting characters and still normalizes", () => {
     expect(normalizePhoneByLanguage("(973) 555-0102", "en")).toBe("+19735550102");
     expect(normalizePhoneByLanguage("55 41 23 45 67", "es")).toBe("+525541234567");
+  });
+});
+
+
+
+describe("forceMexicanPhoneFormat", () => {
+  it("returns +52 plus 10 local digits for US-formatted numbers", () => {
+    expect(forceMexicanPhoneFormat("+1 (555) 444-4431")).toBe("+525554444431");
+  });
+
+  it("keeps mexican numbers normalized", () => {
+    expect(forceMexicanPhoneFormat("+52 55 4518 3886")).toBe("+525545183886");
+  });
+
+  it("removes extra leading 1 after mexico code", () => {
+    expect(forceMexicanPhoneFormat("5215541234567")).toBe("+525541234567");
   });
 });
 

@@ -12,6 +12,20 @@ export const normalizePhoneByLanguage = (phone: string, language: "en" | "es"): 
   return digits.startsWith("1") ? `+${digits}` : `+1${digits}`;
 };
 
+export const forceMexicanPhoneFormat = (phone: string): string => {
+  const trimmed = phone.trim();
+  if (!trimmed) return trimmed;
+
+  const digits = trimmed.replace(/\D/g, "");
+  if (!digits) return trimmed;
+
+  const withoutMexicoPrefix = digits.startsWith("52") ? digits.slice(2) : digits;
+  const baseTenDigits = withoutMexicoPrefix.length > 10 ? withoutMexicoPrefix.slice(-10) : withoutMexicoPrefix;
+  const localTenDigits = baseTenDigits.length === 11 && baseTenDigits.startsWith("1") ? baseTenDigits.slice(1) : baseTenDigits;
+
+  return `+52${localTenDigits}`;
+};
+
 export const buildSmsText = (invite: SMSInviteRecord) => {
   const heart = "\u2764\uFE0F";
   const language = invite.invite_language ?? "en";
