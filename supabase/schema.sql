@@ -31,6 +31,7 @@ create table if not exists public.sms_invites (
   created_at timestamptz not null default now(),
   guest_name text not null,
   phone text not null,
+  invite_language text not null default 'en' check (invite_language in ('en', 'es')),
   invite_token text not null unique,
   invite_url text not null,
   status text not null default 'draft' check (status in ('draft', 'sent', 'opened', 'started', 'accepted', 'declined')),
@@ -43,6 +44,16 @@ create table if not exists public.sms_invites (
 
 alter table public.sms_invites
   add column if not exists sent_at timestamptz null;
+
+alter table public.sms_invites
+  add column if not exists invite_language text;
+
+update public.sms_invites
+set invite_language = 'en'
+where invite_language is null;
+
+alter table public.sms_invites
+  alter column invite_language set default 'en';
 
 create index if not exists sms_invites_status_idx on public.sms_invites(status);
 create index if not exists rsvps_invite_token_idx on public.rsvps(invite_token);

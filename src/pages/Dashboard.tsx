@@ -5,8 +5,19 @@ import type { RSVPRecord, SMSInviteRecord } from "@/types/rsvp";
 
 const SITE_URL = (import.meta.env.VITE_SITE_URL as string | undefined)?.trim() || window.location.origin;
 
-const buildSmsText = (invite: SMSInviteRecord) =>
-  `Hi ${invite.guest_name}, your wedding invite is ready: ${invite.invite_url}`;
+const getManualInviteLanguage = (): "en" | "es" => {
+  if (typeof window === "undefined") return "en";
+  const value = window.localStorage.getItem("manual_invite_language");
+  return value === "es" ? "es" : "en";
+};
+
+const buildSmsText = (invite: SMSInviteRecord) => {
+  const language = invite.invite_language ?? "en";
+  if (language === "es") {
+    return `Hola ${invite.guest_name}, ya esta lista tu invitacion de boda: ${invite.invite_url}`;
+  }
+  return `Hi ${invite.guest_name}, your wedding invite is ready: ${invite.invite_url}`;
+};
 
 const LoginPanel = ({
   onLogin,
@@ -74,7 +85,13 @@ const Dashboard = () => {
   const [invitesError, setInvitesError] = useState("");
   const [newInviteName, setNewInviteName] = useState("");
   const [newInvitePhone, setNewInvitePhone] = useState("");
+  const [newInviteLanguage, setNewInviteLanguage] = useState<"en" | "es">(getManualInviteLanguage);
   const [creatingInvite, setCreatingInvite] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    window.localStorage.setItem("manual_invite_language", newInviteLanguage);
+  }, [newInviteLanguage]);
 
   const stats = useMemo(() => {
     const total = rows.length;
@@ -224,6 +241,7 @@ const Dashboard = () => {
     const { error } = await supabase.from("sms_invites").insert({
       guest_name: newInviteName.trim(),
       phone: newInvitePhone.trim(),
+      invite_language: newInviteLanguage,
       invite_token: token,
       invite_url: inviteUrl,
       status: "draft",
@@ -310,6 +328,26 @@ const Dashboard = () => {
             </p>
           </div>
 
+          <div className="border border-border rounded-sm p-3">
+            <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Default language for new guests</p>
+            <div className="mt-2 inline-flex rounded-sm border border-border overflow-hidden">
+              <button
+                type="button"
+                onClick={() => setNewInviteLanguage("en")}
+                className={`px-3 py-1 text-sm ${newInviteLanguage === "en" ? "bg-primary text-primary-foreground" : "bg-background hover:bg-secondary"}`}
+              >
+                English
+              </button>
+              <button
+                type="button"
+                onClick={() => setNewInviteLanguage("es")}
+                className={`px-3 py-1 text-sm ${newInviteLanguage === "es" ? "bg-primary text-primary-foreground" : "bg-background hover:bg-secondary"}`}
+              >
+                Español
+              </button>
+            </div>
+          </div>
+
           <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
             <div className="border border-border rounded-sm p-3">
               <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Invites</p>
@@ -365,7 +403,9 @@ const Dashboard = () => {
                   <p className="text-xs text-muted-foreground">Created {new Date(invite.created_at).toLocaleString()}</p>
                 </div>
                 <div className="flex items-center justify-between gap-2 mt-1">
-                  <p className="text-sm text-muted-foreground">{invite.phone} | Status: {invite.status}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {invite.phone} | Lang: {(invite.invite_language ?? "en").toUpperCase()} | Status: {invite.status}
+                  </p>
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => void sendInviteSms(invite)}

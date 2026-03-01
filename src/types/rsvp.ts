@@ -31,6 +31,7 @@ export interface SMSInviteRecord {
   created_at: string;
   guest_name: string;
   phone: string;
+  invite_language: "en" | "es" | null;
   invite_token: string;
   invite_url: string;
   status: SMSInviteStatus;
