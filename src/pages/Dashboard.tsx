@@ -89,6 +89,7 @@ const Dashboard = () => {
   const [importStatus, setImportStatus] = useState("");
   const [deletingInviteId, setDeletingInviteId] = useState<string | null>(null);
   const [deletingAllInvites, setDeletingAllInvites] = useState(false);
+  const [copiedInviteId, setCopiedInviteId] = useState<string | null>(null);
   const [deletingResponseId, setDeletingResponseId] = useState<string | null>(null);
   const [updatingResponseId, setUpdatingResponseId] = useState<string | null>(null);
   const [responseNotice, setResponseNotice] = useState("");
@@ -207,6 +208,10 @@ const Dashboard = () => {
     try {
       await navigator.clipboard.writeText(buildSmsText(invite));
       setInvitesNotice(`Copied message for ${invite.guest_name}.`);
+      setCopiedInviteId(invite.id);
+      window.setTimeout(() => {
+        setCopiedInviteId((current) => (current === invite.id ? null : current));
+      }, 1800);
     } catch (error) {
       setInvitesError(error instanceof Error ? error.message : "Unable to copy message");
     }
@@ -725,7 +730,7 @@ const Dashboard = () => {
                       onClick={() => void copyMessage(invite)}
                       className="text-xs px-2 py-1 rounded-sm border border-border hover:bg-secondary"
                     >
-                      Copy SMS text
+                      {copiedInviteId === invite.id ? "Copied" : "Copy SMS text"}
                     </button>
                     <button
                       onClick={() => void deleteInvite(invite)}

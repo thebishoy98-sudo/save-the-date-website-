@@ -57,7 +57,7 @@ describe("normalizePhoneByLanguage", () => {
 describe("buildSmsText", () => {
   it("builds english message with seats", () => {
     const text = buildSmsText(baseInvite);
-    expect(text).toContain("Dear Alex");
+    expect(text).toContain("Hello Alex");
     expect(text).toContain("We have reserved 2 seat(s) for you.");
     expect(text).toContain(baseInvite.invite_url);
     expect(text).toContain("Please RSVP before 3/15/2026");
@@ -65,7 +65,7 @@ describe("buildSmsText", () => {
 
   it("defaults to english when language is null", () => {
     const text = buildSmsText({ ...baseInvite, invite_language: null });
-    expect(text).toContain("Dear Alex");
+    expect(text).toContain("Hello Alex");
     expect(text).toContain("seat(s) for you.");
   });
 
