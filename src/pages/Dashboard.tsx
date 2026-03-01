@@ -232,7 +232,22 @@ const Dashboard = () => {
     }
   };
 
+  const openSmsComposer = (invite: SMSInviteRecord) => {
+    const phone = invite.phone.trim();
+    const text = buildSmsText(invite);
+    const encodedBody = encodeURIComponent(text);
+    const separator = /iPad|iPhone|iPod/.test(navigator.userAgent) ? "&" : "?";
+    const smsUrl = `sms:${phone}${separator}body=${encodedBody}`;
+    window.open(smsUrl, "_self");
+  };
+
   const toWhatsAppPhone = (rawPhone: string) => rawPhone.replace(/\D/g, "");
+
+  const openWhatsAppChat = (invite: SMSInviteRecord) => {
+    const phone = toWhatsAppPhone(invite.phone);
+    const text = encodeURIComponent(buildSmsText(invite));
+    window.open(`https://wa.me/${phone}?text=${text}`, "_blank", "noopener,noreferrer");
+  };
 
   const openSpanishWhatsAppChats = () => {
     const spanishInvites = invites.filter((invite) => invite.invite_language === "es" && !copiedInviteIds[invite.id]);
@@ -782,6 +797,20 @@ const Dashboard = () => {
                     >
                       {copiedInviteIds[invite.id] ? "Copied" : "Copy SMS text"}
                     </button>
+                    <button
+                      onClick={() => openSmsComposer(invite)}
+                      className="text-xs px-2 py-1 rounded-sm border border-border hover:bg-secondary"
+                    >
+                      Compose SMS
+                    </button>
+                    {invite.invite_language === "es" && (
+                      <button
+                        onClick={() => openWhatsAppChat(invite)}
+                        className="text-xs px-2 py-1 rounded-sm border border-border hover:bg-secondary"
+                      >
+                        WhatsApp
+                      </button>
+                    )}
                     <button
                       onClick={() => void deleteInvite(invite)}
                       disabled={deletingInviteId === invite.id}
