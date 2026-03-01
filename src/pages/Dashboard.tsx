@@ -89,7 +89,7 @@ const Dashboard = () => {
   const [importStatus, setImportStatus] = useState("");
   const [deletingInviteId, setDeletingInviteId] = useState<string | null>(null);
   const [deletingAllInvites, setDeletingAllInvites] = useState(false);
-  const [copiedInviteId, setCopiedInviteId] = useState<string | null>(null);
+  const [copiedInviteIds, setCopiedInviteIds] = useState<Record<string, true>>({});
   const [deletingResponseId, setDeletingResponseId] = useState<string | null>(null);
   const [updatingResponseId, setUpdatingResponseId] = useState<string | null>(null);
   const [responseNotice, setResponseNotice] = useState("");
@@ -99,6 +99,23 @@ const Dashboard = () => {
     if (typeof window === "undefined") return;
     window.localStorage.setItem("manual_invite_language", newInviteLanguage);
   }, [newInviteLanguage]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const raw = window.localStorage.getItem("copied_invite_ids");
+    if (!raw) return;
+    try {
+      const parsed = JSON.parse(raw) as Record<string, true>;
+      setCopiedInviteIds(parsed ?? {});
+    } catch {
+      setCopiedInviteIds({});
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    window.localStorage.setItem("copied_invite_ids", JSON.stringify(copiedInviteIds));
+  }, [copiedInviteIds]);
 
   const stats = useMemo(() => {
     const total = rows.length;
@@ -208,10 +225,7 @@ const Dashboard = () => {
     try {
       await navigator.clipboard.writeText(buildSmsText(invite));
       setInvitesNotice(`Copied message for ${invite.guest_name}.`);
-      setCopiedInviteId(invite.id);
-      window.setTimeout(() => {
-        setCopiedInviteId((current) => (current === invite.id ? null : current));
-      }, 1800);
+      setCopiedInviteIds((prev) => ({ ...prev, [invite.id]: true }));
     } catch (error) {
       setInvitesError(error instanceof Error ? error.message : "Unable to copy message");
     }
@@ -730,7 +744,7 @@ const Dashboard = () => {
                       onClick={() => void copyMessage(invite)}
                       className="text-xs px-2 py-1 rounded-sm border border-border hover:bg-secondary"
                     >
-                      {copiedInviteId === invite.id ? "Copied" : "Copy SMS text"}
+                      {copiedInviteIds[invite.id] ? "Copied" : "Copy SMS text"}
                     </button>
                     <button
                       onClick={() => void deleteInvite(invite)}
