@@ -9,6 +9,8 @@ interface SendSmsInviteBody {
   invite_token: string;
   guest_name: string;
   phone: string;
+  invite_language?: "en" | "es" | null;
+  reserved_seats?: number | null;
   invite_url: string;
 }
 
@@ -63,10 +65,29 @@ Deno.serve(async (req) => {
       });
     }
 
-    const text = `Hello ${body.guest_name} 🤍
+    const language = body.invite_language ?? "en";
+    const seats = body.reserved_seats ?? 1;
+    const text =
+      language === "es"
+        ? `Estimado/a ${body.guest_name} \u{1F90D}
+
+Estamos contando los dias para nuestra boda y nos encantaria que fueras parte de este momento tan especial.
+
+Hemos reservado ${seats} lugar(es) para ti.
+
+Todos los detalles estan disponibles aqui:
+${body.invite_url}
+
+Por favor confirma tu asistencia antes del 15/03/2026`
+        : `Dear ${body.guest_name} \u{1F90D}
+
 We are counting down the days to our wedding and would love for you to be part of this special moment.
+
+We have reserved ${seats} seat(s) for you.
+
 All the details are available here:
 ${body.invite_url}
+
 Please RSVP before 3/15/2026`;
 
     const params = new URLSearchParams();

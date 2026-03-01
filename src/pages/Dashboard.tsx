@@ -11,12 +11,43 @@ const getManualInviteLanguage = (): "en" | "es" => {
   return value === "es" ? "es" : "en";
 };
 
+const normalizePhoneByLanguage = (phone: string, language: "en" | "es"): string => {
+  const trimmed = phone.trim();
+  if (!trimmed) return trimmed;
+  if (trimmed.startsWith("+")) return trimmed;
+
+  const digits = trimmed.replace(/\D/g, "");
+  if (!digits) return trimmed;
+
+  if (language === "es") return digits.startsWith("52") ? `+${digits}` : `+52${digits}`;
+  return digits.startsWith("1") ? `+${digits}` : `+1${digits}`;
+};
+
 const buildSmsText = (invite: SMSInviteRecord) => {
   const language = invite.invite_language ?? "en";
+  const seats = invite.reserved_seats ?? 1;
   if (language === "es") {
-    return `Hola ${invite.guest_name}, ya esta lista tu invitacion de boda: ${invite.invite_url}`;
+    return `Estimado/a ${invite.guest_name} \u{1F90D}
+
+Estamos contando los dias para nuestra boda y nos encantaria que fueras parte de este momento tan especial.
+
+Hemos reservado ${seats} lugar(es) para ti.
+
+Todos los detalles estan disponibles aqui:
+${invite.invite_url}
+
+Por favor confirma tu asistencia antes del 15/03/2026`;
   }
-  return `Hi ${invite.guest_name}, your wedding invite is ready: ${invite.invite_url}`;
+  return `Dear ${invite.guest_name} \u{1F90D}
+
+We are counting down the days to our wedding and would love for you to be part of this special moment.
+
+We have reserved ${seats} seat(s) for you.
+
+All the details are available here:
+${invite.invite_url}
+
+Please RSVP before 3/15/2026`;
 };
 
 const LoginPanel = ({
@@ -85,6 +116,7 @@ const Dashboard = () => {
   const [invitesError, setInvitesError] = useState("");
   const [newInviteName, setNewInviteName] = useState("");
   const [newInvitePhone, setNewInvitePhone] = useState("");
+  const [newInviteSeats, setNewInviteSeats] = useState("1");
   const [newInviteLanguage, setNewInviteLanguage] = useState<"en" | "es">(getManualInviteLanguage);
   const [creatingInvite, setCreatingInvite] = useState(false);
 
@@ -180,6 +212,8 @@ const Dashboard = () => {
         invite_token: invite.invite_token,
         guest_name: invite.guest_name,
         phone: invite.phone,
+        invite_language: invite.invite_language ?? "en",
+        reserved_seats: invite.reserved_seats ?? 1,
         invite_url: invite.invite_url,
       },
     });
@@ -201,11 +235,13 @@ const Dashboard = () => {
   };
 
   const exportInvitesCsv = () => {
-    const header = "guest_name,phone,invite_url,status,sent_at,opened_at,started_at,responded_at";
+    const header = "guest_name,phone,invite_language,reserved_seats,invite_url,status,sent_at,opened_at,started_at,responded_at";
     const rowsCsv = invites.map((invite) =>
       [
         invite.guest_name,
         invite.phone,
+        invite.invite_language ?? "en",
+        invite.reserved_seats ?? 1,
         invite.invite_url,
         invite.status,
         invite.sent_at || "",
@@ -228,8 +264,12 @@ const Dashboard = () => {
 
   const createInvite = async () => {
     if (!supabase) return;
-    if (!newInviteName.trim() || !newInvitePhone.trim()) {
-      setInvitesError("Name and phone are required to create an SMS invite.");
+    if (!newInviteName.trim() || !newInvitePhone.trim() || !newInviteSeats.trim()) {
+      setInvitesError("Name, phone, and reserved seats are required.");
+      return;
+    }
+    if (!/^\d+$/.test(newInviteSeats) || Number.parseInt(newInviteSeats, 10) < 1) {
+      setInvitesError("Reserved seats must be a number greater than 0.");
       return;
     }
 
@@ -237,11 +277,13 @@ const Dashboard = () => {
     setInvitesError("");
     const token = crypto.randomUUID();
     const inviteUrl = `${SITE_URL}/?invite=${token}`;
+    const normalizedPhone = normalizePhoneByLanguage(newInvitePhone, newInviteLanguage);
 
     const { error } = await supabase.from("sms_invites").insert({
       guest_name: newInviteName.trim(),
-      phone: newInvitePhone.trim(),
+      phone: normalizedPhone,
       invite_language: newInviteLanguage,
+      reserved_seats: Number.parseInt(newInviteSeats, 10),
       invite_token: token,
       invite_url: inviteUrl,
       status: "draft",
@@ -255,6 +297,7 @@ const Dashboard = () => {
 
     setNewInviteName("");
     setNewInvitePhone("");
+    setNewInviteSeats("1");
     setCreatingInvite(false);
     await loadRows();
   };
@@ -343,7 +386,7 @@ const Dashboard = () => {
                 onClick={() => setNewInviteLanguage("es")}
                 className={`px-3 py-1 text-sm ${newInviteLanguage === "es" ? "bg-primary text-primary-foreground" : "bg-background hover:bg-secondary"}`}
               >
-                Español
+                Espanol
               </button>
             </div>
           </div>
@@ -371,7 +414,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="grid sm:grid-cols-[1fr_1fr_auto] gap-2">
+          <div className="grid sm:grid-cols-[1fr_1fr_140px_auto] gap-2">
             <input
               value={newInviteName}
               onChange={(e) => setNewInviteName(e.target.value)}
@@ -382,7 +425,15 @@ const Dashboard = () => {
               value={newInvitePhone}
               onChange={(e) => setNewInvitePhone(e.target.value)}
               className="px-4 py-2 vintage-input rounded-sm"
-              placeholder="Phone (ex: +52...)"
+              placeholder={newInviteLanguage === "es" ? "Phone (auto +52)" : "Phone (auto +1)"}
+            />
+            <input
+              value={newInviteSeats}
+              onChange={(e) => setNewInviteSeats(e.target.value.replace(/\D/g, ""))}
+              className="px-4 py-2 vintage-input rounded-sm"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              placeholder="Seats"
             />
             <button
               onClick={() => void createInvite()}
@@ -404,7 +455,7 @@ const Dashboard = () => {
                 </div>
                 <div className="flex items-center justify-between gap-2 mt-1">
                   <p className="text-sm text-muted-foreground">
-                    {invite.phone} | Lang: {(invite.invite_language ?? "en").toUpperCase()} | Status: {invite.status}
+                    {invite.phone} | Lang: {(invite.invite_language ?? "en").toUpperCase()} | Seats: {invite.reserved_seats ?? 1} | Status: {invite.status}
                   </p>
                   <div className="flex items-center gap-2">
                     <button
@@ -460,3 +511,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
