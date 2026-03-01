@@ -421,58 +421,40 @@ const Dashboard = () => {
     await loadRows();
   };
 
-  const toggleDraftInviteSelection = (inviteId: string, checked: boolean) => {
-    setSelectedDraftInviteIds((prev) => {
-      if (checked) return { ...prev, [inviteId]: true };
-      const { [inviteId]: _removed, ...rest } = prev;
-      return rest;
-    });
-  };
-
-  const convertSelectedDraftEnglishInvitesToSpanish = async () => {
+  const convertDraftEnglishInvitesToSpanish = async () => {
     if (!supabase) return;
-    const selectedIds = draftEnglishInvites.filter((invite) => selectedDraftInviteIds[invite.id]).map((invite) => invite.id);
-
-    if (selectedIds.length === 0) {
-      setInvitesNotice("Select at least one draft EN invite.");
+    const totalDraftEnglish = invites.filter((invite) => invite.status === "draft" && invite.invite_language === "en").length;
+    if (totalDraftEnglish === 0) {
+      setInvitesNotice("No draft EN invites found.");
       return;
     }
 
-    const confirmed = window.confirm(`Convert ${selectedIds.length} selected draft EN invite(s) to ES?`);
+    const confirmed = window.confirm(`Convert ${totalDraftEnglish} draft EN invite(s) to ES?`);
     if (!confirmed) return;
 
     setInvitesError("");
     setInvitesNotice("");
-    setConvertingSelectedInvites(true);
-    setImportStatus("Converting selected draft EN invites to ES...");
+    setImportingInvites(true);
+    setImportStatus("Converting draft EN invites to ES...");
 
-    let updatedCount = 0;
-    for (const invite of draftEnglishInvites) {
-      if (!selectedDraftInviteIds[invite.id]) continue;
-      const { error } = await supabase
-        .from("sms_invites")
-        .update({
-          invite_language: "es",
-          phone: normalizePhoneByLanguage(invite.phone, "es"),
-        })
-        .eq("id", invite.id)
-        .eq("status", "draft")
-        .eq("invite_language", "en");
+    const { data: updatedRows, error } = await supabase
+      .from("sms_invites")
+      .update({ invite_language: "es" })
+      .eq("status", "draft")
+      .eq("invite_language", "en")
+      .select("id");
 
-      if (error) {
-        setInvitesError(error.message);
-        setImportStatus("");
-        setConvertingSelectedInvites(false);
-        return;
-      }
-
-      updatedCount += 1;
+    if (error) {
+      setInvitesError(error.message);
+      setImportStatus("");
+      setImportingInvites(false);
+      return;
     }
 
-    setSelectedDraftInviteIds({});
-    setInvitesNotice(`Converted ${updatedCount} selected draft invite(s) from EN to ES, with +52 phone normalization.`);
+    const updatedCount = updatedRows?.length ?? 0;
+    setInvitesNotice(`Converted ${updatedCount} draft invite(s) from EN to ES.`);
     setImportStatus("Conversion complete.");
-    setConvertingSelectedInvites(false);
+    setImportingInvites(false);
     await loadRows();
   };
 
@@ -708,11 +690,11 @@ const Dashboard = () => {
               {openingWhatsApp ? "Opening WhatsApp..." : "Open WhatsApp (ES only)"}
             </button>
             <button
-              onClick={() => void convertSelectedDraftEnglishInvitesToSpanish()}
-              disabled={convertingSelectedInvites || selectedDraftCount === 0}
+              onClick={() => void convertDraftEnglishInvitesToSpanish()}
+              disabled={importingInvites}
               className="px-4 py-2 rounded-sm border border-border hover:bg-secondary disabled:opacity-60"
             >
-              {convertingSelectedInvites ? "Converting..." : `Convert selected drafts (${selectedDraftCount})`}
+              {importingInvites ? "Working..." : "Fix draft EN → ES"}
             </button>
             <button
               onClick={() => void deleteAllInvites()}
