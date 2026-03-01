@@ -68,9 +68,10 @@ Deno.serve(async (req) => {
     const language = body.invite_language ?? "en";
     const seats = body.reserved_seats ?? 1;
     const seatsText = seats === 1 ? "1 lugar reservado para ti." : `${seats} lugares reservados para ti y tus invitados.`;
+    const heart = "\u2764\uFE0F";
     const text =
       language === "es"
-        ? `Hola ${body.guest_name} \u{1F90D}
+        ? `Hola ${body.guest_name} ${heart}
 
 Estamos contando los dias para nuestra boda y nos encantaria que fueras parte de este momento tan especial.
 
@@ -79,8 +80,10 @@ Tenemos ${seatsText}
 Todos los detalles estan disponibles aqui:
 ${body.invite_url}
 
-Por favor confirma tu asistencia antes del 15/03/2026`
-        : `Hello ${body.guest_name} \u{1F90D}
+Por favor haznos saber si planeas asistir antes del 15/03/2026.
+
+Mas adelante, cerca de la fecha de la boda, te contactaremos para re-confirmar.`
+        : `Hello ${body.guest_name} ${heart}
 
 We are counting down the days to our wedding and would love for you to be part of this special moment.
 
@@ -89,7 +92,9 @@ We have reserved ${seats} seat(s) for you.
 All the details are available here:
 ${body.invite_url}
 
-Please RSVP before 3/15/2026`;
+Please let us know if you are planning to attend by 3/15/2026.
+
+We will follow up later for a final confirmation closer to the wedding date.`;
 
     const params = new URLSearchParams();
     params.set("To", body.phone);

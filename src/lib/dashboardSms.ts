@@ -13,11 +13,13 @@ export const normalizePhoneByLanguage = (phone: string, language: "en" | "es"): 
 };
 
 export const buildSmsText = (invite: SMSInviteRecord) => {
+  const heart = "\u2764\uFE0F";
   const language = invite.invite_language ?? "en";
   const seats = invite.reserved_seats ?? 1;
+
   if (language === "es") {
     const seatsText = seats === 1 ? "1 lugar reservado para ti." : `${seats} lugares reservados para ti y tus invitados.`;
-    return `Hola ${invite.guest_name} \u{1F90D}
+    return `Hola ${invite.guest_name} ${heart}
 
 Estamos contando los dias para nuestra boda y nos encantaria que fueras parte de este momento tan especial.
 
@@ -28,9 +30,10 @@ ${invite.invite_url}
 
 Por favor haznos saber si planeas asistir antes del 15/03/2026.
 
-Más adelamte, cerca de la fecha de la fecha, te contactaremos para re-confirmar.`;
+Mas adelante, cerca de la fecha de la boda, te contactaremos para re-confirmar.`;
   }
-  return `Hello ${invite.guest_name} \u{1F90D}
+
+  return `Hello ${invite.guest_name} ${heart}
 
 We are counting down the days to our wedding and would love for you to be part of this special moment.
 
@@ -48,6 +51,7 @@ export const parseCsvLine = (line: string): string[] => {
   const result: string[] = [];
   let current = "";
   let inQuotes = false;
+
   for (let i = 0; i < line.length; i++) {
     const ch = line[i];
     if (ch === '"') {
@@ -65,6 +69,7 @@ export const parseCsvLine = (line: string): string[] => {
       current += ch;
     }
   }
+
   result.push(current.trim());
   return result;
 };

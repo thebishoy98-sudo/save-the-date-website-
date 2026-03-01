@@ -35,6 +35,7 @@ if ($null -eq $rows -or $rows.Count -eq 0) {
 
 $sentCount = 0
 $skipCount = 0
+$heart = [char]0x2764
 
 foreach ($row in $rows) {
   $guestName = (Get-FirstValue -Row $row -Names @("guest_name", "name", "GuestName", "Name")).Trim()
@@ -65,7 +66,7 @@ foreach ($row in $rows) {
   }
 
   $message = @"
-Hola $guestName 🤍
+Hola $guestName $heart
 
 Estamos contando los dias para nuestra boda y nos encantaria que fueras parte de este momento tan especial.
 
@@ -76,7 +77,7 @@ $inviteUrl
 
 Por favor haznos saber si planeas asistir antes del 15/03/2026.
 
-Más adelamte, cerca de la fecha de la fecha, te contactaremos para re-confirmar.
+Mas adelante, cerca de la fecha de la boda, te contactaremos para re-confirmar.
 "@
 
   $digits = ($phoneRaw -replace '\D', '')
