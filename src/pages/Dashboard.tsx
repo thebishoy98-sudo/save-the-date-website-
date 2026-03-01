@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { isSupabaseConfigured, supabase } from "@/lib/supabase";
 import type { RSVPRecord, SMSInviteRecord } from "@/types/rsvp";
-import { buildSmsText, normalizePhoneByLanguage, parseCsvLine } from "@/lib/dashboardSms";
+import { buildSmsText, forceMexicanPhoneFormat, normalizePhoneByLanguage, parseCsvLine } from "@/lib/dashboardSms";
 import { REVIEW_PENDING_STATUSES, sortResponsesForReview } from "@/lib/rsvpReview";
 
 const SITE_URL = (import.meta.env.VITE_SITE_URL as string | undefined)?.trim() || window.location.origin;
@@ -421,6 +421,66 @@ const Dashboard = () => {
     await loadRows();
   };
 
+
+  const toggleDraftInviteSelection = (inviteId: string, checked: boolean) => {
+    setSelectedDraftInviteIds((prev) => {
+      if (checked) return { ...prev, [inviteId]: true };
+      if (!prev[inviteId]) return prev;
+      const next = { ...prev };
+      delete next[inviteId];
+      return next;
+    });
+  };
+
+  const convertSelectedDraftInvitesToSpanish = async () => {
+    if (!supabase) return;
+
+    const selectedIds = draftEnglishInvites
+      .filter((invite) => selectedDraftInviteIds[invite.id])
+      .map((invite) => invite.id);
+
+    if (selectedIds.length === 0) {
+      setInvitesNotice("Select at least one draft EN invite to convert.");
+      return;
+    }
+
+    const confirmed = window.confirm(`Convert ${selectedIds.length} selected invite(s) to ES and +52 format?`);
+    if (!confirmed) return;
+
+    setConvertingSelectedInvites(true);
+    setInvitesError("");
+    setInvitesNotice("");
+
+    let convertedCount = 0;
+
+    for (const invite of draftEnglishInvites) {
+      if (!selectedDraftInviteIds[invite.id]) continue;
+
+      const { error } = await supabase
+        .from("sms_invites")
+        .update({
+          invite_language: "es",
+          phone: forceMexicanPhoneFormat(invite.phone),
+        })
+        .eq("id", invite.id)
+        .eq("status", "draft")
+        .eq("invite_language", "en");
+
+      if (error) {
+        setInvitesError(error.message);
+        setConvertingSelectedInvites(false);
+        return;
+      }
+
+      convertedCount += 1;
+    }
+
+    setInvitesNotice(`Converted ${convertedCount} selected draft invite(s) to ES +52.`);
+    setSelectedDraftInviteIds({});
+    setConvertingSelectedInvites(false);
+    await loadRows();
+  };
+
   const convertDraftEnglishInvitesToSpanish = async () => {
     if (!supabase) return;
     const totalDraftEnglish = invites.filter((invite) => invite.status === "draft" && invite.invite_language === "en").length;
@@ -429,7 +489,7 @@ const Dashboard = () => {
       return;
     }
 
-    const confirmed = window.confirm(`Convert ${totalDraftEnglish} draft EN invite(s) to ES?`);
+    const confirmed = window.confirm(`Convert ${totalDraftEnglish} draft EN invite(s) to ES and +52 format?`);
     if (!confirmed) return;
 
     setInvitesError("");
@@ -437,22 +497,32 @@ const Dashboard = () => {
     setImportingInvites(true);
     setImportStatus("Converting draft EN invites to ES...");
 
-    const { data: updatedRows, error } = await supabase
-      .from("sms_invites")
-      .update({ invite_language: "es" })
-      .eq("status", "draft")
-      .eq("invite_language", "en")
-      .select("id");
+    const selectedDraftEnglish = invites.filter((invite) => invite.status === "draft" && invite.invite_language === "en");
 
-    if (error) {
-      setInvitesError(error.message);
-      setImportStatus("");
-      setImportingInvites(false);
-      return;
+    let updatedCount = 0;
+
+    for (const invite of selectedDraftEnglish) {
+      const { error } = await supabase
+        .from("sms_invites")
+        .update({
+          invite_language: "es",
+          phone: forceMexicanPhoneFormat(invite.phone),
+        })
+        .eq("id", invite.id)
+        .eq("status", "draft")
+        .eq("invite_language", "en");
+
+      if (error) {
+        setInvitesError(error.message);
+        setImportStatus("");
+        setImportingInvites(false);
+        return;
+      }
+
+      updatedCount += 1;
     }
 
-    const updatedCount = updatedRows?.length ?? 0;
-    setInvitesNotice(`Converted ${updatedCount} draft invite(s) from EN to ES.`);
+    setInvitesNotice(`Converted ${updatedCount} draft invite(s) from EN to ES +52.`);
     setImportStatus("Conversion complete.");
     setImportingInvites(false);
     await loadRows();
@@ -690,11 +760,18 @@ const Dashboard = () => {
               {openingWhatsApp ? "Opening WhatsApp..." : "Open WhatsApp (ES only)"}
             </button>
             <button
+              onClick={() => void convertSelectedDraftInvitesToSpanish()}
+              disabled={convertingSelectedInvites || selectedDraftCount === 0}
+              className="px-4 py-2 rounded-sm border border-border hover:bg-secondary disabled:opacity-60"
+            >
+              {convertingSelectedInvites ? "Converting selected..." : "Convert selected to ES +52"}
+            </button>
+            <button
               onClick={() => void convertDraftEnglishInvitesToSpanish()}
               disabled={importingInvites}
               className="px-4 py-2 rounded-sm border border-border hover:bg-secondary disabled:opacity-60"
             >
-              {importingInvites ? "Working..." : "Fix draft EN → ES"}
+              {importingInvites ? "Working..." : "Fix all draft EN → ES"}
             </button>
             <button
               onClick={() => void deleteAllInvites()}
