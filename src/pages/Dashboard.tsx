@@ -4,7 +4,7 @@ import { isSupabaseConfigured, supabase } from "@/lib/supabase";
 import type { RSVPRecord, SMSInviteRecord } from "@/types/rsvp";
 
 const SITE_URL = (import.meta.env.VITE_SITE_URL as string | undefined)?.trim() || window.location.origin;
-const CSV_REQUIRED_COLUMNS = ["guest_name", "phone", "invite_language", "reserved_seats"] as const;
+const CSV_REQUIRED_COLUMNS_LABEL = "Name, Phone, Language, Seats";
 
 const getManualInviteLanguage = (): "en" | "es" => {
   if (typeof window === "undefined") return "en";
@@ -244,7 +244,7 @@ const Dashboard = () => {
   };
 
   const downloadInviteTemplateCsv = () => {
-    const header = CSV_REQUIRED_COLUMNS.join(",");
+    const header = "Name,Phone,Language,Seats";
     const sampleRows = [
       ["Maria Lopez", "5541234567", "es", "2"],
       ["John Smith", "9735550102", "en", "1"],
@@ -414,11 +414,18 @@ const Dashboard = () => {
       }
 
       const headers = parseCsvLine(lines[0]).map((h) => h.toLowerCase());
+      const getHeaderIndex = (aliases: string[]) => {
+        for (const alias of aliases) {
+          const idx = headers.indexOf(alias);
+          if (idx >= 0) return idx;
+        }
+        return -1;
+      };
       const colIndex = {
-        guest_name: headers.indexOf("guest_name"),
-        phone: headers.indexOf("phone"),
-        invite_language: headers.indexOf("invite_language"),
-        reserved_seats: headers.indexOf("reserved_seats"),
+        guest_name: getHeaderIndex(["guest_name", "name", "guest", "guestname"]),
+        phone: getHeaderIndex(["phone", "phone_number", "number", "telefono"]),
+        invite_language: getHeaderIndex(["invite_language", "language", "lang", "idioma"]),
+        reserved_seats: getHeaderIndex(["reserved_seats", "seats", "seat_count", "lugares"]),
       };
 
       if (colIndex.guest_name < 0 || colIndex.phone < 0) {
@@ -572,7 +579,7 @@ const Dashboard = () => {
               Create unique links, copy a ready-to-send SMS text, and track opens, started forms, and accepted/declined RSVPs.
             </p>
             <p className="text-xs text-muted-foreground mt-2">
-              CSV required columns: {CSV_REQUIRED_COLUMNS.join(", ")}
+              CSV required columns: {CSV_REQUIRED_COLUMNS_LABEL}
             </p>
             {importingInvites && (
               <p className="text-sm mt-2 text-amber-700">
