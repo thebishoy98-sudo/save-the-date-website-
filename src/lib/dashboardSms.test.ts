@@ -58,7 +58,7 @@ describe("buildSmsText", () => {
   it("builds english message with seats", () => {
     const text = buildSmsText(baseInvite);
     expect(text).toContain("Hello Alex");
-    expect(text).toContain("We have reserved 2 seat(s) for you.");
+    expect(text).toContain("We have reserved 2 seats for you.");
     expect(text).toContain(baseInvite.invite_url);
     expect(text).toContain("Please let us know if you are planning to attend by 3/31/2026.");
     expect(text).toContain("We will follow up later for a final confirmation closer to the wedding date.");
@@ -67,7 +67,13 @@ describe("buildSmsText", () => {
   it("defaults to english when language is null", () => {
     const text = buildSmsText({ ...baseInvite, invite_language: null });
     expect(text).toContain("Hello Alex");
-    expect(text).toContain("seat(s) for you.");
+    expect(text).toContain("seats for you.");
+  });
+
+
+  it("builds english message with singular seat text", () => {
+    const text = buildSmsText({ ...baseInvite, reserved_seats: 1 });
+    expect(text).toContain("We have reserved 1 seat for you.");
   });
 
   it("builds spanish message with singular seat text", () => {

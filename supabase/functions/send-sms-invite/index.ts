@@ -68,6 +68,7 @@ Deno.serve(async (req) => {
     const language = body.invite_language ?? "en";
     const seats = body.reserved_seats ?? 1;
     const seatsText = seats === 1 ? "1 lugar reservado para ti." : `${seats} lugares reservados para ti y tus invitados.`;
+    const englishSeatText = seats === 1 ? "seat" : "seats";
     const heart = "\u2764\uFE0F";
     const text =
       language === "es"
@@ -87,7 +88,7 @@ M\u00E1s adelamte, cerca de la fecha de la boda, te contactaremos para re-confir
 
 We are counting down the days to our wedding and would love for you to be part of this special moment.
 
-We have reserved ${seats} seat(s) for you.
+We have reserved ${seats} ${englishSeatText} for you.
 
 All the details are available here:
 ${body.invite_url}
