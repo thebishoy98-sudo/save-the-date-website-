@@ -28,7 +28,7 @@ Tenemos ${seatsText}
 Todos los detalles estan disponibles aqui:
 ${invite.invite_url}
 
-Por favor haznos saber si planeas asistir antes del 15/03/2026.
+Por favor haznos saber si planeas asistir antes del 31/03/2026.
 
 M\u00E1s adelamte, cerca de la fecha de la boda, te contactaremos para re-confirmar.`;
   }
@@ -42,7 +42,7 @@ We have reserved ${seats} seat(s) for you.
 All the details are available here:
 ${invite.invite_url}
 
-Please let us know if you are planning to attend by 3/15/2026.
+Please let us know if you are planning to attend by 3/31/2026.
 
 We will follow up later for a final confirmation closer to the wedding date.`;
 };
