@@ -405,6 +405,7 @@ const Dashboard = () => {
                   <p className="text-xs text-muted-foreground">{new Date(row.created_at).toLocaleString()}</p>
                 </div>
                 <p className="text-sm mt-1">{row.attending ? "Attending" : "Not attending"} | Guests: {row.guest_count}</p>
+                <p className="text-sm text-muted-foreground mt-1">Plus one: {row.plus_one_name || "None"}</p>
                 <p className="text-sm text-muted-foreground mt-1">
                   {row.email || "No email"} | {row.phone || "No phone"} | {row.arrival_airport || "No airport"}
                 </p>

@@ -6,6 +6,7 @@ export interface RSVPRecord {
   language: "en" | "es";
   attending: boolean;
   guest_count: number;
+  plus_one_name: string | null;
   phone: string | null;
   arrival_airport: string | null;
   hotel: string | null;

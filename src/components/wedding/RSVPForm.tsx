@@ -8,6 +8,7 @@ interface RSVPFormState {
   email: string;
   confirmacion: "yes" | "no" | "";
   numInvitados: string;
+  plusOneName: string;
   telefono: string;
   aeropuerto: "PBC" | "MEX" | "LOCAL" | "";
   hotel: string;
@@ -21,6 +22,7 @@ const initialForm: RSVPFormState = {
   email: "",
   confirmacion: "",
   numInvitados: "1",
+  plusOneName: "",
   telefono: "",
   aeropuerto: "",
   hotel: "",
@@ -103,6 +105,14 @@ export const RSVPForm = () => {
       );
       return;
     }
+    if (Number.parseInt(form.numInvitados, 10) > 1 && !form.plusOneName.trim()) {
+      setError(
+        lang === "es"
+          ? "Por favor ingresa el nombre de tu acompañante."
+          : "Please enter your plus one guest name.",
+      );
+      return;
+    }
     if (!/^\d+$/.test(form.numInvitados) || Number.parseInt(form.numInvitados, 10) < 1) {
       setError(
         lang === "es"
@@ -140,6 +150,8 @@ export const RSVPForm = () => {
       language: lang,
       attending: form.confirmacion === "yes",
       guest_count: Number.parseInt(form.numInvitados, 10) || 1,
+      plus_one_name:
+        Number.parseInt(form.numInvitados, 10) > 1 ? form.plusOneName.trim() || null : null,
       phone: form.telefono.trim() || null,
       arrival_airport: form.aeropuerto || null,
       hotel: form.hotel || null,
@@ -283,6 +295,23 @@ export const RSVPForm = () => {
                 placeholder="1"
               />
             </div>
+
+            {Number.parseInt(form.numInvitados || "1", 10) > 1 && (
+              <div className="space-y-2">
+                <label className="text-xs tracking-[0.16em] sm:tracking-[0.2em] uppercase text-muted-foreground font-serif">
+                  {lang === "es" ? "Nombre del acompañante" : "Plus one guest name"}
+                </label>
+                <input
+                  type="text"
+                  name="plusOneName"
+                  required
+                  value={form.plusOneName}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 vintage-input rounded-sm text-base"
+                  placeholder={lang === "es" ? "Nombre del acompañante" : "Plus one full name"}
+                />
+              </div>
+            )}
 
             <div className="space-y-2">
               <label className="text-xs tracking-[0.16em] sm:tracking-[0.2em] uppercase text-muted-foreground font-serif">

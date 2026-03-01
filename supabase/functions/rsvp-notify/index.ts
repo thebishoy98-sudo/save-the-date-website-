@@ -9,6 +9,7 @@ interface RSVPNotifyBody {
   language: "en" | "es";
   attending: boolean;
   guest_count: number;
+  plus_one_name?: string | null;
   phone?: string | null;
   arrival_airport?: string | null;
   hotel?: string | null;
@@ -43,6 +44,7 @@ Deno.serve(async (req) => {
       `Name: ${body.name}`,
       `Attending: ${body.attending ? "Yes" : "No"}`,
       `Guests: ${body.guest_count}`,
+      `Plus one: ${body.plus_one_name ?? "N/A"}`,
       `Language: ${body.language}`,
       `Email: ${body.email ?? "N/A"}`,
       `Phone: ${body.phone ?? "N/A"}`,

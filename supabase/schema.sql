@@ -8,6 +8,7 @@ create table if not exists public.rsvps (
   language text not null check (language in ('en', 'es')),
   attending boolean not null,
   guest_count int not null default 1 check (guest_count > 0),
+  plus_one_name text null,
   phone text null,
   arrival_airport text null,
   hotel text null,
@@ -21,6 +22,9 @@ create table if not exists public.rsvps (
 
 alter table public.rsvps
   add column if not exists invite_token text null;
+
+alter table public.rsvps
+  add column if not exists plus_one_name text null;
 
 create table if not exists public.sms_invites (
   id uuid primary key default gen_random_uuid(),
