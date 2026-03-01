@@ -27,15 +27,25 @@ Deno.serve(async (req) => {
   try {
     const twilioAccountSid = Deno.env.get("TWILIO_ACCOUNT_SID");
     const twilioAuthToken = Deno.env.get("TWILIO_AUTH_TOKEN");
+    const twilioFromNumber = Deno.env.get("TWILIO_FROM_NUMBER");
     const twilioMessagingServiceSid = Deno.env.get("TWILIO_MESSAGING_SERVICE_SID");
     const supabaseUrl = Deno.env.get("SUPABASE_URL");
     const supabaseServiceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
-    if (!twilioAccountSid || !twilioAuthToken || !twilioMessagingServiceSid) {
-      return new Response(JSON.stringify({ error: "Missing Twilio secrets" }), {
+    if (!twilioAccountSid || !twilioAuthToken) {
+      return new Response(JSON.stringify({ error: "Missing Twilio account secrets" }), {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
+    }
+    if (!twilioFromNumber && !twilioMessagingServiceSid) {
+      return new Response(
+        JSON.stringify({ error: "Set TWILIO_FROM_NUMBER or TWILIO_MESSAGING_SERVICE_SID" }),
+        {
+          status: 500,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
+      );
     }
 
     if (!supabaseUrl || !supabaseServiceRoleKey) {
@@ -61,7 +71,11 @@ Please RSVP before 3/15/2026`;
 
     const params = new URLSearchParams();
     params.set("To", body.phone);
-    params.set("MessagingServiceSid", twilioMessagingServiceSid);
+    if (twilioFromNumber) {
+      params.set("From", twilioFromNumber);
+    } else if (twilioMessagingServiceSid) {
+      params.set("MessagingServiceSid", twilioMessagingServiceSid);
+    }
     params.set("Body", text);
 
     const auth = btoa(`${twilioAccountSid}:${twilioAuthToken}`);

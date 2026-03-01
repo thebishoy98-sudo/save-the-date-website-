@@ -77,4 +77,12 @@ supabase secrets set TWILIO_AUTH_TOKEN=YOUR_TWILIO_AUTH_TOKEN
 supabase secrets set TWILIO_MESSAGING_SERVICE_SID=YOUR_TWILIO_MESSAGING_SERVICE_SID
 ```
 
+Or use a direct sender number instead of a Messaging Service:
+
+```bash
+supabase secrets set TWILIO_ACCOUNT_SID=YOUR_TWILIO_ACCOUNT_SID
+supabase secrets set TWILIO_AUTH_TOKEN=YOUR_TWILIO_AUTH_TOKEN
+supabase secrets set TWILIO_FROM_NUMBER=+17323343287
+```
+
 After deploy + secrets, use **Send SMS** in `/dashboard`.
