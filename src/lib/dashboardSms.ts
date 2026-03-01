@@ -28,7 +28,7 @@ ${invite.invite_url}
 
 Por favor haznos saber si planeas asistir antes del 15/03/2026.
 
-Mas adelante solicitaremos una confirmacion final mas cercana a la fecha de la boda.`;
+Mas adelamte, cerca de la fecha de la fecha, te contactaremos para re-confirmar.`;
   }
   return `Hello ${invite.guest_name} \u{1F90D}
 
