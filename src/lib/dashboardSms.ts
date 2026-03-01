@@ -26,7 +26,9 @@ Tenemos ${seatsText}
 Todos los detalles estan disponibles aqui:
 ${invite.invite_url}
 
-Por favor confirma tu asistencia antes del 15/03/2026`;
+Por favor haznos saber si planeas asistir antes del 15/03/2026.
+
+Mas adelante solicitaremos una confirmacion final mas cercana a la fecha de la boda.`;
   }
   return `Hello ${invite.guest_name} \u{1F90D}
 
@@ -37,7 +39,9 @@ We have reserved ${seats} seat(s) for you.
 All the details are available here:
 ${invite.invite_url}
 
-Please RSVP before 3/15/2026`;
+Please let us know if you are planning to attend by 3/15/2026.
+
+We will follow up later for a final confirmation closer to the wedding date.`;
 };
 
 export const parseCsvLine = (line: string): string[] => {
