@@ -14,6 +14,11 @@ const getManualInviteLanguage = (): "en" | "es" => {
   return value === "es" ? "es" : "en";
 };
 
+const normalizeInviteLanguage = (value: string): "en" | "es" => {
+  const normalized = value.trim().toLowerCase();
+  return normalized === "es" || normalized === "sp" ? "es" : "en";
+};
+
 
 const LoginPanel = ({
   onLogin,
@@ -401,6 +406,43 @@ const Dashboard = () => {
     await loadRows();
   };
 
+  const convertDraftEnglishInvitesToSpanish = async () => {
+    if (!supabase) return;
+    const totalDraftEnglish = invites.filter((invite) => invite.status === "draft" && invite.invite_language === "en").length;
+    if (totalDraftEnglish === 0) {
+      setInvitesNotice("No draft EN invites found.");
+      return;
+    }
+
+    const confirmed = window.confirm(`Convert ${totalDraftEnglish} draft EN invite(s) to ES?`);
+    if (!confirmed) return;
+
+    setInvitesError("");
+    setInvitesNotice("");
+    setImportingInvites(true);
+    setImportStatus("Converting draft EN invites to ES...");
+
+    const { data: updatedRows, error } = await supabase
+      .from("sms_invites")
+      .update({ invite_language: "es" })
+      .eq("status", "draft")
+      .eq("invite_language", "en")
+      .select("id");
+
+    if (error) {
+      setInvitesError(error.message);
+      setImportStatus("");
+      setImportingInvites(false);
+      return;
+    }
+
+    const updatedCount = updatedRows?.length ?? 0;
+    setInvitesNotice(`Converted ${updatedCount} draft invite(s) from EN to ES.`);
+    setImportStatus("Conversion complete.");
+    setImportingInvites(false);
+    await loadRows();
+  };
+
   const deleteResponse = async (row: RSVPRecord) => {
     if (!supabase) return;
     const confirmed = window.confirm(`Delete RSVP response for ${row.name}?`);
@@ -528,8 +570,8 @@ const Dashboard = () => {
         const cells = parseCsvLine(line);
         const guestName = (cells[colIndex.guest_name] ?? "").trim();
         const rawPhone = (cells[colIndex.phone] ?? "").trim();
-        const langCell = (cells[colIndex.invite_language] ?? "").trim().toLowerCase();
-        const inviteLanguage: "en" | "es" = langCell === "es" ? "es" : "en";
+        const langCell = cells[colIndex.invite_language] ?? "";
+        const inviteLanguage: "en" | "es" = normalizeInviteLanguage(langCell);
         const seatCell = (cells[colIndex.reserved_seats] ?? "").trim();
         const seats = /^\d+$/.test(seatCell) && Number.parseInt(seatCell, 10) > 0 ? Number.parseInt(seatCell, 10) : 1;
 
@@ -631,6 +673,13 @@ const Dashboard = () => {
               className="px-4 py-2 rounded-sm border border-border hover:bg-secondary disabled:opacity-60"
             >
               {openingWhatsApp ? "Opening WhatsApp..." : "Open WhatsApp (ES only)"}
+            </button>
+            <button
+              onClick={() => void convertDraftEnglishInvitesToSpanish()}
+              disabled={importingInvites}
+              className="px-4 py-2 rounded-sm border border-border hover:bg-secondary disabled:opacity-60"
+            >
+              {importingInvites ? "Working..." : "Fix draft EN → ES"}
             </button>
             <button
               onClick={() => void deleteAllInvites()}
@@ -893,4 +942,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
