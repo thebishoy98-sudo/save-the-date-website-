@@ -61,3 +61,20 @@ In Supabase Auth:
   - who started filling data but did not finish
   - who accepted/declined
   - who is still pending
+
+## 7) Send SMS directly from dashboard (Twilio)
+Deploy function:
+
+```bash
+supabase functions deploy send-sms-invite
+```
+
+Set Twilio secrets:
+
+```bash
+supabase secrets set TWILIO_ACCOUNT_SID=YOUR_TWILIO_ACCOUNT_SID
+supabase secrets set TWILIO_AUTH_TOKEN=YOUR_TWILIO_AUTH_TOKEN
+supabase secrets set TWILIO_MESSAGING_SERVICE_SID=YOUR_TWILIO_MESSAGING_SERVICE_SID
+```
+
+After deploy + secrets, use **Send SMS** in `/dashboard`.

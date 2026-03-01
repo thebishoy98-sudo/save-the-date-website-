@@ -154,13 +154,18 @@ const Dashboard = () => {
     await supabase.auth.signOut();
   };
 
-  const markInviteSent = async (inviteToken: string) => {
+  const sendInviteSms = async (invite: SMSInviteRecord) => {
     if (!supabase) return;
-    const { error } = await supabase
-      .from("sms_invites")
-      .update({ status: "sent", sent_at: new Date().toISOString() })
-      .eq("invite_token", inviteToken)
-      .eq("status", "draft");
+    setInvitesError("");
+
+    const { error } = await supabase.functions.invoke("send-sms-invite", {
+      body: {
+        invite_token: invite.invite_token,
+        guest_name: invite.guest_name,
+        phone: invite.phone,
+        invite_url: invite.invite_url,
+      },
+    });
 
     if (error) {
       setInvitesError(error.message);
@@ -362,14 +367,12 @@ const Dashboard = () => {
                 <div className="flex items-center justify-between gap-2 mt-1">
                   <p className="text-sm text-muted-foreground">{invite.phone} | Status: {invite.status}</p>
                   <div className="flex items-center gap-2">
-                    {invite.status === "draft" && (
-                      <button
-                        onClick={() => void markInviteSent(invite.invite_token)}
-                        className="text-xs px-2 py-1 rounded-sm border border-border hover:bg-secondary"
-                      >
-                        Mark sent
-                      </button>
-                    )}
+                    <button
+                      onClick={() => void sendInviteSms(invite)}
+                      className="text-xs px-2 py-1 rounded-sm border border-border hover:bg-secondary"
+                    >
+                      {invite.status === "draft" ? "Send SMS" : "Resend SMS"}
+                    </button>
                     <button
                       onClick={() => void copyMessage(invite)}
                       className="text-xs px-2 py-1 rounded-sm border border-border hover:bg-secondary"
