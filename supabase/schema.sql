@@ -17,7 +17,10 @@ create table if not exists public.rsvps (
   kids_food_required boolean null,
   bringing_children boolean null,
   children_count int null check (children_count is null or children_count > 0),
-  invite_token text null
+  invite_token text null,
+  duplicate_flag boolean not null default false,
+  duplicate_reason text null,
+  review_status text not null default 'approved' check (review_status in ('approved', 'pending_review', 'needs_edit'))
 );
 
 alter table public.rsvps
@@ -25,6 +28,29 @@ alter table public.rsvps
 
 alter table public.rsvps
   add column if not exists plus_one_name text null;
+
+alter table public.rsvps
+  add column if not exists duplicate_flag boolean not null default false;
+
+alter table public.rsvps
+  add column if not exists duplicate_reason text null;
+
+alter table public.rsvps
+  add column if not exists review_status text;
+
+update public.rsvps
+set review_status = 'approved'
+where review_status is null;
+
+alter table public.rsvps
+  alter column review_status set default 'approved';
+
+alter table public.rsvps
+  drop constraint if exists rsvps_review_status_check;
+
+alter table public.rsvps
+  add constraint rsvps_review_status_check
+  check (review_status in ('approved', 'pending_review', 'needs_edit'));
 
 create table if not exists public.sms_invites (
   id uuid primary key default gen_random_uuid(),
@@ -115,6 +141,92 @@ begin
 end;
 $$;
 
+create or replace function public.flag_rsvp_duplicates()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  reasons text[] := array[]::text[];
+  current_name text := lower(trim(coalesce(new.name, '')));
+  has_duplicate boolean := false;
+begin
+  if current_name = '' then
+    return new;
+  end if;
+
+  if exists (
+    select 1
+    from unnest(string_to_array(coalesce(new.plus_one_name, ''), ',')) as p(name_part)
+    where lower(trim(name_part)) = current_name
+  ) then
+    reasons := array_append(reasons, 'Primary guest name also appears in plus-one list');
+  end if;
+
+  if exists (
+    select 1
+    from public.rsvps r
+    where (new.id is null or r.id <> new.id)
+      and lower(trim(r.name)) = current_name
+  ) then
+    reasons := array_append(reasons, 'Primary guest matches an existing RSVP primary guest');
+  end if;
+
+  if exists (
+    select 1
+    from public.rsvps r
+    join unnest(string_to_array(coalesce(r.plus_one_name, ''), ',')) as p(name_part) on true
+    where (new.id is null or r.id <> new.id)
+      and lower(trim(p.name_part)) = current_name
+  ) then
+    reasons := array_append(reasons, 'Primary guest matches an existing plus-one name');
+  end if;
+
+  if exists (
+    select 1
+    from unnest(string_to_array(coalesce(new.plus_one_name, ''), ',')) as np(name_part)
+    join public.rsvps r on (new.id is null or r.id <> new.id)
+      and lower(trim(r.name)) = lower(trim(np.name_part))
+  ) then
+    reasons := array_append(reasons, 'A plus-one matches an existing RSVP primary guest');
+  end if;
+
+  if exists (
+    select 1
+    from unnest(string_to_array(coalesce(new.plus_one_name, ''), ',')) as np(name_part)
+    join public.rsvps r on (new.id is null or r.id <> new.id)
+    join unnest(string_to_array(coalesce(r.plus_one_name, ''), ',')) as ep(name_part) on true
+    where lower(trim(np.name_part)) = lower(trim(ep.name_part))
+  ) then
+    reasons := array_append(reasons, 'A plus-one matches an existing plus-one name');
+  end if;
+
+  has_duplicate := coalesce(array_length(reasons, 1), 0) > 0;
+  if has_duplicate then
+    new.duplicate_flag := true;
+    new.duplicate_reason := array_to_string(reasons, '; ');
+    new.review_status := 'pending_review';
+  else
+    if new.review_status is null then
+      new.review_status := 'approved';
+    end if;
+    new.duplicate_flag := coalesce(new.duplicate_flag, false);
+    if not new.duplicate_flag then
+      new.duplicate_reason := null;
+    end if;
+  end if;
+
+  return new;
+end;
+$$;
+
+drop trigger if exists trg_flag_rsvp_duplicates on public.rsvps;
+create trigger trg_flag_rsvp_duplicates
+before insert or update of name, plus_one_name on public.rsvps
+for each row
+execute function public.flag_rsvp_duplicates();
+
 grant execute on function public.track_sms_invite_event(text, text, boolean) to anon, authenticated;
 
 alter table public.rsvps enable row level security;
@@ -133,6 +245,14 @@ on public.rsvps
 for select
 to authenticated
 using (true);
+
+drop policy if exists "Allow authenticated RSVP updates" on public.rsvps;
+create policy "Allow authenticated RSVP updates"
+on public.rsvps
+for update
+to authenticated
+using (true)
+with check (true);
 
 drop policy if exists "Allow authenticated RSVP deletes" on public.rsvps;
 create policy "Allow authenticated RSVP deletes"

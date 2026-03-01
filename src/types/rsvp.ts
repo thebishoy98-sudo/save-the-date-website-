@@ -16,6 +16,9 @@ export interface RSVPRecord {
   bringing_children: boolean | null;
   children_count: number | null;
   invite_token: string | null;
+  duplicate_flag: boolean;
+  duplicate_reason: string | null;
+  review_status: "approved" | "pending_review" | "needs_edit";
 }
 
 export type SMSInviteStatus =

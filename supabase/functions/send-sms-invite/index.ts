@@ -80,7 +80,7 @@ Todos los detalles estan disponibles aqui:
 ${body.invite_url}
 
 Por favor confirma tu asistencia antes del 15/03/2026`
-        : `Dear ${body.guest_name} \u{1F90D}
+        : `Hello ${body.guest_name} \u{1F90D}
 
 We are counting down the days to our wedding and would love for you to be part of this special moment.
 

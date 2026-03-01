@@ -2,6 +2,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { isSupabaseConfigured, supabase } from "@/lib/supabase";
 import type { RSVPRecord, SMSInviteRecord } from "@/types/rsvp";
+import { buildSmsText, normalizePhoneByLanguage, parseCsvLine } from "@/lib/dashboardSms";
+import { REVIEW_PENDING_STATUSES, sortResponsesForReview } from "@/lib/rsvpReview";
 
 const SITE_URL = (import.meta.env.VITE_SITE_URL as string | undefined)?.trim() || window.location.origin;
 const CSV_REQUIRED_COLUMNS_LABEL = "Name, Phone, Language, Seats";
@@ -12,45 +14,6 @@ const getManualInviteLanguage = (): "en" | "es" => {
   return value === "es" ? "es" : "en";
 };
 
-const normalizePhoneByLanguage = (phone: string, language: "en" | "es"): string => {
-  const trimmed = phone.trim();
-  if (!trimmed) return trimmed;
-  if (trimmed.startsWith("+")) return trimmed;
-
-  const digits = trimmed.replace(/\D/g, "");
-  if (!digits) return trimmed;
-
-  if (language === "es") return digits.startsWith("52") ? `+${digits}` : `+52${digits}`;
-  return digits.startsWith("1") ? `+${digits}` : `+1${digits}`;
-};
-
-const buildSmsText = (invite: SMSInviteRecord) => {
-  const language = invite.invite_language ?? "en";
-  const seats = invite.reserved_seats ?? 1;
-  if (language === "es") {
-    const seatsText = seats === 1 ? "1 lugar reservado para ti." : `${seats} lugares reservados para ti y tus invitados.`;
-    return `Hola ${invite.guest_name} \u{1F90D}
-
-Estamos contando los dias para nuestra boda y nos encantaria que fueras parte de este momento tan especial.
-
-Tenemos ${seatsText}
-
-Todos los detalles estan disponibles aqui:
-${invite.invite_url}
-
-Por favor confirma tu asistencia antes del 15/03/2026`;
-  }
-  return `Dear ${invite.guest_name} \u{1F90D}
-
-We are counting down the days to our wedding and would love for you to be part of this special moment.
-
-We have reserved ${seats} seat(s) for you.
-
-All the details are available here:
-${invite.invite_url}
-
-Please RSVP before 3/15/2026`;
-};
 
 const LoginPanel = ({
   onLogin,
@@ -125,7 +88,10 @@ const Dashboard = () => {
   const [importingInvites, setImportingInvites] = useState(false);
   const [importStatus, setImportStatus] = useState("");
   const [deletingInviteId, setDeletingInviteId] = useState<string | null>(null);
+  const [deletingAllInvites, setDeletingAllInvites] = useState(false);
   const [deletingResponseId, setDeletingResponseId] = useState<string | null>(null);
+  const [updatingResponseId, setUpdatingResponseId] = useState<string | null>(null);
+  const [responseNotice, setResponseNotice] = useState("");
   const csvInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
@@ -138,8 +104,11 @@ const Dashboard = () => {
     const attending = rows.filter((row) => row.attending).length;
     const notAttending = total - attending;
     const totalGuests = rows.filter((row) => row.attending).reduce((acc, row) => acc + row.guest_count, 0);
-    return { total, attending, notAttending, totalGuests };
+    const pendingReview = rows.filter((row) => REVIEW_PENDING_STATUSES.includes(row.review_status)).length;
+    return { total, attending, notAttending, totalGuests, pendingReview };
   }, [rows]);
+
+  const sortedRows = useMemo(() => sortResponsesForReview(rows), [rows]);
 
   const inviteStats = useMemo(() => {
     const total = invites.length;
@@ -259,31 +228,6 @@ const Dashboard = () => {
     URL.revokeObjectURL(url);
   };
 
-  const parseCsvLine = (line: string): string[] => {
-    const result: string[] = [];
-    let current = "";
-    let inQuotes = false;
-    for (let i = 0; i < line.length; i++) {
-      const ch = line[i];
-      if (ch === '"') {
-        const next = line[i + 1];
-        if (inQuotes && next === '"') {
-          current += '"';
-          i++;
-        } else {
-          inQuotes = !inQuotes;
-        }
-      } else if (ch === "," && !inQuotes) {
-        result.push(current.trim());
-        current = "";
-      } else {
-        current += ch;
-      }
-    }
-    result.push(current.trim());
-    return result;
-  };
-
   const exportInvitesCsv = () => {
     const header = "guest_name,phone,invite_language,reserved_seats,invite_url,status,sent_at,opened_at,started_at,responded_at";
     const rowsCsv = invites.map((invite) =>
@@ -373,6 +317,27 @@ const Dashboard = () => {
     await loadRows();
   };
 
+  const deleteAllInvites = async () => {
+    if (!supabase || invites.length === 0) return;
+    const confirmed = window.confirm(`Delete all ${invites.length} SMS invites? This cannot be undone.`);
+    if (!confirmed) return;
+
+    setDeletingAllInvites(true);
+    setInvitesError("");
+    setInvitesNotice("");
+
+    const { error } = await supabase.from("sms_invites").delete().not("id", "is", null);
+    if (error) {
+      setInvitesError(error.message);
+      setDeletingAllInvites(false);
+      return;
+    }
+
+    setInvitesNotice("Deleted all SMS invites.");
+    setDeletingAllInvites(false);
+    await loadRows();
+  };
+
   const deleteResponse = async (row: RSVPRecord) => {
     if (!supabase) return;
     const confirmed = window.confirm(`Delete RSVP response for ${row.name}?`);
@@ -380,6 +345,7 @@ const Dashboard = () => {
 
     setDeletingResponseId(row.id);
     setLoadError("");
+    setResponseNotice("");
 
     const { error } = await supabase.from("rsvps").delete().eq("id", row.id);
     if (error) {
@@ -389,6 +355,65 @@ const Dashboard = () => {
     }
 
     setDeletingResponseId(null);
+    await loadRows();
+  };
+
+  const approveResponseDuplicate = async (row: RSVPRecord) => {
+    if (!supabase) return;
+    setUpdatingResponseId(row.id);
+    setLoadError("");
+    setResponseNotice("");
+
+    const { error } = await supabase
+      .from("rsvps")
+      .update({
+        duplicate_flag: false,
+        duplicate_reason: null,
+        review_status: "approved",
+      })
+      .eq("id", row.id);
+
+    if (error) {
+      setLoadError(error.message);
+      setUpdatingResponseId(null);
+      return;
+    }
+
+    setResponseNotice(`Approved ${row.name}.`);
+    setUpdatingResponseId(null);
+    await loadRows();
+  };
+
+  const editResponseDuplicate = async (row: RSVPRecord) => {
+    if (!supabase) return;
+    const newName = window.prompt("Edit guest name", row.name)?.trim();
+    if (!newName) return;
+
+    const newPlusOne = window.prompt("Edit plus-one name(s), comma-separated", row.plus_one_name ?? "")?.trim() ?? "";
+
+    setUpdatingResponseId(row.id);
+    setLoadError("");
+    setResponseNotice("");
+
+    const { error } = await supabase
+      .from("rsvps")
+      .update({
+        name: newName,
+        plus_one_name: newPlusOne || null,
+        duplicate_flag: false,
+        duplicate_reason: null,
+        review_status: "approved",
+      })
+      .eq("id", row.id);
+
+    if (error) {
+      setLoadError(error.message);
+      setUpdatingResponseId(null);
+      return;
+    }
+
+    setResponseNotice(`Updated and approved ${newName}.`);
+    setUpdatingResponseId(null);
     await loadRows();
   };
 
@@ -537,6 +562,13 @@ const Dashboard = () => {
             <button onClick={() => exportInvitesCsv()} className="px-4 py-2 rounded-sm border border-border hover:bg-secondary">
               Export Existing CSV
             </button>
+            <button
+              onClick={() => void deleteAllInvites()}
+              disabled={deletingAllInvites || invites.length === 0}
+              className="px-4 py-2 rounded-sm border border-destructive text-destructive hover:bg-destructive/10 disabled:opacity-60"
+            >
+              {deletingAllInvites ? "Deleting all..." : "Delete all invites"}
+            </button>
             <button onClick={() => void handleLogout()} className="px-4 py-2 rounded-sm bg-primary text-primary-foreground hover:bg-foreground">
               Sign out
             </button>
@@ -553,7 +585,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
           <div className="vintage-card rounded-sm p-4">
             <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Total RSVPs</p>
             <p className="text-2xl font-serif mt-1">{stats.total}</p>
@@ -569,6 +601,10 @@ const Dashboard = () => {
           <div className="vintage-card rounded-sm p-4">
             <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Guests Count</p>
             <p className="text-2xl font-serif mt-1">{stats.totalGuests}</p>
+          </div>
+          <div className="vintage-card rounded-sm p-4">
+            <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Needs Review</p>
+            <p className="text-2xl font-serif mt-1">{stats.pendingReview}</p>
           </div>
         </div>
 
@@ -715,9 +751,10 @@ const Dashboard = () => {
           <h2 className="font-serif text-lg mb-4">Responses</h2>
           {loadingRows && <p className="text-sm text-muted-foreground">Loading responses...</p>}
           {loadError && <p className="text-sm text-destructive">{loadError}</p>}
+          {responseNotice && <p className="text-sm text-emerald-700">{responseNotice}</p>}
           {!loadingRows && !loadError && rows.length === 0 && <p className="text-sm text-muted-foreground">No responses yet.</p>}
           <div className="space-y-3">
-            {rows.map((row) => (
+            {sortedRows.map((row) => (
               <div key={row.id} className="border border-border rounded-sm p-3 sm:p-4">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
                   <p className="font-medium">{row.name}</p>
@@ -734,6 +771,30 @@ const Dashboard = () => {
                 </div>
                 <p className="text-sm mt-1">{row.attending ? "Attending" : "Not attending"} | Guests: {row.guest_count}</p>
                 <p className="text-sm text-muted-foreground mt-1">Plus one: {row.plus_one_name || "None"}</p>
+                <p className="text-sm text-muted-foreground mt-1">Review status: {row.review_status}</p>
+                {row.duplicate_flag && (
+                  <div className="mt-2 rounded-sm border border-amber-300 bg-amber-50 p-2">
+                    <p className="text-sm text-amber-900">
+                      Possible duplicate: {row.duplicate_reason || "Potential duplicate detected."}
+                    </p>
+                    <div className="mt-2 flex items-center gap-2">
+                      <button
+                        onClick={() => void approveResponseDuplicate(row)}
+                        disabled={updatingResponseId === row.id}
+                        className="text-xs px-2 py-1 rounded-sm border border-border hover:bg-secondary disabled:opacity-60"
+                      >
+                        {updatingResponseId === row.id ? "Saving..." : "Approve"}
+                      </button>
+                      <button
+                        onClick={() => void editResponseDuplicate(row)}
+                        disabled={updatingResponseId === row.id}
+                        className="text-xs px-2 py-1 rounded-sm border border-border hover:bg-secondary disabled:opacity-60"
+                      >
+                        Edit
+                      </button>
+                    </div>
+                  </div>
+                )}
                 <p className="text-sm text-muted-foreground mt-1">
                   {row.email || "No email"} | {row.phone || "No phone"} | {row.arrival_airport || "No airport"}
                 </p>

@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:coverage:rsvp": "vitest run src/lib/dashboardSms.test.ts src/lib/rsvpReview.test.ts --coverage --coverage.include=src/lib/dashboardSms.ts --coverage.include=src/lib/rsvpReview.ts --coverage.thresholds.lines=100 --coverage.thresholds.functions=100 --coverage.thresholds.branches=100 --coverage.thresholds.statements=100"
   },
   "dependencies": {
     "@fontsource/great-vibes": "^5.2.8",
@@ -76,6 +77,7 @@
     "@types/react": "^18.3.23",
     "@types/react-dom": "^18.3.7",
     "@vitejs/plugin-react-swc": "^3.11.0",
+    "@vitest/coverage-v8": "^3.2.4",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.32.0",
     "eslint-plugin-react-hooks": "^5.2.0",
