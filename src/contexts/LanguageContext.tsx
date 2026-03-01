@@ -69,7 +69,7 @@ const translations: Record<string, Record<Language, string>> = {
   "rsvp.confirm": { es: "Confirmación", en: "Confirmation" },
   "rsvp.confirm.yes": { es: "Sí, asistiré", en: "Yes, I'll attend" },
   "rsvp.confirm.no": { es: "No podré asistir", en: "I won't be able to attend" },
-  "rsvp.guests": { es: "Número de invitados", en: "Number of guests" },
+  "rsvp.guests": { es: "Número de invitados incluyéndote", en: "Number of guests including yourself" },
   "rsvp.phone": { es: "Teléfono / WhatsApp", en: "Phone / WhatsApp" },
   "rsvp.allergies": { es: "Alergias / Notas", en: "Allergies / Notes" },
   "rsvp.allergies.placeholder": { es: "Alguna alergia o restricción alimentaria...", en: "Any allergies or dietary restrictions..." },
