@@ -134,6 +134,13 @@ for select
 to authenticated
 using (true);
 
+drop policy if exists "Allow authenticated RSVP deletes" on public.rsvps;
+create policy "Allow authenticated RSVP deletes"
+on public.rsvps
+for delete
+to authenticated
+using (true);
+
 drop policy if exists "Allow RSVP linked invite updates" on public.sms_invites;
 drop policy if exists "Allow authenticated invite updates" on public.sms_invites;
 create policy "Allow authenticated invite updates"
@@ -147,6 +154,13 @@ drop policy if exists "Allow authenticated invite reads" on public.sms_invites;
 create policy "Allow authenticated invite reads"
 on public.sms_invites
 for select
+to authenticated
+using (true);
+
+drop policy if exists "Allow authenticated invite deletes" on public.sms_invites;
+create policy "Allow authenticated invite deletes"
+on public.sms_invites
+for delete
 to authenticated
 using (true);
 

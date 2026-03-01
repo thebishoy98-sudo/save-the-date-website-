@@ -123,6 +123,8 @@ const Dashboard = () => {
   const [creatingInvite, setCreatingInvite] = useState(false);
   const [importingInvites, setImportingInvites] = useState(false);
   const [importStatus, setImportStatus] = useState("");
+  const [deletingInviteId, setDeletingInviteId] = useState<string | null>(null);
+  const [deletingResponseId, setDeletingResponseId] = useState<string | null>(null);
   const csvInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
@@ -346,6 +348,46 @@ const Dashboard = () => {
     setNewInvitePhone("");
     setNewInviteSeats("1");
     setCreatingInvite(false);
+    await loadRows();
+  };
+
+  const deleteInvite = async (invite: SMSInviteRecord) => {
+    if (!supabase) return;
+    const confirmed = window.confirm(`Delete invite for ${invite.guest_name}?`);
+    if (!confirmed) return;
+
+    setDeletingInviteId(invite.id);
+    setInvitesError("");
+    setInvitesNotice("");
+
+    const { error } = await supabase.from("sms_invites").delete().eq("id", invite.id);
+    if (error) {
+      setInvitesError(error.message);
+      setDeletingInviteId(null);
+      return;
+    }
+
+    setInvitesNotice(`Deleted invite for ${invite.guest_name}.`);
+    setDeletingInviteId(null);
+    await loadRows();
+  };
+
+  const deleteResponse = async (row: RSVPRecord) => {
+    if (!supabase) return;
+    const confirmed = window.confirm(`Delete RSVP response for ${row.name}?`);
+    if (!confirmed) return;
+
+    setDeletingResponseId(row.id);
+    setLoadError("");
+
+    const { error } = await supabase.from("rsvps").delete().eq("id", row.id);
+    if (error) {
+      setLoadError(error.message);
+      setDeletingResponseId(null);
+      return;
+    }
+
+    setDeletingResponseId(null);
     await loadRows();
   };
 
@@ -641,6 +683,13 @@ const Dashboard = () => {
                     >
                       Copy SMS text
                     </button>
+                    <button
+                      onClick={() => void deleteInvite(invite)}
+                      disabled={deletingInviteId === invite.id}
+                      className="text-xs px-2 py-1 rounded-sm border border-destructive text-destructive hover:bg-destructive/10 disabled:opacity-60"
+                    >
+                      {deletingInviteId === invite.id ? "Deleting..." : "Delete"}
+                    </button>
                   </div>
                 </div>
                 <p className="text-sm break-all mt-1">
@@ -664,7 +713,16 @@ const Dashboard = () => {
               <div key={row.id} className="border border-border rounded-sm p-3 sm:p-4">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
                   <p className="font-medium">{row.name}</p>
-                  <p className="text-xs text-muted-foreground">{new Date(row.created_at).toLocaleString()}</p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-xs text-muted-foreground">{new Date(row.created_at).toLocaleString()}</p>
+                    <button
+                      onClick={() => void deleteResponse(row)}
+                      disabled={deletingResponseId === row.id}
+                      className="text-xs px-2 py-1 rounded-sm border border-destructive text-destructive hover:bg-destructive/10 disabled:opacity-60"
+                    >
+                      {deletingResponseId === row.id ? "Deleting..." : "Delete"}
+                    </button>
+                  </div>
                 </div>
                 <p className="text-sm mt-1">{row.attending ? "Attending" : "Not attending"} | Guests: {row.guest_count}</p>
                 <p className="text-sm text-muted-foreground mt-1">Plus one: {row.plus_one_name || "None"}</p>
