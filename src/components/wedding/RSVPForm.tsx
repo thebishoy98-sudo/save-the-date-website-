@@ -196,7 +196,7 @@ export const RSVPForm = () => {
 
   if (submitted) {
     return (
-      <section className="py-12 sm:py-16 px-4 sm:px-6">
+      <section className="py-10 sm:py-12 px-4 sm:px-6">
         <div className="max-w-md mx-auto vintage-card rounded-sm p-8 sm:p-10 text-center space-y-4">
           <h2 className="font-script text-3xl gold-text">{t("rsvp.thanks")}</h2>
           <p className="text-base text-muted-foreground font-serif">{t("rsvp.thanks.message")}</p>
@@ -206,7 +206,7 @@ export const RSVPForm = () => {
   }
 
   return (
-    <section className="py-12 sm:py-16 px-4 sm:px-6" id="rsvp">
+    <section className="py-10 sm:py-12 px-4 sm:px-6" id="rsvp">
       <SectionReveal>
         <div className="max-w-lg mx-auto">
           <div className="text-center mb-8 sm:mb-10">

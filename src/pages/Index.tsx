@@ -98,7 +98,7 @@ const WeddingContent = () => {
 
         <RSVPForm />
 
-        <footer className="py-16 text-center">
+        <footer className="py-10 sm:py-12 text-center">
           <p className="font-script text-2xl gold-text mb-2">Arantxa & Bishoy</p>
           <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground font-serif">
             {t("footer.date")}

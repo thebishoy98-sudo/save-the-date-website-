@@ -5,7 +5,7 @@ export const GiftsCard = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="py-16 px-6">
+    <section className="py-10 sm:py-12 px-6">
       <SectionReveal>
         <div className="max-w-md mx-auto vintage-card rounded-sm p-10 text-center space-y-6">
           <p className="text-xs tracking-[0.3em] uppercase text-muted-foreground">{t("gifts.label")}</p>

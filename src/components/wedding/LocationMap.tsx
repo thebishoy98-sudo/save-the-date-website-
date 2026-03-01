@@ -8,7 +8,7 @@ export const LocationMap = () => {
   const isEs = lang === "es";
 
   return (
-    <section className="py-16 px-6">
+    <section className="py-10 sm:py-12 px-6">
       <SectionReveal>
         <div className="max-w-3xl mx-auto space-y-8">
 

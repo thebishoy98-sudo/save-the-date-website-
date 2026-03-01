@@ -7,7 +7,7 @@ export const DressCodeCard = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="py-16 px-6">
+    <section className="py-10 sm:py-12 px-6">
       <SectionReveal>
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-10">

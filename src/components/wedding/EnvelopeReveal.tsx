@@ -15,7 +15,7 @@ export const EnvelopeReveal = () => {
   };
 
   return (
-    <section className="py-20 px-6 flex flex-col items-center">
+    <section className="py-12 sm:py-14 px-6 flex flex-col items-center">
       <AnimatePresence mode="wait">
         {!showContent ? (
           <motion.div

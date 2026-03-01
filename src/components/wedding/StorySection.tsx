@@ -5,7 +5,7 @@ export const StorySection = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="py-16 px-6">
+    <section className="py-10 sm:py-12 px-6">
       <div className="max-w-3xl mx-auto">
         <SectionReveal>
           <div className="vintage-card rounded-sm p-6 sm:p-10 text-center space-y-5">

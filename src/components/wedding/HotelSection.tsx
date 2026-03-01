@@ -173,7 +173,7 @@ export const HotelSection = () => {
   const openMap = (url: string) => window.location.assign(url);
 
   return (
-    <section className="py-16 px-6">
+    <section className="py-10 sm:py-12 px-6">
       <div className="max-w-3xl mx-auto space-y-10">
         <SectionReveal>
           <div className="text-center mb-8">
