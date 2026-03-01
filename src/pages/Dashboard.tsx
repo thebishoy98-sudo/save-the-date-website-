@@ -90,6 +90,7 @@ const Dashboard = () => {
   const [deletingInviteId, setDeletingInviteId] = useState<string | null>(null);
   const [deletingAllInvites, setDeletingAllInvites] = useState(false);
   const [copiedInviteIds, setCopiedInviteIds] = useState<Record<string, true>>({});
+  const [openingWhatsApp, setOpeningWhatsApp] = useState(false);
   const [deletingResponseId, setDeletingResponseId] = useState<string | null>(null);
   const [updatingResponseId, setUpdatingResponseId] = useState<string | null>(null);
   const [responseNotice, setResponseNotice] = useState("");
@@ -229,6 +230,34 @@ const Dashboard = () => {
     } catch (error) {
       setInvitesError(error instanceof Error ? error.message : "Unable to copy message");
     }
+  };
+
+  const toWhatsAppPhone = (rawPhone: string) => rawPhone.replace(/\D/g, "");
+
+  const openSpanishWhatsAppChats = () => {
+    const spanishInvites = invites.filter((invite) => invite.invite_language === "es" && !copiedInviteIds[invite.id]);
+    if (spanishInvites.length === 0) {
+      setInvitesNotice("No uncopied Spanish invites found.");
+      return;
+    }
+
+    setOpeningWhatsApp(true);
+    setInvitesError("");
+    setInvitesNotice(`Opening ${spanishInvites.length} WhatsApp chat(s)...`);
+
+    const openedIds: Record<string, true> = {};
+    spanishInvites.forEach((invite, index) => {
+      const phone = toWhatsAppPhone(invite.phone);
+      const text = encodeURIComponent(buildSmsText(invite));
+      const url = `https://wa.me/${phone}?text=${text}`;
+      window.setTimeout(() => {
+        window.open(url, "_blank", "noopener,noreferrer");
+      }, index * 250);
+      openedIds[invite.id] = true;
+    });
+
+    setCopiedInviteIds((prev) => ({ ...prev, ...openedIds }));
+    window.setTimeout(() => setOpeningWhatsApp(false), Math.max(800, spanishInvites.length * 250 + 200));
   };
 
   const downloadInviteTemplateCsv = () => {
@@ -580,6 +609,13 @@ const Dashboard = () => {
             </button>
             <button onClick={() => exportInvitesCsv()} className="px-4 py-2 rounded-sm border border-border hover:bg-secondary">
               Export Existing CSV
+            </button>
+            <button
+              onClick={openSpanishWhatsAppChats}
+              disabled={openingWhatsApp}
+              className="px-4 py-2 rounded-sm border border-border hover:bg-secondary disabled:opacity-60"
+            >
+              {openingWhatsApp ? "Opening WhatsApp..." : "Open WhatsApp (ES only)"}
             </button>
             <button
               onClick={() => void deleteAllInvites()}
